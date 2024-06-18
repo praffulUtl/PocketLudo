@@ -8,29 +8,29 @@ public class MainMenuScript : MonoBehaviour
 	public static int howManyPlayers;
 	public void two_player()
 	{
-		//SoundManagerScript.buttonAudioSource.Play ();
+		SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 2;
-		SceneManager.LoadScene ("Ludo");
-		//SceneManager.LoadScene("Game2d");
+		//SceneManager.LoadScene ("Ludo");
+		SceneManager.LoadScene("Game234Plr");
 	}
 
 	public void three_player()
 	{
-		//SoundManagerScript.buttonAudioSource.Play ();
+		SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 3;
-		SceneManager.LoadScene ("Ludo");
-		//SceneManager.LoadScene("Game2d");
-	}
+        //SceneManager.LoadScene ("Ludo");
+        SceneManager.LoadScene("Game234Plr");
+    }
 
-	public void four_player()
+    public void four_player()
 	{
-		//SoundManagerScript.buttonAudioSource.Play ();
+		SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 4;
-		SceneManager.LoadScene ("Ludo");
-		//SceneManager.LoadScene("Game2d");
-	}
+        //SceneManager.LoadScene ("Ludo");
+        SceneManager.LoadScene("Game234Plr");
+    }
 
-	public void quit()
+    public void quit()
 	{
 		//SoundManagerScript.buttonAudioSource.Play ();
 		Application.Quit ();
