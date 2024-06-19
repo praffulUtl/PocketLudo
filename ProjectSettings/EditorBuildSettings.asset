@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game234Plr.unity
     guid: 4aa983fe4cce2b24a8d19a7119284c92
+  - enabled: 1
+    path: Assets/Scenes/Ludo1.unity
+    guid: bc94f955166d552459f103ee6d65912c
   m_configObjects: {}

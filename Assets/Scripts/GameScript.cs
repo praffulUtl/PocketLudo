@@ -77,14 +77,16 @@ public class GameScript : MonoBehaviour {
 	public void noGameCompleted()
 	{
 		SoundManagerScript.buttonAudioSource.Play ();
-		SceneManager.LoadScene ("Main Menu");
-	}
+        //SceneManager.LoadScene ("Main Menu");
+        SceneManager.LoadScene ("mainMenu");
+    }
 
-	public void yesMethod()
+    public void yesMethod()
 	{
 		SoundManagerScript.buttonAudioSource.Play ();
-		SceneManager.LoadScene ("Main Menu");
-	}
+        //SceneManager.LoadScene ("Main Menu");
+        SceneManager.LoadScene("mainMenu");
+    }
 
 	public void noMethod()
 	{
