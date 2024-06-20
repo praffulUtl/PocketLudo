@@ -6,23 +6,33 @@ using System;
 
 public class APIHandler : MonoBehaviour
 {
-    [SerializeField] string urlPath = "";
-    string PostUserAuthEndPoint = "";
-    string PostUserDataEndPoint = "";
-    string PostPlayerPieceMoveEndPoint = "";
-    string GetTournamentEndPoint = "";
-    string PostTournamentJoinEndPoint = "";
+    [SerializeField] string baseUrl = "";
+    string endPoint_postUserAuth = "";
+    string endPoint_postUserData = "";
+    string endPoint_postPlayerPieceMove = "";
+    string endPoint_getTournaments = "";
+    string endPoint_postTournamentJoin = "";
+    string endPoint_postJoinGlobalGame = "";
+    public static APIHandler instance { get; private set; }
+
+    private void Start()
+    {
+        if (instance != null && instance != this)
+            Destroy(this);
+        else
+            instance = this;
+    }
 
     #region User auth/data
     public void PostUserAuthData(UserAuth_JStruct data)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(PostUserAuthEndPoint, jsonString,PostUserAuthDataCallback));
+        StartCoroutine(StartPostRequest(endPoint_postUserAuth, jsonString,PostUserAuthDataCallback));
     }
     public void PostUserData(UpUserData_JStruct data)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(PostUserDataEndPoint, jsonString, PostUserAuthDataCallback));
+        StartCoroutine(StartPostRequest(endPoint_postUserData, jsonString, PostUserAuthDataCallback));
     }
     private void PostUserAuthDataCallback(string dataString)
     {
@@ -30,22 +40,22 @@ public class APIHandler : MonoBehaviour
     }
     #endregion
 
-    #region players pieces movement
-    public void PostPlayerPieceData(PlayerPieceMoveData_JStruct data)
+    #region Global game
+    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(PostPlayerPieceMoveEndPoint, jsonString, PostPlayerPieceDataCallback));
+        StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, PostJoinGlobalGameCallback));
     }
-    private void PostPlayerPieceDataCallback(string dataString)
+    private void PostJoinGlobalGameCallback(string dataString)
     {
-        OtherPlayersMoveData_JStruct otherPlayersMoveData_JStruct = JsonUtility.FromJson<OtherPlayersMoveData_JStruct>(dataString);
+        GameLobbyData_JStruct userData_JStruct = JsonUtility.FromJson<GameLobbyData_JStruct>(dataString);
     }
     #endregion
 
     #region tournament
     public void GetTournamentsData()
     {
-        StartCoroutine(GetRequest(GetTournamentEndPoint, GetTournamentsDataCallback));
+        StartCoroutine(GetRequest(endPoint_getTournaments, GetTournamentsDataCallback));
     }
     private void GetTournamentsDataCallback(string dataString)
     {
@@ -54,7 +64,7 @@ public class APIHandler : MonoBehaviour
     public void PostTournamentJoinData(TournamentJoinData_JStruct data)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(PostTournamentJoinEndPoint, jsonString, PostTournamentJoinCallback));
+        StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, PostTournamentJoinCallback));
     }
     private void PostTournamentJoinCallback(string dataString)
     {
@@ -62,10 +72,22 @@ public class APIHandler : MonoBehaviour
     }
     #endregion
 
+    #region players pieces movement
+    public void PostPlayerPieceData(PlayerPieceMoveData_JStruct data)
+    {
+        string jsonString = JsonUtility.ToJson(data);
+        StartCoroutine(StartPostRequest(endPoint_postPlayerPieceMove, jsonString, PostPlayerPieceDataCallback));
+    }
+    private void PostPlayerPieceDataCallback(string dataString)
+    {
+        OtherPlayersMoveData_JStruct otherPlayersMoveData_JStruct = JsonUtility.FromJson<OtherPlayersMoveData_JStruct>(dataString);
+    }
+    #endregion
+
     #region API Client
     IEnumerator StartPostRequest(string urlEndPoint, string jsonString, Action<string> callBack)
     {
-        string url = urlPath + urlEndPoint;
+        string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
         {
             yield return webRequest.SendWebRequest();
@@ -83,7 +105,7 @@ public class APIHandler : MonoBehaviour
     }
     IEnumerator GetRequest(string urlEndPoint, Action<string> callBack)
     {
-        string url = urlPath + urlEndPoint;
+        string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
