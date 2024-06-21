@@ -7,6 +7,7 @@ using System;
 public class APIHandler : MonoBehaviour
 {
     [SerializeField] string baseUrl = "";
+    string endPoint_PostUserEmail = "";
     string endPoint_postUserAuth = "";
     string endPoint_postUserData = "";
     string endPoint_postPlayerPieceMove = "";
@@ -24,68 +25,58 @@ public class APIHandler : MonoBehaviour
     }
 
     #region User auth/data
-    public void PostUserAuthData(UserAuth_JStruct data)
+    public void PostUserMailPhone(UserMailAndPhone_JStruct data, Action<bool, UserData_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postUserAuth, jsonString,PostUserAuthDataCallback));
+        StartCoroutine(StartPostRequest(endPoint_PostUserEmail, jsonString, callback));
     }
-    public void PostUserData(UpUserData_JStruct data)
+    public void PostUserAuthOTP(UserOTP_JStruct data, Action<bool, UserData_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postUserData, jsonString, PostUserAuthDataCallback));
+        StartCoroutine(StartPostRequest(endPoint_PostUserEmail, jsonString, callback));
     }
-    private void PostUserAuthDataCallback(string dataString)
+    public void PostUserAuthData(UserAuth_JStruct data, Action<bool, UserData_JStruct> callback)
     {
-        UserData_JStruct userData_JStruct = JsonUtility.FromJson<UserData_JStruct>(dataString);
+        string jsonString = JsonUtility.ToJson(data);
+        StartCoroutine(StartPostRequest(endPoint_postUserAuth, jsonString,callback));
+    }
+    public void PostUserData(UpUserData_JStruct data, Action<bool, UserData_JStruct> callback)
+    {
+        string jsonString = JsonUtility.ToJson(data);
+        StartCoroutine(StartPostRequest(endPoint_postUserData, jsonString, callback));
     }
     #endregion
 
     #region Global game
-    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data)
+    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, GameLobbyData_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, PostJoinGlobalGameCallback));
-    }
-    private void PostJoinGlobalGameCallback(string dataString)
-    {
-        GameLobbyData_JStruct userData_JStruct = JsonUtility.FromJson<GameLobbyData_JStruct>(dataString);
+        StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, callback));
     }
     #endregion
 
     #region tournament
-    public void GetTournamentsData()
+    public void GetTournamentsData(Action<bool, TournamentsData_JStruct> callback)
     {
-        StartCoroutine(GetRequest(endPoint_getTournaments, GetTournamentsDataCallback));
+        StartCoroutine(GetRequest(endPoint_getTournaments, callback));
     }
-    private void GetTournamentsDataCallback(string dataString)
-    {
-        TournamentsData_JStruct tournamentsData_JStruct = JsonUtility.FromJson<TournamentsData_JStruct>(dataString);
-    }
-    public void PostTournamentJoinData(TournamentJoinData_JStruct data)
+    public void PostTournamentJoinData(TournamentJoinData_JStruct data,Action<bool, TournamentJoinData_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, PostTournamentJoinCallback));
-    }
-    private void PostTournamentJoinCallback(string dataString)
-    {
-        TournamentJoinData_JStruct tournamentJoinData_JStruct = JsonUtility.FromJson<TournamentJoinData_JStruct>(dataString);
+        StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, callback));
     }
     #endregion
 
     #region players pieces movement
-    public void PostPlayerPieceData(PlayerPieceMoveData_JStruct data)
+    public void PostPlayerPieceData(PlayerPieceMoveData_JStruct data,Action<bool, OtherPlayersMoveData_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postPlayerPieceMove, jsonString, PostPlayerPieceDataCallback));
-    }
-    private void PostPlayerPieceDataCallback(string dataString)
-    {
-        OtherPlayersMoveData_JStruct otherPlayersMoveData_JStruct = JsonUtility.FromJson<OtherPlayersMoveData_JStruct>(dataString);
+        StartCoroutine(StartPostRequest(endPoint_postPlayerPieceMove, jsonString, callback));
     }
     #endregion
 
     #region API Client
-    IEnumerator StartPostRequest(string urlEndPoint, string jsonString, Action<string> callBack)
+    IEnumerator StartPostRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
     {
         string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
@@ -95,15 +86,16 @@ public class APIHandler : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(webRequest.error);
+                callBack?.Invoke(false, JsonUtility.FromJson<T>(""));
             }
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                callBack?.Invoke(resData);
+                callBack?.Invoke(true,JsonUtility.FromJson<T>(resData));
             }
         }
     }
-    IEnumerator GetRequest(string urlEndPoint, Action<string> callBack)
+    IEnumerator GetRequest<T>(string urlEndPoint, Action<bool,T> callBack)
     {
         string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -113,11 +105,12 @@ public class APIHandler : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(webRequest.error);
+                callBack?.Invoke(false, JsonUtility.FromJson<T>(""));
             }
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                callBack?.Invoke(resData);
+                callBack?.Invoke(true, JsonUtility.FromJson<T>(resData));
             }
         }
     }
@@ -127,6 +120,18 @@ public class APIHandler : MonoBehaviour
 #region API Json Struct classes
 
 //User auth & data
+
+public class UserMailAndPhone_JStruct
+{
+    public string PhoneNumber { get; set; }
+    public string EmailID { get; set; }
+}
+public class UserOTP_JStruct
+{
+    public string PhoneNumber { get; set; }
+    public string EmailID { get; set; }
+    public string OTP { get; set; }
+}
 public class UserAuth_JStruct
 {
     public string VerificationID { get; set; }
@@ -144,7 +149,7 @@ public class UserData_JStruct
     public string PlayerName { get; set; }
     public string PlayerImageUrl { get; set; }
     public string Message { get; set; }
-    public string Status { get; set; }
+    public bool Status { get; set; }
 }
 
 //Tournament
@@ -152,7 +157,7 @@ public class TournamentsData_JStruct
 {
     public List<TournamentItem_JStruct> TournamentsList { get; set; }
     public string Message { get; set; }
-    public string Status { get; set; }
+    public bool Status { get; set; }
 }
 public class TournamentItem_JStruct
 {
@@ -179,7 +184,7 @@ public class GameLobbyData_JStruct
     public string GameLobbyId { get; set; }
     public List<PlayerItem_JStruct> PlayersInGame { get; set; }
     public string Message { get; set; }
-    public string Status { get; set; }
+    public bool Status { get; set; }
 }
 public class PlayerItem_JStruct
 {
@@ -212,6 +217,6 @@ public class OtherPlayersMoveData_JStruct
 {
     public List<OtherPlayer_JStruct> OtherPlayers { get; set; }
     public string Message { get; set; }
-    public string Status { get; set; }
+    public bool Status { get; set; }
 }
 #endregion
