@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
+using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 public class AuthScreen : MonoBehaviour
 {
+    [SerializeField] GameObject loadPnl;
+    [SerializeField] DialogBox dialogBox;
+
     [Header("SignUp SignIn")]
     [SerializeField] GameObject SignUpSingInScreen;
     [SerializeField] TextMeshProUGUI screenTitleTxt;
@@ -43,21 +47,37 @@ public class AuthScreen : MonoBehaviour
         editMailPhoneInput.onClick.AddListener(OpenSignUpSignInScreen);
         resendOTP.onClick.AddListener(SendUserPhoneAndMail);
         verifyOTP.onClick.AddListener(SendVerifyOTP);
+
     }
 
     #region Auth
     void SendUserPhoneAndMail()
     {
+        Debug.Log("SendUserPhoneAndMail");
         if (userMailAndPhone_JStruct == null)
             userMailAndPhone_JStruct = new UserMailAndPhone_JStruct();
-        userMailAndPhone_JStruct.PhoneNumber = phoneInput.text;
-        userMailAndPhone_JStruct.EmailID = mailInput.text;
-        APIHandler.instance.PostUserMailPhone(userMailAndPhone_JStruct,AuthCallback);
+        userMailAndPhone_JStruct.mobile = phoneInput.text;
+        userMailAndPhone_JStruct.email = mailInput.text;
+        if (signUpActive)
+            APIHandler.instance.PostUserMailPhoneReg(userMailAndPhone_JStruct, RegUserAuthCallback);
+        else
+            APIHandler.instance.PostUserMailPhoneLogin(userMailAndPhone_JStruct, RegUserAuthCallback);
+        loadPnl.SetActive(true);
     }
-    void AuthCallback(bool success, UserData_JStruct userData_JStruct)
+    void RegUserAuthCallback(bool success, RegLogUserAuth res)
     {
-        if(success && userData_JStruct.Status)        
-            OpenOTPScreen();        
+        Debug.Log("res : " + res.meta.msg);
+        if (success)
+        {
+            if (res.meta.status)
+                OpenOTPScreen();
+            else
+                dialogBox.Show(res.meta.msg);
+        }
+        else
+            dialogBox.Show("Error while "+(signUpActive?"signing up.": "signing in."));
+
+        loadPnl.SetActive(false);
     }
     #endregion
 
@@ -66,17 +86,30 @@ public class AuthScreen : MonoBehaviour
     {
         if (userOTP_JStruct == null)
             userOTP_JStruct = new UserOTP_JStruct();
-        userOTP_JStruct.PhoneNumber = phoneInput.text;
-        userOTP_JStruct.EmailID = mailInput.text;
-        userOTP_JStruct.OTP = otpInput.text;
-        APIHandler.instance.PostUserAuthOTP(userOTP_JStruct, OtpCallback);
+        userOTP_JStruct.mobile = phoneInput.text;
+        userOTP_JStruct.email = mailInput.text;
+        userOTP_JStruct.otp = otpInput.text;
+        if (signUpActive)
+            APIHandler.instance.PostUserRegOTP(userOTP_JStruct, OtpCallback);
+        else
+            APIHandler.instance.PostUserLoginOTP(userOTP_JStruct, OtpCallback);
+        loadPnl.SetActive(true);
     }
-    void OtpCallback(bool success, UserData_JStruct userData_JStruct)
+    void OtpCallback(bool success, RegLogUserAuth res)
     {
-        if (success && userData_JStruct.Status)
+        Debug.Log("OtpCallback");
+        if (success)
         {
-            //redirect to game
+            if (res.meta.status)
+            {
+                SceneManager.LoadSceneAsync("mainMenu");
+            }
+            else
+                dialogBox.Show(res.meta.msg);
         }
+        else
+            dialogBox.Show("Error while sending OTP");
+        loadPnl.SetActive(false);
     }
     #endregion
 

@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System;
+using Newtonsoft.Json;
 
 public class APIHandler : MonoBehaviour
 {
-    [SerializeField] string baseUrl = "";
-    string endPoint_PostUserEmail = "";
+    [SerializeField] DialogBox dialogBox;
+
+    string baseUrl = "https://fqb49r8k-5211.inc1.devtunnels.ms/";
+    string endPoint_PostUserEmailReg = "player/register";
+    string endPoint_PostUserEmailLogin = "player/login";
+    string endPoint_VerifyRegUser = "player/register-verify/otp";
+    string endPoint_VerifyLoginUser = "player/login-verify/otp";
     string endPoint_postUserAuth = "";
     string endPoint_postUserData = "";
     string endPoint_postPlayerPieceMove = "";
@@ -25,15 +31,25 @@ public class APIHandler : MonoBehaviour
     }
 
     #region User auth/data
-    public void PostUserMailPhone(UserMailAndPhone_JStruct data, Action<bool, UserData_JStruct> callback)
+    public void PostUserMailPhoneReg(UserMailAndPhone_JStruct data, Action<bool, RegLogUserAuth> callback)
     {
-        string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_PostUserEmail, jsonString, callback));
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest(endPoint_PostUserEmailReg, jsonString, callback));
     }
-    public void PostUserAuthOTP(UserOTP_JStruct data, Action<bool, UserData_JStruct> callback)
+    public void PostUserMailPhoneLogin(UserMailAndPhone_JStruct data, Action<bool, RegLogUserAuth> callback)
     {
-        string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_PostUserEmail, jsonString, callback));
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest(endPoint_PostUserEmailLogin, jsonString, callback));
+    }
+    public void PostUserRegOTP(UserOTP_JStruct data, Action<bool, RegLogUserAuth> callback)
+    {
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest(endPoint_VerifyRegUser, jsonString, callback));
+    }
+    public void PostUserLoginOTP(UserOTP_JStruct data, Action<bool, RegLogUserAuth> callback)
+    {
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
     }
     public void PostUserAuthData(UserAuth_JStruct data, Action<bool, UserData_JStruct> callback)
     {
@@ -78,6 +94,7 @@ public class APIHandler : MonoBehaviour
     #region API Client
     IEnumerator StartPostRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
     {
+        Debug.Log("StartPostRequest : " + jsonString);
         string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
         {
@@ -85,13 +102,27 @@ public class APIHandler : MonoBehaviour
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError(webRequest.error);
-                callBack?.Invoke(false, JsonUtility.FromJson<T>(""));
+                try
+                {
+                    callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
+                }
+                catch
+                {
+                    dialogBox.Show(webRequest.error);
+                }
             }
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                callBack?.Invoke(true,JsonUtility.FromJson<T>(resData));
+                Debug.Log("Post response data :" + resData);
+                try
+                {
+                    callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
+                }
+                catch
+                {
+                    dialogBox.Show("Error : " + resData);
+                }
             }
         }
     }
@@ -104,13 +135,27 @@ public class APIHandler : MonoBehaviour
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError(webRequest.error);
-                callBack?.Invoke(false, JsonUtility.FromJson<T>(""));
+                try
+                {
+                    callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
+                }
+                catch
+                {
+                    dialogBox.Show(webRequest.error);
+                }
             }
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                callBack?.Invoke(true, JsonUtility.FromJson<T>(resData));
+                Debug.Log("Get response data :" + resData);
+                try
+                {
+                    callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
+                }
+                catch
+                {
+                    dialogBox.Show("Error : " + resData);
+                }
             }
         }
     }
@@ -119,18 +164,34 @@ public class APIHandler : MonoBehaviour
 
 #region API Json Struct classes
 
+public class Meta
+{
+    public string msg { get; set; }
+    public bool status { get; set; }
+}
+
+public class RegLogUserAuth
+{
+    public Meta meta { get; set; }
+    public Data data { get; set; }
+}
+public class Data
+{
+    public bool userExists { get; set; }
+}
+
 //User auth & data
 
 public class UserMailAndPhone_JStruct
 {
-    public string PhoneNumber { get; set; }
-    public string EmailID { get; set; }
+    public string mobile { get; set; }
+    public string email { get; set; }
 }
 public class UserOTP_JStruct
 {
-    public string PhoneNumber { get; set; }
-    public string EmailID { get; set; }
-    public string OTP { get; set; }
+    public string mobile { get; set; }
+    public string email { get; set; }
+    public string otp { get; set; }
 }
 public class UserAuth_JStruct
 {
