@@ -19,9 +19,9 @@ public class TournamentListItem : MonoBehaviour
         tournamentItem  = tournamentItem_JStruct;
         this.joinBtAction = joinBtAction;
 
-        playersCount.text = tournamentItem.PlayersCount + "/8";
-        winingAmount.text = tournamentItem.WinningAmount;
-        entryFee.text = tournamentItem.EntryFee;
+        playersCount.text = tournamentItem.currentParticipants + "/"+tournamentItem.maxParticipants;
+        winingAmount.text = tournamentItem.winningAmount.ToString();
+        entryFee.text = tournamentItem.entryFee.ToString();
 
         joinBt.onClick.AddListener(JoinBtAction);
     }

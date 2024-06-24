@@ -9,7 +9,7 @@ public class APIHandler : MonoBehaviour
 {
     [SerializeField] DialogBox dialogBox;
 
-    string baseUrl = "https://fqb49r8k-5211.inc1.devtunnels.ms/";
+    string baseUrl = "https://fqb49r8k-5211.inc1.devtunnels.ms/v1/";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
@@ -20,6 +20,8 @@ public class APIHandler : MonoBehaviour
     string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "";
     string endPoint_postJoinGlobalGame = "";
+    string keyName_authKey = "authKey";
+    [NonSerialized] public string key_authKey = "";
     public static APIHandler instance { get; private set; }
 
     private void Start()
@@ -28,8 +30,16 @@ public class APIHandler : MonoBehaviour
             Destroy(this);
         else
             instance = this;
-    }
 
+        if (PlayerPrefs.HasKey(keyName_authKey))
+            this.key_authKey = PlayerPrefs.GetString(keyName_authKey);
+    }
+    public void SetAuthKey(string key)
+    {
+        this.key_authKey = key;
+        PlayerPrefs.SetString(keyName_authKey, this.key_authKey);        
+    }
+    
     #region User auth/data
     public void PostUserMailPhoneReg(UserMailAndPhone_JStruct data, Action<bool, RegLogUserAuth> callback)
     {
@@ -41,12 +51,12 @@ public class APIHandler : MonoBehaviour
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPostRequest(endPoint_PostUserEmailLogin, jsonString, callback));
     }
-    public void PostUserRegOTP(UserOTP_JStruct data, Action<bool, RegLogUserAuth> callback)
+    public void PostUserRegOTP(UserOTP_JStruct data, Action<bool, VerifyOTPRes_JStruct> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPostRequest(endPoint_VerifyRegUser, jsonString, callback));
     }
-    public void PostUserLoginOTP(UserOTP_JStruct data, Action<bool, RegLogUserAuth> callback)
+    public void PostUserLoginOTP(UserOTP_JStruct data, Action<bool, VerifyOTPRes_JStruct> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
@@ -115,7 +125,7 @@ public class APIHandler : MonoBehaviour
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                Debug.Log("Post response data :" + resData);
+                Debug.Log("Post response data :" + url + "\n" + resData);
                 try
                 {
                     callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
@@ -132,6 +142,8 @@ public class APIHandler : MonoBehaviour
         string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
+            if (keyName_authKey.Trim() != "" && key_authKey.Trim() != "")
+                webRequest.SetRequestHeader(keyName_authKey, key_authKey);
             yield return webRequest.SendWebRequest();
 
             if (webRequest.result != UnityWebRequest.Result.Success)
@@ -148,7 +160,7 @@ public class APIHandler : MonoBehaviour
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                Debug.Log("Get response data :" + resData);
+                Debug.Log("Post response data :" + url + "\n" + resData);
                 try
                 {
                     callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
@@ -194,6 +206,13 @@ public class UserOTP_JStruct
     public string email { get; set; }
     public string otp { get; set; }
 }
+
+public class VerifyOTPRes_JStruct
+{
+    public Meta meta { get; set; }
+    public string token { get; set; }
+}
+
 public class UserAuth_JStruct
 {
     public string VerificationID { get; set; }
@@ -217,16 +236,22 @@ public class UserData_JStruct
 //Tournament
 public class TournamentsData_JStruct
 {
-    public List<TournamentItem_JStruct> TournamentsList { get; set; }
-    public string Message { get; set; }
-    public bool Status { get; set; }
+    public Meta meta { get; set; }
+    public List<TournamentItem_JStruct> Data { get; set; }
 }
 public class TournamentItem_JStruct
 {
-    public string TournamentID { get; set; }
-    public string WinningAmount { get; set; }
-    public string EntryFee { get; set; }
-    public string PlayersCount { get; set; }
+    public string _id { get; set; }
+    public string name { get; set; }
+    public int winningAmount { get; set; }
+    public int entryFee { get; set; }
+    public int currentParticipants { get; set; }
+    public int maxParticipants { get; set; }
+    public string status { get; set; }
+    public string type { get; set; }
+    public long createdAt { get; set; }
+    public long updatedAt { get; set; }
+    public int __v { get; set; }
 }
 public class TournamentJoinData_JStruct
 {

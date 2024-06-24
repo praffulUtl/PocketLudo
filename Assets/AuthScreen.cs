@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class AuthScreen : MonoBehaviour
 {
+    [SerializeField] bool DummyMode = false;
     [SerializeField] GameObject loadPnl;
     [SerializeField] DialogBox dialogBox;
 
@@ -58,11 +59,23 @@ public class AuthScreen : MonoBehaviour
             userMailAndPhone_JStruct = new UserMailAndPhone_JStruct();
         userMailAndPhone_JStruct.mobile = phoneInput.text;
         userMailAndPhone_JStruct.email = mailInput.text;
-        if (signUpActive)
-            APIHandler.instance.PostUserMailPhoneReg(userMailAndPhone_JStruct, RegUserAuthCallback);
-        else
-            APIHandler.instance.PostUserMailPhoneLogin(userMailAndPhone_JStruct, RegUserAuthCallback);
+        if (!DummyMode)
+        {
+            if (signUpActive)
+                APIHandler.instance.PostUserMailPhoneReg(userMailAndPhone_JStruct, RegUserAuthCallback);
+            else
+                APIHandler.instance.PostUserMailPhoneLogin(userMailAndPhone_JStruct, RegUserAuthCallback);
         loadPnl.SetActive(true);
+        }
+        else
+        {
+            RegLogUserAuth regLogUserAuth = new RegLogUserAuth();
+            regLogUserAuth.meta = new Meta();
+            regLogUserAuth.data = new Data();
+            regLogUserAuth.meta.status = true;
+            regLogUserAuth.data.userExists = true;
+            RegUserAuthCallback(true, regLogUserAuth);
+        }
     }
     void RegUserAuthCallback(bool success, RegLogUserAuth res)
     {
@@ -89,19 +102,32 @@ public class AuthScreen : MonoBehaviour
         userOTP_JStruct.mobile = phoneInput.text;
         userOTP_JStruct.email = mailInput.text;
         userOTP_JStruct.otp = otpInput.text;
-        if (signUpActive)
-            APIHandler.instance.PostUserRegOTP(userOTP_JStruct, OtpCallback);
+        if (!DummyMode)
+        {
+            if (signUpActive)
+                APIHandler.instance.PostUserRegOTP(userOTP_JStruct, OtpCallback);
+            else
+                APIHandler.instance.PostUserLoginOTP(userOTP_JStruct, OtpCallback);
+            loadPnl.SetActive(true);
+        }
         else
-            APIHandler.instance.PostUserLoginOTP(userOTP_JStruct, OtpCallback);
-        loadPnl.SetActive(true);
+        {
+            VerifyOTPRes_JStruct verifyOTPRes_JStruct = new VerifyOTPRes_JStruct();
+            verifyOTPRes_JStruct.meta = new Meta();
+            verifyOTPRes_JStruct.meta.status = true;
+            verifyOTPRes_JStruct.token = "someString";
+            OtpCallback(true, verifyOTPRes_JStruct);
+        }
     }
-    void OtpCallback(bool success, RegLogUserAuth res)
+    void OtpCallback(bool success, VerifyOTPRes_JStruct res)
     {
         Debug.Log("OtpCallback");
         if (success)
         {
             if (res.meta.status)
             {
+                loadPnl.SetActive(true);
+                APIHandler.instance.SetAuthKey(res.token);
                 SceneManager.LoadSceneAsync("mainMenu");
             }
             else
@@ -121,6 +147,7 @@ public class AuthScreen : MonoBehaviour
         signUpsignInTxt.text = signUpActive ? "Existing User?" : "New User?";
         signUpsignInBtTxt.text = signUpActive ? "Sign in here." : "Sign up here.";
         agreementContent.SetActive(signUpActive);
+        sendOtpBt.interactable = CheckFields();
     }
     void SetOtpBtInteractable(bool bl)
     {
@@ -153,7 +180,7 @@ public class AuthScreen : MonoBehaviour
     bool CheckOTPInput()
     {
         otpInput.text.Trim();
-        if (otpInput.text.Length == 6)
+        if (otpInput.text.Length >= 4)
         {
             return true;
         }

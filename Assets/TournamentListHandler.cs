@@ -22,7 +22,7 @@ public class TournamentListHandler : MonoBehaviour
     }
     void OnLoadTournamentData(bool success, TournamentsData_JStruct tournamentsData_JStruct)
     {
-        if (success && tournamentsData_JStruct.Status)
+        if (success && tournamentsData_JStruct.meta.status)
         {
             if (tournamentsData == null)
                 tournamentsData = new TournamentsData_JStruct();
@@ -37,7 +37,7 @@ public class TournamentListHandler : MonoBehaviour
     {
         loadPnl.SetActive(true);
         ClearTournamentItemItemContent();
-        foreach(TournamentItem_JStruct tournamentItem in tournamentsData.TournamentsList)
+        foreach(TournamentItem_JStruct tournamentItem in tournamentsData.Data)
         {
             TournamentListItem newItem = Instantiate(tournamentListItem,tournamentListContent);
             newItem.Initialize(tournamentItem, OnJoinTournament);
