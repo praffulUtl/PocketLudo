@@ -9,6 +9,7 @@ public class TournamentListHandler : MonoBehaviour
     [SerializeField] TournamentCategories tournamentCategories;
     [SerializeField] Transform tournamentListContent;
     [SerializeField] Transform tournamentCategoriesContent;
+    [SerializeField] GameObject loadPnl;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class TournamentListHandler : MonoBehaviour
     }
     void LoadTournamentData()
     {
+        loadPnl.SetActive(true);
         APIHandler.instance.GetTournamentsData(OnLoadTournamentData);
     }
     void OnLoadTournamentData(bool success, TournamentsData_JStruct tournamentsData_JStruct)
@@ -29,15 +31,18 @@ public class TournamentListHandler : MonoBehaviour
 
             StartCoroutine(StartTournamentListInflation());
         }
+        loadPnl.SetActive(false);
     }
     IEnumerator StartTournamentListInflation() 
     {
+        loadPnl.SetActive(true);
         ClearTournamentItemItemContent();
         foreach(TournamentItem_JStruct tournamentItem in tournamentsData.TournamentsList)
         {
             TournamentListItem newItem = Instantiate(tournamentListItem,tournamentListContent);
             newItem.Initialize(tournamentItem, OnJoinTournament);
         }
+        loadPnl.SetActive(false);
         yield return null;
     }
     void OnJoinTournament(TournamentItem_JStruct tournamentItem)

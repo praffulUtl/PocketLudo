@@ -17,7 +17,7 @@ public class APIHandler : MonoBehaviour
     string endPoint_postUserAuth = "";
     string endPoint_postUserData = "";
     string endPoint_postPlayerPieceMove = "";
-    string endPoint_getTournaments = "";
+    string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "";
     string endPoint_postJoinGlobalGame = "";
     public static APIHandler instance { get; private set; }
@@ -102,6 +102,7 @@ public class APIHandler : MonoBehaviour
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
+                Debug.Log("Unable to hit api : "+url);
                 try
                 {
                     callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
