@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 public class TournamentListHandler : MonoBehaviour
 {
+    [SerializeField] bool DummyMode = false;
+    [SerializeField] string dummyDataString = "";
     TournamentsData_JStruct tournamentsData;
     [SerializeField] TournamentListItem tournamentListItem;
     [SerializeField] TournamentCategories[] tournamentCat;
@@ -33,7 +36,11 @@ public class TournamentListHandler : MonoBehaviour
     void LoadTournamentData()
     {
         loadPnl.SetActive(true);
+        if(!DummyMode)
         APIHandler.instance.GetTournamentsData(OnLoadTournamentData);
+        else        
+            OnLoadTournamentData(true, JsonConvert.DeserializeObject<TournamentsData_JStruct>(dummyDataString.Trim()));
+        
     }
     void OnLoadTournamentData(bool success, TournamentsData_JStruct tournamentsData_JStruct)
     {

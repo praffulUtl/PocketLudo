@@ -2954,6 +2954,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09271731dd36a3c4ab59613da9d46a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DummyMode: 0
+  dummyDataString: "{     \"meta\": {         \"msg\": \"Tournament list found successfully\",        
+    \"status\": true     },     \"data\": [         {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 10000,             \"entryFee\":
+    4000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 20000,             \"entryFee\":
+    6000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 30000,             \"entryFee\":
+    7000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 40000,             \"entryFee\":
+    8000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 50000,             \"entryFee\":
+    9000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 60000,             \"entryFee\":
+    6000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 70000,             \"entryFee\":
+    6000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 90000,             \"entryFee\":
+    6000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 100000,             \"entryFee\":
+    6000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }, \t  {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
+    \"name\": \"Anonymous\",             \"winningAmount\": 110000,             \"entryFee\":
+    10000,             \"currentParticipants\": 3,             \"maxParticipants\":
+    0,             \"status\": \"ACTIVE\",             \"type\": \"CLASSIC\",            
+    \"createdAt\": 1719086586214,             \"updatedAt\": 1719233555272,            
+    \"__v\": 0         }     ] }"
   tournamentListItem: {fileID: 1747974139314591678, guid: 6ae067d6486f6b64895e35d4ad15c6a3, type: 3}
   tournamentCat:
   - {fileID: 791670796}
