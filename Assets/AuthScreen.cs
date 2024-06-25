@@ -6,6 +6,7 @@ using TMPro;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
 
 public class AuthScreen : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class AuthScreen : MonoBehaviour
     bool signUpActive = true;
     private void Start()
     {
+        if(APIHandler.instance.key_authKey.Trim() != "")
+        {
+            loadPnl.SetActive(true);
+            SceneManager.LoadSceneAsync("mainMenu");
+        }
         signUpsignInSwitchBt.onClick.AddListener(SwitchSignUpSignIn);
         countryCodeInput.onValueChanged.AddListener(SetOtpBtInteractable);
         phoneInput.onValueChanged.AddListener(SetOtpBtInteractable);
