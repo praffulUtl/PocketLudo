@@ -3967,7 +3967,7 @@ public class GameScript : MonoBehaviour {
 
 	IEnumerator UpdatePlayerPiecesIntractable()
 	{
-		var waitSec = new WaitForSeconds(2f);
+		var waitSec = new WaitForSeconds(1f);
 		while(true)
 		{
 			foreach(Button bt in playerPieceButtons)

@@ -22,8 +22,8 @@ public class APIHandler : MonoBehaviour
     string endPoint_postJoinGlobalGame = "";
     string keyName_authKey = "authKey";
     string keyName_isRegistered = "isRegistered";
-    public string key_authKey = "";
-    public bool key_isRegistered = false;
+    public string key_authKey { get; private set; }
+    public bool key_isRegistered { get; private set; }
     public static APIHandler instance { get; private set; }
 
     private void Start()
@@ -44,10 +44,10 @@ public class APIHandler : MonoBehaviour
         this.key_authKey = key;
         PlayerPrefs.SetString(keyName_authKey, this.key_authKey);        
     }
-    public void SetUseRegistered()
+    public void SetUseRegistered(bool reg)
     {
-        this.key_isRegistered = true;
-        PlayerPrefs.SetInt(keyName_isRegistered, 1);
+        this.key_isRegistered = reg;
+        PlayerPrefs.SetInt(keyName_isRegistered, reg ? 1 : 0);
     }
 
     #region User auth/data

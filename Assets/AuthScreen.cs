@@ -37,11 +37,21 @@ public class AuthScreen : MonoBehaviour
     bool signUpActive = true;
     private void Start()
     {
-        if(APIHandler.instance.key_authKey.Trim() != "")
+        if (PlayerPrefs.HasKey("userEmail"))
+            mailInput.text = PlayerPrefs.GetString("userEmail");
+        if (PlayerPrefs.HasKey("userPhone"))
+            phoneInput.text = PlayerPrefs.GetString("userPhone");
+
+        if (APIHandler.instance.key_authKey != null && APIHandler.instance.key_authKey.Trim() != "")
         {
             loadPnl.SetActive(true);
             SceneManager.LoadSceneAsync("mainMenu");
         }
+        if (APIHandler.instance.key_isRegistered)
+        {
+            SwitchSignUpSignIn(false);
+        }
+
         signUpsignInSwitchBt.onClick.AddListener(SwitchSignUpSignIn);
         countryCodeInput.onValueChanged.AddListener(SetOtpBtInteractable);
         phoneInput.onValueChanged.AddListener(SetOtpBtInteractable);
@@ -55,6 +65,8 @@ public class AuthScreen : MonoBehaviour
         resendOTP.onClick.AddListener(SendUserPhoneAndMail);
         verifyOTP.onClick.AddListener(SendVerifyOTP);
 
+
+        CheckFields();
     }
 
     #region Auth
@@ -133,8 +145,16 @@ public class AuthScreen : MonoBehaviour
             if (res.meta.status)
             {
                 loadPnl.SetActive(true);
-                APIHandler.instance.SetAuthKey(res.token);
-                SceneManager.LoadSceneAsync("mainMenu");
+                if (signUpActive)
+                {
+                    APIHandler.instance.SetUseRegistered(true);
+                    SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                }
+                else if (res.token.Trim() != "")
+                {
+                    APIHandler.instance.SetAuthKey(res.token);
+                    SceneManager.LoadSceneAsync("mainMenu");
+                }
             }
             else
                 dialogBox.Show(res.meta.msg);
@@ -148,7 +168,12 @@ public class AuthScreen : MonoBehaviour
     #region validation
     void SwitchSignUpSignIn()
     {
-        signUpActive = !signUpActive;
+        SwitchSignUpSignIn(!signUpActive);
+    }
+    void SwitchSignUpSignIn(bool sw)
+    {
+        signUpActive = sw;
+        APIHandler.instance.SetUseRegistered(!signUpActive);
         screenTitleTxt.text = signUpActive ? "Sign Up" : "Sign In";
         signUpsignInTxt.text = signUpActive ? "Existing User?" : "New User?";
         signUpsignInBtTxt.text = signUpActive ? "Sign in here." : "Sign up here.";
@@ -173,6 +198,8 @@ public class AuthScreen : MonoBehaviour
         bool phone = phoneInput.text.Trim().Length >= 10;
         bool mail = ValidateEmail(mailInput.text);
         bool agreement = agreement_Terms.isOn && agreement_2.isOn;
+        PlayerPrefs.SetString("userEmail",mailInput.text);
+        PlayerPrefs.SetString("userPhone", phoneInput.text);
         if (signUpActive)
             return countryCode && phone && mail && agreement;
         else
