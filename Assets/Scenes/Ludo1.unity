@@ -6776,6 +6776,23 @@ MonoBehaviour:
   YellowPlayerII_Button: {fileID: 826541594}
   YellowPlayerIII_Button: {fileID: 2123562808}
   YellowPlayerIV_Button: {fileID: 193810758}
+  playerPieceButtons:
+  - {fileID: 2135014347}
+  - {fileID: 497866048}
+  - {fileID: 2054359799}
+  - {fileID: 882854608}
+  - {fileID: 1847040955}
+  - {fileID: 203427047}
+  - {fileID: 1390671361}
+  - {fileID: 1593794001}
+  - {fileID: 713624461}
+  - {fileID: 996982330}
+  - {fileID: 1510654798}
+  - {fileID: 856219990}
+  - {fileID: 826541594}
+  - {fileID: 193810758}
+  - {fileID: 2123562808}
+  - {fileID: 636807005}
   blueScreen: {fileID: 1196949414}
   greenScreen: {fileID: 45412013}
   redScreen: {fileID: 686061418}

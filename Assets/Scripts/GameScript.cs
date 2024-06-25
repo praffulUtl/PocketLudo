@@ -24,6 +24,7 @@ public class GameScript : MonoBehaviour {
 	public Button GreenPlayerI_Button, GreenPlayerII_Button,GreenPlayerIII_Button, GreenPlayerIV_Button;
 	public Button BluePlayerI_Button, BluePlayerII_Button,BluePlayerIII_Button, BluePlayerIV_Button;
 	public Button YellowPlayerI_Button, YellowPlayerII_Button,YellowPlayerIII_Button, YellowPlayerIV_Button;
+	[SerializeField] Button[] playerPieceButtons;
 
 	public GameObject blueScreen, greenScreen, redScreen, yellowScreen;
 	public Text blueRankText, greenRankText, redRankText, yellowRankText;
@@ -3954,11 +3955,26 @@ public class GameScript : MonoBehaviour {
 				// keep all players active
 				break;
 		}
+
+		StartCoroutine(UpdatePlayerPiecesIntractable());
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
 	
+	}
+
+	IEnumerator UpdatePlayerPiecesIntractable()
+	{
+		var waitSec = new WaitForSeconds(2f);
+		while(true)
+		{
+			foreach(Button bt in playerPieceButtons)
+			{
+				bt.GetComponent<Image>().raycastTarget = bt.interactable;
+			}
+			yield return waitSec;
+		}
 	}
 }

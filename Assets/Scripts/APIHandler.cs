@@ -22,8 +22,8 @@ public class APIHandler : MonoBehaviour
     string endPoint_postJoinGlobalGame = "";
     string keyName_authKey = "authKey";
     string keyName_isRegistered = "isRegistered";
-    public string key_authKey { get; private set; }
-    public bool key_isRegistered { get; private set; }
+    public string key_authKey = "";
+    public bool key_isRegistered = false;
     public static APIHandler instance { get; private set; }
 
     private void Start()
