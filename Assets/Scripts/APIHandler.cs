@@ -9,7 +9,7 @@ public class APIHandler : MonoBehaviour
 {
     [SerializeField] DialogBox dialogBox;
 
-    string baseUrl = "https://fqb49r8k-5211.inc1.devtunnels.ms/v1/";
+    string baseUrl = "https://3sqlfz6r-5211.inc1.devtunnels.ms/v1/";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
@@ -21,7 +21,9 @@ public class APIHandler : MonoBehaviour
     string endPoint_postTournamentJoin = "";
     string endPoint_postJoinGlobalGame = "";
     string keyName_authKey = "authKey";
-    [NonSerialized] public string key_authKey = "";
+    string keyName_isRegistered = "isRegistered";
+    public string key_authKey { get; private set; }
+    public bool key_isRegistered { get; private set; }
     public static APIHandler instance { get; private set; }
 
     private void Start()
@@ -31,6 +33,9 @@ public class APIHandler : MonoBehaviour
         else
             instance = this;
 
+        if (PlayerPrefs.HasKey(keyName_isRegistered))
+            this.key_isRegistered = (PlayerPrefs.GetInt(keyName_isRegistered) == 1);
+
         if (PlayerPrefs.HasKey(keyName_authKey))
             this.key_authKey = PlayerPrefs.GetString(keyName_authKey);
     }
@@ -39,7 +44,12 @@ public class APIHandler : MonoBehaviour
         this.key_authKey = key;
         PlayerPrefs.SetString(keyName_authKey, this.key_authKey);        
     }
-    
+    public void SetUseRegistered()
+    {
+        this.key_isRegistered = true;
+        PlayerPrefs.SetInt(keyName_isRegistered, 1);
+    }
+
     #region User auth/data
     public void PostUserMailPhoneReg(UserMailAndPhone_JStruct data, Action<bool, RegLogUserAuth> callback)
     {
