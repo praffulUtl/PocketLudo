@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 public class APIHandler : MonoBehaviour
 {
+    public bool dummyMode = false;
     [SerializeField] DialogBox dialogBox;
 
     string baseUrl = "https://3sqlfz6r-5211.inc1.devtunnels.ms/v1/";
@@ -15,7 +16,8 @@ public class APIHandler : MonoBehaviour
     string endPoint_VerifyRegUser = "player/register-verify/otp";
     string endPoint_VerifyLoginUser = "player/login-verify/otp";
     string endPoint_postUserAuth = "";
-    string endPoint_postUserData = "";
+    string endPoint_postUserData = "player/profile";
+    string endPoint_GetUserData = "player/profile";
     string endPoint_postPlayerPieceMove = "";
     string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "";
@@ -71,15 +73,10 @@ public class APIHandler : MonoBehaviour
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
     }
-    public void PostUserAuthData(UserAuth_JStruct data, Action<bool, UserData_JStruct> callback)
+    public void GetUserData(UserOTP_JStruct data, Action<bool, VerifyOTPRes_JStruct> callback)
     {
-        string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postUserAuth, jsonString,callback));
-    }
-    public void PostUserData(UpUserData_JStruct data, Action<bool, UserData_JStruct> callback)
-    {
-        string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postUserData, jsonString, callback));
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
     }
     #endregion
 
@@ -223,24 +220,17 @@ public class VerifyOTPRes_JStruct
     public string token { get; set; }
 }
 
-public class UserAuth_JStruct
+public class PlayerDetails_JStruct
 {
-    public string VerificationID { get; set; }
-    public string PhoneNumber { get; set; }
+    public string playerName { get; set; }
+    public string playerImageUrl { get; set; }
+    public string _id { get; set; }
 }
-public class UpUserData_JStruct
+
+public class PlayerData_JStruct
 {
-    public string PlayerID { get; set; }
-    public string PlayerName { get; set; }
-    public string PlayerImage { get; set; }
-}
-public class UserData_JStruct
-{
-    public string PlayerID { get; set; }
-    public string PlayerName { get; set; }
-    public string PlayerImageUrl { get; set; }
-    public string Message { get; set; }
-    public bool Status { get; set; }
+    public Meta meta { get; set; }
+    public PlayerDetails_JStruct data { get; set; }
 }
 
 //Tournament

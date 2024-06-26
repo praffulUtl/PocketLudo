@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameScript : MonoBehaviour {
 
-	private int totalBlueInHouse,totalRedInHouse,totalGreenInHouse,totalYellowInHouse;
+	[SerializeField] WebSocketClient webSocketClient;
+
+    private int totalBlueInHouse,totalRedInHouse,totalGreenInHouse,totalYellowInHouse;
 
 	public GameObject frameRed,frameGreen, frameBlue, frameYellow;
 
@@ -24,7 +26,7 @@ public class GameScript : MonoBehaviour {
 	public Button GreenPlayerI_Button, GreenPlayerII_Button,GreenPlayerIII_Button, GreenPlayerIV_Button;
 	public Button BluePlayerI_Button, BluePlayerII_Button,BluePlayerIII_Button, BluePlayerIV_Button;
 	public Button YellowPlayerI_Button, YellowPlayerII_Button,YellowPlayerIII_Button, YellowPlayerIV_Button;
-	[SerializeField] Button[] playerPieceButtons;
+	[SerializeField] Button[] playerPieceButtons_RED, playerPieceButtons_BLUE, playerPieceButtons_GREEN, playerPieceButtons_YELLOW;
 
 	public GameObject blueScreen, greenScreen, redScreen, yellowScreen;
 	public Text blueRankText, greenRankText, redRankText, yellowRankText;
@@ -47,7 +49,7 @@ public class GameScript : MonoBehaviour {
 	private int bluePlayerI_Steps,bluePlayerII_Steps,bluePlayerIII_Steps,bluePlayerIV_Steps;
 	private int yellowPlayerI_Steps,yellowPlayerII_Steps,yellowPlayerIII_Steps,yellowPlayerIV_Steps;
 	//selection of dice numbers animation...
-	private int selectDiceNumAnimation;
+	public int selectDiceNumAnimation { get; private set; }
 
 	//--------------- Dice Animations------
 	public GameObject dice1_Roll_Animation;
@@ -1305,6 +1307,9 @@ public class GameScript : MonoBehaviour {
 		}
 
 		selectDiceNumAnimation = 0;
+
+		if(webSocketClient != null)
+		webSocketClient.SetPlayerTurn(playerTurn);
 	}
 
 	// Click on Roll Button on Dice UI
@@ -1375,7 +1380,13 @@ public class GameScript : MonoBehaviour {
 		StartCoroutine ("PlayersNotInitialized");
 	}
 
-	IEnumerator PlayersNotInitialized()
+	public void CallPlayersNotInitialized()
+	{
+        StartCoroutine("PlayersNotInitialized");
+    }
+
+
+    IEnumerator PlayersNotInitialized()
 	{
 		yield return new WaitForSeconds (0.8f);
 		// Game Start Initial position of each player (Red, Green, Blue, Yellow)
@@ -3970,11 +3981,71 @@ public class GameScript : MonoBehaviour {
 		var waitSec = new WaitForSeconds(1f);
 		while(true)
 		{
-			foreach(Button bt in playerPieceButtons)
+			foreach(Button bt in playerPieceButtons_RED)
 			{
 				bt.GetComponent<Image>().raycastTarget = bt.interactable;
 			}
-			yield return waitSec;
+            foreach (Button bt in playerPieceButtons_BLUE)
+            {
+                bt.GetComponent<Image>().raycastTarget = bt.interactable;
+            }
+            foreach (Button bt in playerPieceButtons_GREEN)
+            {
+                bt.GetComponent<Image>().raycastTarget = bt.interactable;
+            }
+            foreach (Button bt in playerPieceButtons_YELLOW)
+            {
+                bt.GetComponent<Image>().raycastTarget = bt.interactable;
+            }
+            yield return waitSec;
 		}
 	}
+	public void SetOurPlayerPieceButton(string ourPlayerColor)
+	{
+        foreach (Button bt in playerPieceButtons_RED)
+        {
+            bt.enabled = false;
+        }
+        foreach (Button bt in playerPieceButtons_BLUE)
+        {
+            bt.enabled = false;
+        }
+        foreach (Button bt in playerPieceButtons_GREEN)
+        {
+            bt.enabled = false;
+        }
+        foreach (Button bt in playerPieceButtons_YELLOW)
+        {
+            bt.enabled = false;
+        }
+
+        if (ourPlayerColor=="RED")
+		{
+            foreach (Button bt in playerPieceButtons_RED)
+            {
+				bt.enabled = true;
+            }
+        }
+		else if (ourPlayerColor == "BLUE")
+        {
+            foreach (Button bt in playerPieceButtons_BLUE)
+            {
+                bt.enabled = true;
+            }
+        }
+        else if (ourPlayerColor == "GREEN")
+        {
+            foreach (Button bt in playerPieceButtons_GREEN)
+            {
+                bt.enabled = true;
+            }
+        }
+        else if (ourPlayerColor == "YELLOW")
+        {
+            foreach (Button bt in playerPieceButtons_YELLOW)
+            {
+                bt.enabled = true;
+            }
+        }
+    }
 }
