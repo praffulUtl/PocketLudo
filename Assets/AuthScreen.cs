@@ -153,6 +153,7 @@ public class AuthScreen : MonoBehaviour
                 else if (res.token.Trim() != "")
                 {
                     APIHandler.instance.SetAuthKey(res.token);
+                    APIHandler.instance.SetPlayerID(res.playerId);
                     SceneManager.LoadSceneAsync("mainMenu");
                 }
             }

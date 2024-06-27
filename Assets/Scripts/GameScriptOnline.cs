@@ -1308,9 +1308,12 @@ public class GameScriptOnline : MonoBehaviour {
 
 		selectDiceNumAnimation = 0;
 
-		//if(webSocketClient != null)
-		//webSocketClient.SetPlayerTurn(playerTurn);
-	}
+		if(playerTurn != webSocketClient.ourPlayerTeam)
+            DiceRollButton.interactable = false;
+
+        //if(webSocketClient != null)
+        //webSocketClient.SetPlayerTurn(playerTurn);
+    }
 
 	// Click on Roll Button on Dice UI
 	public void DiceRoll(int i =-1)
@@ -1382,12 +1385,6 @@ public class GameScriptOnline : MonoBehaviour {
 
 		StartCoroutine ("PlayersNotInitialized");
 	}
-
-	public void CallPlayersNotInitialized()
-	{
-        StartCoroutine("PlayersNotInitialized");
-    }
-
 
     IEnumerator PlayersNotInitialized()
 	{
@@ -1768,9 +1765,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 	public void redPlayerI_UI(int pathIndex = -1)
 	{
+		Debug.Log("redPlayerI_UI");
 		if (webSocketClient.ourPlayerTeam != "RED" && pathIndex == -1)
 			return;
-		SoundManagerScript.playerAudioSource.Play ();
+        Debug.Log("redPlayerI_UI");
+        SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
 		redPlayerIII_Border.SetActive (false);

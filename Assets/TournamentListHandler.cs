@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 public class TournamentListHandler : MonoBehaviour
 {
+    [SerializeField] MainMenuScript mainMenuScript;
+    [SerializeField] TournamentDataKeeper tournamentDataKeeper;
+    [SerializeField] string sceneName = "";
     [SerializeField] bool DummyMode = false;
     [SerializeField] string dummyDataString = "";
     TournamentsData_JStruct tournamentsData;
@@ -23,6 +27,7 @@ public class TournamentListHandler : MonoBehaviour
 
     private void Start()
     {
+
         tournamentItemsType1 = new List<TournamentItem_JStruct>();
         tournamentItemsType2 = new List<TournamentItem_JStruct>();
         tournamentItemsType3 = new List<TournamentItem_JStruct>();
@@ -141,7 +146,21 @@ public class TournamentListHandler : MonoBehaviour
 
     void OnJoinTournament(TournamentItem_JStruct tournamentItem)
     {
-
+        TournamentJoinData_JStruct tournamentJoinData_JStruct = new TournamentJoinData_JStruct();
+        tournamentJoinData_JStruct.TournamentID = tournamentItem._id;
+        tournamentJoinData_JStruct.PlayerID = "";
+        if (!DummyMode)
+            APIHandler.instance.PostTournamentJoinData(tournamentJoinData_JStruct, JoinCallbak);
+        else
+            mainMenuScript.four_player_online();
+    }
+    void JoinCallbak(bool success, JoinedTournamentDataRoot_JStruct joinedTournamentDataRoot_JStruct)
+    {
+        if(success && joinedTournamentDataRoot_JStruct.meta.status)
+        {
+            tournamentDataKeeper.joinTurnamentJoinData = joinedTournamentDataRoot_JStruct;
+            SceneManager.LoadSceneAsync(sceneName);
+        }
     }
     void ClearTournamentItemItemContent()
     {

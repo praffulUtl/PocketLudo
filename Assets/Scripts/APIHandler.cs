@@ -22,8 +22,11 @@ public class APIHandler : MonoBehaviour
     string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "";
     string endPoint_postJoinGlobalGame = "";
+    string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
     string keyName_isRegistered = "isRegistered";
+
+    public string key_playerId { get; private set; }
     public string key_authKey { get; private set; }
     public bool key_isRegistered { get; private set; }
     public static APIHandler instance { get; private set; }
@@ -40,11 +43,19 @@ public class APIHandler : MonoBehaviour
 
         if (PlayerPrefs.HasKey(keyName_authKey))
             this.key_authKey = PlayerPrefs.GetString(keyName_authKey);
+
+        if (PlayerPrefs.HasKey(keyName_playerId))
+            this.key_playerId = PlayerPrefs.GetString(keyName_playerId);
     }
     public void SetAuthKey(string key)
     {
         this.key_authKey = key;
         PlayerPrefs.SetString(keyName_authKey, this.key_authKey);        
+    }
+    public void SetPlayerID(string playerId)
+    {
+        this.key_playerId = playerId;
+        PlayerPrefs.SetString(keyName_playerId, this.key_playerId);
     }
     public void SetUseRegistered(bool reg)
     {
@@ -93,20 +104,14 @@ public class APIHandler : MonoBehaviour
     {
         StartCoroutine(GetRequest(endPoint_getTournaments, callback));
     }
-    public void PostTournamentJoinData(TournamentJoinData_JStruct data,Action<bool, TournamentJoinData_JStruct> callback)
+    public void PostTournamentJoinData(TournamentJoinData_JStruct data,Action<bool, JoinedTournamentDataRoot_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
         StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, callback));
     }
     #endregion
 
-    #region players pieces movement
-    public void PostPlayerPieceData(PlayerPieceMoveData_JStruct data,Action<bool, OtherPlayersMoveData_JStruct> callback)
-    {
-        string jsonString = JsonUtility.ToJson(data);
-        StartCoroutine(StartPostRequest(endPoint_postPlayerPieceMove, jsonString, callback));
-    }
-    #endregion
+    
 
     #region API Client
     IEnumerator StartPostRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
@@ -217,6 +222,7 @@ public class UserOTP_JStruct
 public class VerifyOTPRes_JStruct
 {
     public Meta meta { get; set; }
+    public string playerId { get; set; }
     public string token { get; set; }
 }
 
@@ -253,6 +259,7 @@ public class TournamentItem_JStruct
     public long updatedAt { get; set; }
     public int __v { get; set; }
 }
+[Serializable] 
 public class TournamentJoinData_JStruct
 {
     public string TournamentID { get; set; }
@@ -300,10 +307,28 @@ public class OtherPlayer_JStruct
     public string PlayerTeam { get; set; }
     public List<Playerpiece_JStruct> Playerpiece { get; set; }
 }
-public class OtherPlayersMoveData_JStruct
+
+[Serializable]
+public class JoinedTournamentDataRoot_JStruct
 {
-    public List<OtherPlayer_JStruct> OtherPlayers { get; set; }
-    public string Message { get; set; }
-    public bool Status { get; set; }
+    public Meta meta { get; set; }
+    public JoinedTournamentData_JStruct data { get; set; }
+}
+[Serializable]
+public class JoinedTournamentData_JStruct
+{
+    public string TournamentID { get; set; }
+    public string PlayerID { get; set; }
+    public string PaymentConfirmationID { get; set; }
+    public string GameLobbyId { get; set; }
+    public List<PlayersInGame_JStruct> PlayersInGame { get; set; }
+}
+[Serializable]
+public class PlayersInGame_JStruct
+{
+    public string PlayerID { get; set; }
+    public string PlayerName { get; set; }
+    public string PlayerImageUrl { get; set; }
+    public string PlayerTeam { get; set; }
 }
 #endregion

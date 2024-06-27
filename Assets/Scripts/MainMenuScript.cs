@@ -10,7 +10,7 @@ public class MainMenuScript : MonoBehaviour
 	{
 		//SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 2;
-		SceneManager.LoadScene ("Ludoonline");
+		SceneManager.LoadScene ("Ludo1");
 		//SceneManager.LoadScene("Game234Plr");
 	}
 
@@ -18,11 +18,19 @@ public class MainMenuScript : MonoBehaviour
 	{
 		//SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 3;
-        SceneManager.LoadScene ("Ludoonline");
+        SceneManager.LoadScene ("Ludo1");
         //SceneManager.LoadScene("Game234Plr");
     }
 
     public void four_player()
+    {
+        //SoundManagerScript.buttonAudioSource.Play ();
+        howManyPlayers = 4;
+        SceneManager.LoadScene("Ludo1");
+        //SceneManager.LoadScene("Game234Plr");
+    }
+
+    public void four_player_online()
 	{
 		//SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 4;

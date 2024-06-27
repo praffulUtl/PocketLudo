@@ -12,6 +12,7 @@ using UnityEngine.UI;
 
 public class GameSyncAPIHandler : MonoBehaviour
 {
+    [SerializeField] TournamentDataKeeper tournamentDataKeeper;
     [SerializeField] string dummydata = "";
     [SerializeField] GameScriptOnline gameScript;
 
@@ -33,6 +34,16 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     private async void Start()
     {
+        tournamentDataKeeper = FindAnyObjectByType<TournamentDataKeeper>();
+        bool playerTeamFound = false;
+        foreach (var player in tournamentDataKeeper.joinTurnamentJoinData.data.PlayersInGame)
+        {
+            if(!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
+            {
+                ourPlayerTeam = player.PlayerTeam;
+            }
+        }
+
         webSocket = new ClientWebSocket();
         await Connect();
         await SendRequest();
