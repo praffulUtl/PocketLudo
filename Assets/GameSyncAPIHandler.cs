@@ -10,25 +10,25 @@ using Newtonsoft.Json;
 using Unity.Mathematics;
 using UnityEngine.UI;
 
-public class WebSocketClient : MonoBehaviour
+public class GameSyncAPIHandler : MonoBehaviour
 {
-    [SerializeField] GameScript gameScript;
+    [SerializeField] string dummydata = "";
+    [SerializeField] GameScriptOnline gameScript;
 
     public OurPlayerDataSetRoot dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
 
-    public Button DiceRollButton;
-    public GameObject dice1_Roll_Animation;
-    public GameObject dice2_Roll_Animation;
-    public GameObject dice3_Roll_Animation;
-    public GameObject dice4_Roll_Animation;
-    public GameObject dice5_Roll_Animation;
-    public GameObject dice6_Roll_Animation;
-    int selectDiceNumAnimation = -1;
 
     private ClientWebSocket webSocket;
     private Uri serverUri = new Uri("ws://yourserveraddress"); // Replace with your server address
-    
+
+    private void Awake()
+    {
+        dataToBeSent = new OurPlayerDataSetRoot();
+        dataToBeSent.meta = new RenamedMeta();
+        dataToBeSent.data = new OurPlayerDataSet();
+        dataToBeSent.data.Playerpiece = new List<PlayerPiece> { new PlayerPiece(), new PlayerPiece(), new PlayerPiece(), new PlayerPiece() };
+    }
 
 
     private async void Start()
@@ -37,13 +37,7 @@ public class WebSocketClient : MonoBehaviour
         await Connect();
         await SendRequest();
         await ReceiveResponse();
-
-        dataToBeSent = new OurPlayerDataSetRoot();
-        dataToBeSent.meta = new RenamedMeta();
-        dataToBeSent.data = new OurPlayerDataSet();
-        dataToBeSent.data.Playerpiece = new List<PlayerPiece> { new PlayerPiece(), new PlayerPiece(),new PlayerPiece(), new PlayerPiece() };
-
-        gameScript.SetOurPlayerPieceButton(ourPlayerTeam);
+   
 
     }
 
@@ -103,6 +97,7 @@ public class WebSocketClient : MonoBehaviour
     private async Task ReceiveResponse()
     {
         dataToBeSent.data.PlayerTurn = true;
+        //DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
         var buffer = new byte[1024];
         WebSocketReceiveResult result;
 
@@ -116,10 +111,19 @@ public class WebSocketClient : MonoBehaviour
             foreach (var player in responseObject.data.OtherPlayer)
             {
                 if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
+                {
                     dataToBeSent.data.PlayerTurn = false;
+                   // DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
+                }
+                foreach(var piece in player.Playerpiece)
+                {
+                    //piece.MovementBlockIndex
+                    //gameScript.
+                }
                 if (player.DiceNumber > 0)
                 {
-                    DiceRoll(player.DiceNumber);
+                    gameScript.DiceRoll(player.DiceNumber);
+                    
                     return;
                 }
             }
@@ -131,6 +135,16 @@ public class WebSocketClient : MonoBehaviour
         }
     }
 
+    public void SendData()
+    {
+        Task task = SendRequest();
+
+        //task.Start();
+
+        RenamedResponse renamedResponse = JsonConvert.DeserializeObject<RenamedResponse>(dummydata);
+
+    }
+
     private void OnApplicationQuit()
     {
         webSocket?.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
@@ -138,84 +152,80 @@ public class WebSocketClient : MonoBehaviour
     }
 
     #region gameplay
-    public void DiceRoll(int i = -1)
-    {
-        SoundManagerScript.diceAudioSource.Play();
-        DiceRollButton.interactable = false;
+    //public void DiceRoll(int i = -1)
+    //{
+    //    SoundManagerScript.diceAudioSource.Play();
+    //    DiceRollButton.interactable = false;
 
-        if (i == -1)
-        {
-            selectDiceNumAnimation = UnityEngine.Random.Range(1, 7);
-            Task task = SendRequest();
-            task.Start();
-        }
-        else
-            selectDiceNumAnimation = i;
+    //    if (i == -1)
+    //    {
+    //        selectDiceNumAnimation = UnityEngine.Random.Range(1, 7);
+    //        Task task = SendRequest();
+    //        task.Start();
+    //    }
+    //    else
+    //        selectDiceNumAnimation = i;
 
-        switch (selectDiceNumAnimation)
-        {
-            case 1:
-                dice1_Roll_Animation.SetActive(true);
-                dice2_Roll_Animation.SetActive(false);
-                dice3_Roll_Animation.SetActive(false);
-                dice4_Roll_Animation.SetActive(false);
-                dice5_Roll_Animation.SetActive(false);
-                dice6_Roll_Animation.SetActive(false);
-                break;
+    //    switch (selectDiceNumAnimation)
+    //    {
+    //        case 1:
+    //            dice1_Roll_Animation.SetActive(true);
+    //            dice2_Roll_Animation.SetActive(false);
+    //            dice3_Roll_Animation.SetActive(false);
+    //            dice4_Roll_Animation.SetActive(false);
+    //            dice5_Roll_Animation.SetActive(false);
+    //            dice6_Roll_Animation.SetActive(false);
+    //            break;
 
-            case 2:
-                dice1_Roll_Animation.SetActive(false);
-                dice2_Roll_Animation.SetActive(true);
-                dice3_Roll_Animation.SetActive(false);
-                dice4_Roll_Animation.SetActive(false);
-                dice5_Roll_Animation.SetActive(false);
-                dice6_Roll_Animation.SetActive(false);
-                break;
+    //        case 2:
+    //            dice1_Roll_Animation.SetActive(false);
+    //            dice2_Roll_Animation.SetActive(true);
+    //            dice3_Roll_Animation.SetActive(false);
+    //            dice4_Roll_Animation.SetActive(false);
+    //            dice5_Roll_Animation.SetActive(false);
+    //            dice6_Roll_Animation.SetActive(false);
+    //            break;
 
-            case 3:
-                dice1_Roll_Animation.SetActive(false);
-                dice2_Roll_Animation.SetActive(false);
-                dice3_Roll_Animation.SetActive(true);
-                dice4_Roll_Animation.SetActive(false);
-                dice5_Roll_Animation.SetActive(false);
-                dice6_Roll_Animation.SetActive(false);
-                break;
+    //        case 3:
+    //            dice1_Roll_Animation.SetActive(false);
+    //            dice2_Roll_Animation.SetActive(false);
+    //            dice3_Roll_Animation.SetActive(true);
+    //            dice4_Roll_Animation.SetActive(false);
+    //            dice5_Roll_Animation.SetActive(false);
+    //            dice6_Roll_Animation.SetActive(false);
+    //            break;
 
-            case 4:
-                dice1_Roll_Animation.SetActive(false);
-                dice2_Roll_Animation.SetActive(false);
-                dice3_Roll_Animation.SetActive(false);
-                dice4_Roll_Animation.SetActive(true);
-                dice5_Roll_Animation.SetActive(false);
-                dice6_Roll_Animation.SetActive(false);
-                break;
+    //        case 4:
+    //            dice1_Roll_Animation.SetActive(false);
+    //            dice2_Roll_Animation.SetActive(false);
+    //            dice3_Roll_Animation.SetActive(false);
+    //            dice4_Roll_Animation.SetActive(true);
+    //            dice5_Roll_Animation.SetActive(false);
+    //            dice6_Roll_Animation.SetActive(false);
+    //            break;
 
-            case 5:
-                dice1_Roll_Animation.SetActive(false);
-                dice2_Roll_Animation.SetActive(false);
-                dice3_Roll_Animation.SetActive(false);
-                dice4_Roll_Animation.SetActive(false);
-                dice5_Roll_Animation.SetActive(true);
-                dice6_Roll_Animation.SetActive(false);
-                break;
+    //        case 5:
+    //            dice1_Roll_Animation.SetActive(false);
+    //            dice2_Roll_Animation.SetActive(false);
+    //            dice3_Roll_Animation.SetActive(false);
+    //            dice4_Roll_Animation.SetActive(false);
+    //            dice5_Roll_Animation.SetActive(true);
+    //            dice6_Roll_Animation.SetActive(false);
+    //            break;
 
-            case 6:
-                dice1_Roll_Animation.SetActive(false);
-                dice2_Roll_Animation.SetActive(false);
-                dice3_Roll_Animation.SetActive(false);
-                dice4_Roll_Animation.SetActive(false);
-                dice5_Roll_Animation.SetActive(false);
-                dice6_Roll_Animation.SetActive(true);
-                break;
-        }
+    //        case 6:
+    //            dice1_Roll_Animation.SetActive(false);
+    //            dice2_Roll_Animation.SetActive(false);
+    //            dice3_Roll_Animation.SetActive(false);
+    //            dice4_Roll_Animation.SetActive(false);
+    //            dice5_Roll_Animation.SetActive(false);
+    //            dice6_Roll_Animation.SetActive(true);
+    //            break;
+    //    }
 
-        gameScript.CallPlayersNotInitialized();
-    }
+    //    gameScript.CallPlayersNotInitialized();
+    //}
 
-    public void SetPlayerTurn(string turn)
-    {
-        DiceRollButton.enabled = (turn == ourPlayerTeam);
-    }
     #endregion
 
 }
@@ -258,7 +268,7 @@ public class RenamedOtherPlayer
 }
 
 
-
+[Serializable]
 public class OurPlayerDataSet
 {
     public string GameLobbyID { get; set; }
@@ -268,7 +278,7 @@ public class OurPlayerDataSet
     public bool PlayerTurn { get; set; }
     public List<PlayerPiece> Playerpiece { get; set; }
 }
-
+[Serializable]
 public class OurPlayerDataSetRoot
 {
     public RenamedMeta meta { get; set; }

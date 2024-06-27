@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameScript : MonoBehaviour {
+public class GameScriptOnline : MonoBehaviour {
 
 	[SerializeField] GameSyncAPIHandler webSocketClient;
 
@@ -1313,14 +1313,17 @@ public class GameScript : MonoBehaviour {
 	}
 
 	// Click on Roll Button on Dice UI
-	public void DiceRoll()
+	public void DiceRoll(int i =-1)
 	{
 		SoundManagerScript.diceAudioSource.Play ();
 		DiceRollButton.interactable = false;
 
-		selectDiceNumAnimation = randomNo.Next (1,7);
 
-		switch (selectDiceNumAnimation) 
+		selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
+		//selectDiceNumAnimation = 6;
+
+
+        switch (selectDiceNumAnimation) 
 		{
 			case 1:
 				dice1_Roll_Animation.SetActive (true);
@@ -1763,8 +1766,9 @@ public class GameScript : MonoBehaviour {
 
 	//=============================== RED PLAYERS MOVEMENT ===========================================================
 
-	public void redPlayerI_UI()
+	public void redPlayerI_UI(int pathIndex = -1)
 	{
+
 		SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
@@ -1776,7 +1780,9 @@ public class GameScript : MonoBehaviour {
 		RedPlayerIII_Button.interactable = false;
 		RedPlayerIV_Button.interactable = false;
 
-		if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerI_Steps) > selectDiceNumAnimation) // 4 > 4
+		int stepsdiff = (webSocketClient.ourPlayerTeam != "RED")? pathIndex : redMovementBlocks.Count - redPlayerI_Steps;		
+
+		if (playerTurn == "RED" && (stepsdiff) > selectDiceNumAnimation) // 4 > 4
 		{
 			if (redPlayerI_Steps > 0) 
 			{
@@ -1784,8 +1790,8 @@ public class GameScript : MonoBehaviour {
 
 				for (int i = 0; i < selectDiceNumAnimation; i++) 
 				{
-					redPlayer_Path [i] = redMovementBlocks [redPlayerI_Steps + i].transform.position;
-				}
+					redPlayer_Path [i] = redMovementBlocks [redPlayerI_Steps + i].transform.position;					
+                }
 
 				redPlayerI_Steps += selectDiceNumAnimation;			
 
@@ -1893,7 +1899,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+		if (webSocketClient.ourPlayerTeam == "RED")
+		{
+			webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = redPlayerI_Steps - 1;
+			webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+			webSocketClient.SendData();
+		}
+    }
 
 	public void redPlayerII_UI()
 	{
@@ -2025,7 +2037,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+		if (webSocketClient.ourPlayerTeam == "RED")
+		{
+			webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = redPlayerII_Steps - 1;
+			webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+			webSocketClient.SendData();
+		}
+    }
 
 	public void redPlayerIII_UI()
 	{
@@ -2153,7 +2171,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+		if (webSocketClient.ourPlayerTeam == "RED")
+		{
+			webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = redPlayerIII_Steps - 1;
+			webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+			webSocketClient.SendData();
+		}
+    }
 
 	public void redPlayerIV_UI()
 	{
@@ -2283,7 +2307,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+		if (webSocketClient.ourPlayerTeam == "RED")
+		{
+			webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = redPlayerIV_Steps - 1;
+			webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+			webSocketClient.SendData();
+		}
+    }
 	//==================================== GREEN PLAYERS MOVEMENT =================================================================
 
 	public void greenPlayerI_UI()
@@ -2414,7 +2444,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "GREEN")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = greenPlayerI_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void greenPlayerII_UI()
 	{
@@ -2544,7 +2580,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "GREEN")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = greenPlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void greenPlayerIII_UI()
 	{
@@ -2674,7 +2716,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "GREEN")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = greenPlayerIII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void greenPlayerIV_UI()
 	{
@@ -2804,7 +2852,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "GREEN")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = greenPlayerIV_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 	//===================================== BLUE PLAYERS MOVEMENT =========================================================
 	public void bluePlayerI_UI()
 	{
@@ -2934,7 +2988,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "BLUE")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = bluePlayerI_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void bluePlayerII_UI()
 	{
@@ -3065,7 +3125,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "BLUE")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = bluePlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void bluePlayerIII_UI()
 	{
@@ -3195,7 +3261,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "BLUE")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = bluePlayerIII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void bluePlayerIV_UI()
 	{
@@ -3325,7 +3397,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "BLUE")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = bluePlayerIV_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 	//==================================== YELLOW PLAYERS MOVEMENT =============================================================
 
 	public void yellowPlayerI_UI()
@@ -3457,7 +3535,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "YELLOW")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = yellowPlayerI_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void yellowPlayerII_UI()
 	{
@@ -3590,7 +3674,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "YELLOW")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = yellowPlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void yellowPlayerIII_UI()
 	{
@@ -3721,7 +3811,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "YELLOW")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = yellowPlayerIII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 
 	public void yellowPlayerIV_UI()
 	{
@@ -3852,7 +3948,13 @@ public class GameScript : MonoBehaviour {
 				}
 			}
 		}
-	}
+        if (webSocketClient.ourPlayerTeam == "YELLOW")
+        {
+            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = yellowPlayerIV_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.SendData();
+        }
+    }
 	//=============================================================================================================================
 	// Use this for initialization
 	void Start () 

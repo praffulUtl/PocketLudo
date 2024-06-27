@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Ludo1.unity
     guid: bc94f955166d552459f103ee6d65912c
-  - enabled: 0
-    path: Assets/Scenes/GameOnline.unity
-    guid: a4a0e52650b963748b282a5b2cb3d511
+  - enabled: 1
+    path: Assets/Scenes/Ludoonline.unity
+    guid: 1af9ea160f3b73149a4e8bb0fad843b0
   m_configObjects: {}
