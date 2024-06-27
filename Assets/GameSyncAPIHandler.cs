@@ -115,10 +115,49 @@ public class GameSyncAPIHandler : MonoBehaviour
                     dataToBeSent.data.PlayerTurn = false;
                    // DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
                 }
-                foreach(var piece in player.Playerpiece)
+                if(player.PlayerTeam == "RED")
                 {
-                    //piece.MovementBlockIndex
-                    //gameScript.
+                    if(player.Playerpiece[0] != null)
+                    gameScript.redPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
+                    if (player.Playerpiece[1] != null)
+                        gameScript.redPlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
+                    if (player.Playerpiece[2] != null)
+                        gameScript.redPlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
+                    if (player.Playerpiece[3] != null)
+                        gameScript.redPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
+                }
+                else if (player.PlayerTeam == "BLUE")
+                {
+                    if (player.Playerpiece[0] != null)
+                        gameScript.bluePlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
+                    if (player.Playerpiece[1] != null)
+                        gameScript.bluePlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
+                    if (player.Playerpiece[2] != null)
+                        gameScript.bluePlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
+                    if (player.Playerpiece[3] != null)
+                        gameScript.bluePlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
+                }
+                else if (player.PlayerTeam == "GREEN")
+                {
+                    if (player.Playerpiece[0] != null)
+                        gameScript.greenPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
+                    if (player.Playerpiece[1] != null)
+                        gameScript.greenPlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
+                    if (player.Playerpiece[2] != null)
+                        gameScript.greenPlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
+                    if (player.Playerpiece[3] != null)
+                        gameScript.greenPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
+                }
+                else if (player.PlayerTeam == "YELLOW")
+                {
+                    if (player.Playerpiece[0] != null)
+                        gameScript.yellowPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
+                    if (player.Playerpiece[1] != null)
+                        gameScript.yellowPlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
+                    if (player.Playerpiece[2] != null)
+                        gameScript.yellowPlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
+                    if (player.Playerpiece[3] != null)
+                        gameScript.yellowPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
                 }
                 if (player.DiceNumber > 0)
                 {

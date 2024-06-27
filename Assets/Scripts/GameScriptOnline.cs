@@ -1768,7 +1768,8 @@ public class GameScriptOnline : MonoBehaviour {
 
 	public void redPlayerI_UI(int pathIndex = -1)
 	{
-
+		if (webSocketClient.ourPlayerTeam != "RED" && pathIndex == -1)
+			return;
 		SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
@@ -1780,9 +1781,9 @@ public class GameScriptOnline : MonoBehaviour {
 		RedPlayerIII_Button.interactable = false;
 		RedPlayerIV_Button.interactable = false;
 
-		int stepsdiff = (webSocketClient.ourPlayerTeam != "RED")? pathIndex : redMovementBlocks.Count - redPlayerI_Steps;		
+		//int stepsdiff = (webSocketClient.ourPlayerTeam != "RED")? pathIndex : redMovementBlocks.Count - redPlayerI_Steps;		
 
-		if (playerTurn == "RED" && (stepsdiff) > selectDiceNumAnimation) // 4 > 4
+		if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerI_Steps) > selectDiceNumAnimation) // 4 > 4
 		{
 			if (redPlayerI_Steps > 0) 
 			{
@@ -1872,7 +1873,9 @@ public class GameScriptOnline : MonoBehaviour {
 					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 				totalRedInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "RED")                
+                    webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;                
+                Debug.Log ("Cool !!");
 				RedPlayerI_Button.enabled = false;
 			}
 			else
@@ -1907,9 +1910,11 @@ public class GameScriptOnline : MonoBehaviour {
 		}
     }
 
-	public void redPlayerII_UI()
+	public void redPlayerII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "RED" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
 		redPlayerIII_Border.SetActive (false);
@@ -2010,7 +2015,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalRedInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "RED")
+                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				RedPlayerII_Button.enabled = false;
 			}
 			else
@@ -2045,9 +2052,11 @@ public class GameScriptOnline : MonoBehaviour {
 		}
     }
 
-	public void redPlayerIII_UI()
+	public void redPlayerIII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "RED" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
 		redPlayerIII_Border.SetActive (false);
@@ -2144,7 +2153,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalRedInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "RED")
+                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				RedPlayerIII_Button.enabled = false;
 			}
 			else
@@ -2173,15 +2184,17 @@ public class GameScriptOnline : MonoBehaviour {
 		}
 		if (webSocketClient.ourPlayerTeam == "RED")
 		{
-			webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = redPlayerIII_Steps - 1;
-			webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+			webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = redPlayerIII_Steps - 1;
+			webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
 			webSocketClient.SendData();
 		}
     }
 
-	public void redPlayerIV_UI()
+	public void redPlayerIV_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "RED" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
 		redPlayerIII_Border.SetActive (false);
@@ -2280,7 +2293,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalRedInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "RED")
+                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				RedPlayerIV_Button.enabled = false;
 			}
 			else
@@ -2316,9 +2331,11 @@ public class GameScriptOnline : MonoBehaviour {
     }
 	//==================================== GREEN PLAYERS MOVEMENT =================================================================
 
-	public void greenPlayerI_UI()
-	{		
-		SoundManagerScript.playerAudioSource.Play ();
+	public void greenPlayerI_UI(int pathIndex = -1)
+	{
+        if (webSocketClient.ourPlayerTeam != "GREEN" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		greenPlayerI_Border.SetActive (false);
 		greenPlayerII_Border.SetActive (false);
 		greenPlayerIII_Border.SetActive (false);
@@ -2417,7 +2434,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalGreenInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "GREEN")                
+					webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;                
+                Debug.Log ("Cool !!");
 				GreenPlayerI_Button.enabled = false;
 			} 
 			else 
@@ -2452,9 +2471,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void greenPlayerII_UI()
+	public void greenPlayerII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "GREEN" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		greenPlayerI_Border.SetActive (false);
 		greenPlayerII_Border.SetActive (false);
 		greenPlayerIII_Border.SetActive (false);
@@ -2553,7 +2574,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalGreenInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "GREEN")
+                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				GreenPlayerII_Button.enabled = false;
 			} 
 			else 
@@ -2588,9 +2611,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void greenPlayerIII_UI()
+	public void greenPlayerIII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "GREEN" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		greenPlayerI_Border.SetActive (false);
 		greenPlayerII_Border.SetActive (false);
 		greenPlayerIII_Border.SetActive (false);
@@ -2689,7 +2714,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalGreenInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "GREEN")
+                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				GreenPlayerIII_Button.enabled = false;
 			} 
 			else 
@@ -2724,9 +2751,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void greenPlayerIV_UI()
+	public void greenPlayerIV_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "GREEN" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		greenPlayerI_Border.SetActive (false);
 		greenPlayerII_Border.SetActive (false);
 		greenPlayerIII_Border.SetActive (false);
@@ -2825,7 +2854,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalGreenInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "GREEN")
+                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				GreenPlayerIV_Button.enabled = false;
 			} 
 			else 
@@ -2860,9 +2891,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 	//===================================== BLUE PLAYERS MOVEMENT =========================================================
-	public void bluePlayerI_UI()
+	public void bluePlayerI_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "BLUE" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		bluePlayerI_Border.SetActive (false);
 		bluePlayerII_Border.SetActive (false);
 		bluePlayerIII_Border.SetActive (false);
@@ -2961,7 +2994,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalBlueInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "BLUE")
+                    webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				BluePlayerI_Button.enabled = false;
 			} 
 			else 
@@ -2996,9 +3031,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void bluePlayerII_UI()
+	public void bluePlayerII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "BLUE" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		bluePlayerI_Border.SetActive (false);
 		bluePlayerII_Border.SetActive (false);
 		bluePlayerIII_Border.SetActive (false);
@@ -3098,7 +3135,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalBlueInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "BLUE")
+                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				BluePlayerII_Button.enabled = false;
 			} 
 			else 
@@ -3133,9 +3172,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void bluePlayerIII_UI()
+	public void bluePlayerIII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "BLUE" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		bluePlayerI_Border.SetActive (false);
 		bluePlayerII_Border.SetActive (false);
 		bluePlayerIII_Border.SetActive (false);
@@ -3234,7 +3275,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalBlueInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "BLUE")
+                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				BluePlayerIII_Button.enabled = false;
 			} 
 			else 
@@ -3269,9 +3312,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void bluePlayerIV_UI()
+	public void bluePlayerIV_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "BLUE" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		bluePlayerI_Border.SetActive (false);
 		bluePlayerII_Border.SetActive (false);
 		bluePlayerIII_Border.SetActive (false);
@@ -3370,7 +3415,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalBlueInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "BLUE")
+                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				BluePlayerIV_Button.enabled = false;
 			} 
 			else 
@@ -3406,9 +3453,11 @@ public class GameScriptOnline : MonoBehaviour {
     }
 	//==================================== YELLOW PLAYERS MOVEMENT =============================================================
 
-	public void yellowPlayerI_UI()
+	public void yellowPlayerI_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "YELLOW" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		yellowPlayerI_Border.SetActive (false);
 		yellowPlayerII_Border.SetActive (false);
 		yellowPlayerIII_Border.SetActive (false);
@@ -3508,7 +3557,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalYellowInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "YELLOW")
+                    webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				YellowPlayerI_Button.enabled = false;
 			} 
 			else 
@@ -3543,9 +3594,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void yellowPlayerII_UI()
+	public void yellowPlayerII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "YELLOW" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		yellowPlayerI_Border.SetActive (false);
 		yellowPlayerII_Border.SetActive (false);
 		yellowPlayerIII_Border.SetActive (false);
@@ -3647,7 +3700,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalYellowInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "YELLOW")
+                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				YellowPlayerII_Button.enabled = false;
 			} 
 			else 
@@ -3676,15 +3731,17 @@ public class GameScriptOnline : MonoBehaviour {
 		}
         if (webSocketClient.ourPlayerTeam == "YELLOW")
         {
-            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = yellowPlayerII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = yellowPlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
             webSocketClient.SendData();
         }
     }
 
-	public void yellowPlayerIII_UI()
+	public void yellowPlayerIII_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "YELLOW" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		yellowPlayerI_Border.SetActive (false);
 		yellowPlayerII_Border.SetActive (false);
 		yellowPlayerIII_Border.SetActive (false);
@@ -3784,7 +3841,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalYellowInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "YELLOW")
+                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				YellowPlayerIII_Button.enabled = false;
 			} 
 			else 
@@ -3819,9 +3878,11 @@ public class GameScriptOnline : MonoBehaviour {
         }
     }
 
-	public void yellowPlayerIV_UI()
+	public void yellowPlayerIV_UI(int pathIndex = -1)
 	{
-		SoundManagerScript.playerAudioSource.Play ();
+        if (webSocketClient.ourPlayerTeam != "YELLOW" && pathIndex == -1)
+            return;
+        SoundManagerScript.playerAudioSource.Play ();
 		yellowPlayerI_Border.SetActive (false);
 		yellowPlayerII_Border.SetActive (false);
 		yellowPlayerIII_Border.SetActive (false);
@@ -3921,7 +3982,9 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 
 				totalYellowInHouse += 1;
-				Debug.Log ("Cool !!");
+                if (webSocketClient.ourPlayerTeam == "YELLOW")
+                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                Debug.Log ("Cool !!");
 				YellowPlayerIV_Button.enabled = false;
 			} 
 			else 
