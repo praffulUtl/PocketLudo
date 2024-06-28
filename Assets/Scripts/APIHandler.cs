@@ -15,13 +15,12 @@ public class APIHandler : MonoBehaviour
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
     string endPoint_VerifyLoginUser = "player/login-verify/otp";
-    string endPoint_postUserAuth = "";
     string endPoint_postUserData = "player/profile";
     string endPoint_GetUserData = "player/profile";
-    string endPoint_postPlayerPieceMove = "";
     string endPoint_getTournaments = "tournament";
-    string endPoint_postTournamentJoin = "";
+    string endPoint_postTournamentJoin = "tournament/join";
     string endPoint_postJoinGlobalGame = "";
+
     string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
     string keyName_isRegistered = "isRegistered";
@@ -84,15 +83,19 @@ public class APIHandler : MonoBehaviour
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
     }
-    public void GetUserData(UserOTP_JStruct data, Action<bool, VerifyOTPRes_JStruct> callback)
+    public void GetUserData(Action<bool, PlayerDataRoot_JStruct> callback)
+    {        
+        StartCoroutine(GetRequest(endPoint_GetUserData, callback));
+    }
+    public void PostUserData(PlayerDetails_JStruct data, Action<bool, Meta> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
-        StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
+        StartCoroutine(StartPostRequest(endPoint_postUserData, jsonString, callback));
     }
     #endregion
 
     #region Global game
-    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, GameLobby_JStruct> callback)
+    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, GlobalGameRootData_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
         StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, callback));
@@ -110,8 +113,14 @@ public class APIHandler : MonoBehaviour
         StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, callback));
     }
     #endregion
+    #region texture fetching
+    public void DownloadTexture(string url, Action<bool,Texture> callback)
+    {
+        StartCoroutine(GetTexture(url,callback));
+    }
+    #endregion
 
-    
+
 
     #region API Client
     IEnumerator StartPostRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
@@ -160,6 +169,7 @@ public class APIHandler : MonoBehaviour
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
+                Debug.Log(webRequest.error);
                 try
                 {
                     callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
@@ -182,6 +192,24 @@ public class APIHandler : MonoBehaviour
                     dialogBox.Show("Error : " + resData);
                 }
             }
+        }
+    }
+
+    IEnumerator GetTexture(String url,Action<bool, Texture> callback)
+    {
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+            callback?.Invoke(false,null);
+            //dialogBox.Show(www.error);
+        }
+        else
+        {
+            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            callback?.Invoke(true, myTexture);
         }
     }
     #endregion
@@ -233,7 +261,7 @@ public class PlayerDetails_JStruct
     public string _id { get; set; }
 }
 
-public class PlayerData_JStruct
+public class PlayerDataRoot_JStruct
 {
     public Meta meta { get; set; }
     public PlayerDetails_JStruct data { get; set; }
@@ -273,16 +301,19 @@ public class GlobalGameJoinData_JStruct
     public string GameMode { get; set; }
 }
 
-public class GameLobby_JStruct
+[Serializable]
+public class GlobalGameRootData_JStruct
 {
     public Meta meta { get; set; }
-    public GameLobbyData_JStruct data { get; set; }
+    public GlobalGameData_JStruct data { get; set; }
 }
-public class GameLobbyData_JStruct
+[Serializable]
+public class GlobalGameData_JStruct
 { 
     public string GameLobbyId { get; set; }
     public List<PlayerItem_JStruct> PlayersInGame { get; set; }    
 }
+[Serializable]
 public class PlayerItem_JStruct
 {
     public string PlayerID { get; set; }

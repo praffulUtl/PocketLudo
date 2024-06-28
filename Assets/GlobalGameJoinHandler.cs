@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class GlobalGameJoinHandler : MonoBehaviour
 {
     [SerializeField] bool dummyMode = false;
+    [SerializeField] OnlineGameType onlineGameType;
     GameMode currentGameMode = GameMode.CLASSIC;
     [SerializeField] MainMenuScript mainMenuScript;
     [SerializeField] Button classicBt,quickBt;
     [SerializeField] GameObject classicCheck,quickCheck;
     [SerializeField] Button nextBt;
     GlobalGameJoinData_JStruct globalGameJoinData;
-    public GameLobby_JStruct gameLobbyData_JStruct1;
+    public GlobalGameRootData_JStruct gameLobbyData_JStruct1;
     private void Start()
     {
         globalGameJoinData = new GlobalGameJoinData_JStruct();
@@ -23,9 +24,9 @@ public class GlobalGameJoinHandler : MonoBehaviour
         classicBt.onClick.AddListener(SetClassicMode);
         quickBt.onClick.AddListener(SetQuickMode);
 
-        gameLobbyData_JStruct1 = new GameLobby_JStruct();
+        gameLobbyData_JStruct1 = new GlobalGameRootData_JStruct();
         gameLobbyData_JStruct1.meta = new Meta();
-        gameLobbyData_JStruct1.data = new GameLobbyData_JStruct();
+        gameLobbyData_JStruct1.data = new GlobalGameData_JStruct();
         gameLobbyData_JStruct1.data.PlayersInGame = new List<PlayerItem_JStruct> { new PlayerItem_JStruct() };
         gameLobbyData_JStruct1.data.PlayersInGame[0].PlayerID = APIHandler.instance.key_playerId;
         gameLobbyData_JStruct1.data.PlayersInGame[0].PlayerTeam = "RED";
@@ -42,10 +43,11 @@ public class GlobalGameJoinHandler : MonoBehaviour
             JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
         }
     }
-    void JoinGlobalGameCallback(bool success,GameLobby_JStruct gameLobbyData_JStruct)
+    void JoinGlobalGameCallback(bool success,GlobalGameRootData_JStruct gameLobbyData_JStruct)
     {
         if(success && gameLobbyData_JStruct1.meta.status) 
         {
+            onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
             mainMenuScript.four_player_online();
         }
     }

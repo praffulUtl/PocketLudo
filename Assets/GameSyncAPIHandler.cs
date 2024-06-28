@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class GameSyncAPIHandler : MonoBehaviour
 {
-    [SerializeField] TournamentDataKeeper tournamentDataKeeper;
+    [SerializeField] OnlineGameType DataKeeper;
     [SerializeField] string dummydata = "";
     [SerializeField] GameScriptOnline gameScript;
 
@@ -34,11 +34,11 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     private async void Start()
     {
-        tournamentDataKeeper = FindAnyObjectByType<TournamentDataKeeper>();
+        DataKeeper = FindAnyObjectByType<OnlineGameType>();
         bool playerTeamFound = false;
-        if (tournamentDataKeeper.joinTurnamentJoinData.meta != null)
+        if (DataKeeper.gameType==GameType.TOURNAMENT && DataKeeper.joinTurnamentJoinData.meta != null)
         {
-            foreach (var player in tournamentDataKeeper.joinTurnamentJoinData.data.PlayersInGame)
+            foreach (var player in DataKeeper.joinTurnamentJoinData.data.PlayersInGame)
             {
                 if (!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
                 {
@@ -48,6 +48,19 @@ public class GameSyncAPIHandler : MonoBehaviour
                 }
             }
         }
+        else if (DataKeeper.gameType == GameType.GLOBAL && DataKeeper.globalGameRootData.meta != null)
+        {
+            foreach (var player in DataKeeper.globalGameRootData.data.PlayersInGame)
+            {
+                if (!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
+                {
+                    ourPlayerTeam = player.PlayerTeam;
+                    playerTeamFound = true;
+                    break;
+                }
+            }
+        }
+
         gameScript.SetOurPlayerPieceButton(ourPlayerTeam);
 
         webSocket = new ClientWebSocket();

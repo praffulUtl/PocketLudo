@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class TournamentListHandler : MonoBehaviour
 {
     [SerializeField] MainMenuScript mainMenuScript;
-    [SerializeField] TournamentDataKeeper tournamentDataKeeper;
+    [SerializeField] OnlineGameType onlineGameType;
     [SerializeField] string sceneName = "";
     [SerializeField] bool DummyMode = false;
     [SerializeField] string dummyDataString = "";
@@ -158,7 +158,7 @@ public class TournamentListHandler : MonoBehaviour
     {
         if(success && joinedTournamentDataRoot_JStruct.meta.status)
         {
-            tournamentDataKeeper.joinTurnamentJoinData = joinedTournamentDataRoot_JStruct;
+            onlineGameType.joinTurnamentJoinData = joinedTournamentDataRoot_JStruct;
             SceneManager.LoadSceneAsync(sceneName);
         }
     }
