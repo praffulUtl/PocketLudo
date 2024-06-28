@@ -43,4 +43,13 @@ public class MainMenuScript : MonoBehaviour
 		//SoundManagerScript.buttonAudioSource.Play ();
 		Application.Quit ();
 	}
+	public void onClickRechargeWallet()
+	{
+        SceneManager.LoadScene("Recharge");
+    }
+	public void onClickMainGame()
+	{
+        SceneManager.LoadScene("mainMenu");
+    }
+
 }
