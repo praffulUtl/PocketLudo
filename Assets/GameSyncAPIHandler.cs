@@ -36,13 +36,19 @@ public class GameSyncAPIHandler : MonoBehaviour
     {
         tournamentDataKeeper = FindAnyObjectByType<TournamentDataKeeper>();
         bool playerTeamFound = false;
-        foreach (var player in tournamentDataKeeper.joinTurnamentJoinData.data.PlayersInGame)
+        if (tournamentDataKeeper.joinTurnamentJoinData.meta != null)
         {
-            if(!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
+            foreach (var player in tournamentDataKeeper.joinTurnamentJoinData.data.PlayersInGame)
             {
-                ourPlayerTeam = player.PlayerTeam;
+                if (!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
+                {
+                    ourPlayerTeam = player.PlayerTeam;
+                    playerTeamFound = true;
+                    break;
+                }
             }
         }
+        gameScript.SetOurPlayerPieceButton(ourPlayerTeam);
 
         webSocket = new ClientWebSocket();
         await Connect();
