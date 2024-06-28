@@ -275,10 +275,9 @@ public class GlobalGameJoinData_JStruct
 
 public class GameLobbyData_JStruct
 {
+    public Meta meta { get; set; }
     public string GameLobbyId { get; set; }
-    public List<PlayerItem_JStruct> PlayersInGame { get; set; }
-    public string Message { get; set; }
-    public bool Status { get; set; }
+    public List<PlayerItem_JStruct> PlayersInGame { get; set; }    
 }
 public class PlayerItem_JStruct
 {
