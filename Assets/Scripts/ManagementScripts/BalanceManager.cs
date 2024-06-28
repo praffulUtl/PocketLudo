@@ -20,14 +20,17 @@ public class BalanceManager : MonoBehaviour
     private string balance;
     public bool rechargeScreen = true;
 
-    private string authKey;
+    public string authKey;
 
     private const string baseURL = "https://api.utlsolutions.com/color/api/user/";
 
     private void Start()
     {
         // Retrieve the auth token and user ID from PlayerPrefs
-        authKey = PlayerPrefs.GetString("token", ""); // Assuming this is where the authkey is stored
+
+        //authKey = PlayerPrefs.GetString("authKey", ""); // Assuming this is where the authkey is stored
+        authKey = APIHandler.instance.key_authKey;
+        
         if (rechargeScreen)
         {
             StartCoroutine(FetchRechargeListRequest());
