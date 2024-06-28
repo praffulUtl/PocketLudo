@@ -1322,7 +1322,7 @@ public class GameScriptOnline : MonoBehaviour {
 		DiceRollButton.interactable = false;
 
 
-		//selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
+		selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
 		//selectDiceNumAnimation = 6;
 
 

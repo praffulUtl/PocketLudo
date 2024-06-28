@@ -92,7 +92,7 @@ public class APIHandler : MonoBehaviour
     #endregion
 
     #region Global game
-    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, GameLobbyData_JStruct> callback)
+    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, GameLobby_JStruct> callback)
     {
         string jsonString = JsonUtility.ToJson(data);
         StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, callback));
@@ -273,9 +273,13 @@ public class GlobalGameJoinData_JStruct
     public string GameMode { get; set; }
 }
 
-public class GameLobbyData_JStruct
+public class GameLobby_JStruct
 {
     public Meta meta { get; set; }
+    public GameLobbyData_JStruct data { get; set; }
+}
+public class GameLobbyData_JStruct
+{ 
     public string GameLobbyId { get; set; }
     public List<PlayerItem_JStruct> PlayersInGame { get; set; }    
 }
