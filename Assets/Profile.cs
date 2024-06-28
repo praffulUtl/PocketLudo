@@ -7,6 +7,7 @@ using System;
 
 public class Profile : MonoBehaviour
 {
+    [SerializeField] bool dummyMode = false;
     [Header("Profile section")]
     [SerializeField] TextMeshProUGUI nameTxt, nameTxt2;
     [SerializeField] RawImage image;
@@ -22,12 +23,14 @@ public class Profile : MonoBehaviour
         playerDetails_JStruct = new PlayerDetails_JStruct();
         Invoke(nameof(LoadProfileData), 1f);
         openEditProfile.onClick.AddListener(OpenEditPnl);
+        if(!dummyMode)
         updateDataBt.onClick.AddListener(UpdateProfileData);
     }
 
     void LoadProfileData()
     {
         Debug.Log("LoadProfileData");
+        if(!dummyMode)
         APIHandler.instance.GetUserData(LoadProfileDataCallback);
     }
     void LoadProfileDataCallback(bool success, PlayerDataRoot_JStruct playerDataRoot_JStruct)

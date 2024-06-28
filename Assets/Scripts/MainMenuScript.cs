@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuScript : MonoBehaviour 
 {
+	[SerializeField] bool dummyMode = false;
 	public static int howManyPlayers;
 	public void two_player()
 	{
@@ -34,7 +35,10 @@ public class MainMenuScript : MonoBehaviour
 	{
 		//SoundManagerScript.buttonAudioSource.Play ();
 		howManyPlayers = 4;
+		if(!dummyMode)
         SceneManager.LoadScene ("Ludoonline");
+		else
+            SceneManager.LoadScene("Ludo1");
         //SceneManager.LoadScene("Game234Plr");
     }
 

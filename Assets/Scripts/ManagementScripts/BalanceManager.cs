@@ -22,7 +22,7 @@ public class BalanceManager : MonoBehaviour
 
     public string authKey;
 
-    private const string baseURL = "https://api.utlsolutions.com/color/api/user/";
+    private const string baseURL = "https://3sqlfz6r-5211.inc1.devtunnels.ms/v1/";
 
     private void Start()
     {
