@@ -96,11 +96,12 @@ public class BalanceManager : MonoBehaviour
 
     private IEnumerator FetchBalanceRequest()
     {
-        string url = baseURL + "profile"; // The endpoint for fetching balance with user ID
+        string url = baseURL + "player/profile"; // The endpoint for fetching balance with user ID
 
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             request.SetRequestHeader("authkey", authKey);
+            Debug.Log("authKey :" + authKey);
 
             yield return request.SendWebRequest();
 
@@ -122,7 +123,7 @@ public class BalanceManager : MonoBehaviour
 
     private IEnumerator FetchWinningBalanceRequest()
     {
-        string url = baseURL + "profile"; // The endpoint for fetching winning balance
+        string url = baseURL + "player/profile"; // The endpoint for fetching winning balance
 
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
@@ -138,6 +139,7 @@ public class BalanceManager : MonoBehaviour
             {
                 string jsonResponse = request.downloadHandler.text;
                 ProfileResponse profileResponse = JsonUtility.FromJson<ProfileResponse>(jsonResponse);
+                if(winningBalanceText!=null)
                 winningBalanceText.text = profileResponse.data.winningBalance.ToString();
                 Debug.Log("Winning balance fetched successfully: " + profileResponse.data.winningBalance);
             }
@@ -298,7 +300,7 @@ public class BalanceManager : MonoBehaviour
         public class RechargeData
         {
             public string amount;
-            public string transactionId;
+            public string transactionId ;
             public long createdAt;
         }
     }
