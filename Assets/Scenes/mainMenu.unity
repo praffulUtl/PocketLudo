@@ -3788,7 +3788,7 @@ MonoBehaviour:
   mainMenuScript: {fileID: 1726621724}
   onlineGameType: {fileID: 1787995134}
   sceneName: 
-  DummyMode: 0
+  DummyMode: 1
   dummyDataString: "{     \"meta\": {         \"msg\": \"Tournament list found successfully\",        
     \"status\": true     },     \"data\": [         {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
     \"name\": \"Anonymous\",             \"winningAmount\": 10000,             \"entryFee\":

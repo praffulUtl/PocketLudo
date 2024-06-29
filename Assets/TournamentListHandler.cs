@@ -154,12 +154,12 @@ public class TournamentListHandler : MonoBehaviour
         else
             mainMenuScript.four_player_online();
     }
-    void JoinCallbak(bool success, JoinedTournamentDataRoot_JStruct joinedTournamentDataRoot_JStruct)
+    void JoinCallbak(bool success, Meta meta)
     {
-        if(success && joinedTournamentDataRoot_JStruct.meta.status)
+        if(success)
         {
-            onlineGameType.joinTurnamentJoinData = joinedTournamentDataRoot_JStruct;
-            SceneManager.LoadSceneAsync(sceneName);
+            //onlineGameType.joinTurnamentJoinData = joinedTournamentDataRoot_JStruct;
+            mainMenuScript.four_player_online();
         }
     }
     void ClearTournamentItemItemContent()

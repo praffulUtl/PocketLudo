@@ -107,7 +107,7 @@ public class APIHandler : MonoBehaviour
     {
         StartCoroutine(GetRequest(endPoint_getTournaments, callback));
     }
-    public void PostTournamentJoinData(TournamentJoinData_JStruct data,Action<bool, JoinedTournamentDataRoot_JStruct> callback)
+    public void PostTournamentJoinData(TournamentJoinData_JStruct data,Action<bool, Meta> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
         Debug.Log("StartPostRequest : " + jsonString);

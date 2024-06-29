@@ -1105,13 +1105,14 @@ GameObject:
   - component: {fileID: 1693205621863952512}
   - component: {fileID: 1192070929185271772}
   - component: {fileID: 6158639894764304708}
+  - component: {fileID: 7333946227583668450}
   m_Layer: 5
   m_Name: WaitingScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1693205621863952512
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1170,6 +1171,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7333946227583668450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2904785388155836813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f10717be82b69c419a9c45992d7e9b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitScreenPlayerItems:
+  - {fileID: 8470778153961897373}
+  - {fileID: 1362460864088758505}
+  - {fileID: 1673543852268193170}
+  - {fileID: 2625200841192411170}
+  red: {r: 0.8313726, g: 0.1764706, b: 0.1764706, a: 1}
+  blue: {r: 0.121568635, g: 0.50980395, b: 0.7686275, a: 1}
+  green: {r: 0.14117648, g: 0.6, b: 0.27058825, a: 1}
+  yellow: {r: 0.9607844, g: 0.7686275, b: 0, a: 1}
 --- !u!1 &3242534276564847973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,10 +1548,10 @@ RectTransform:
   - {fileID: 736768318021148640}
   m_Father: {fileID: 1876536335806004356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 142.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 350, y: -376.25}
+  m_SizeDelta: {x: 700, y: 142.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4589553258195663909
 CanvasRenderer:
@@ -2533,10 +2555,10 @@ RectTransform:
   - {fileID: 8096603474405929184}
   m_Father: {fileID: 1876536335806004356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 142.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 350, y: -528.75}
+  m_SizeDelta: {x: 700, y: 142.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &650577425128921073
 CanvasRenderer:
@@ -2705,10 +2727,10 @@ RectTransform:
   - {fileID: 4909744192173287069}
   m_Father: {fileID: 1876536335806004356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 142.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 350, y: -223.75}
+  m_SizeDelta: {x: 700, y: 142.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2566668148196765460
 CanvasRenderer:
@@ -3210,10 +3232,10 @@ RectTransform:
   - {fileID: 6824751964579305872}
   m_Father: {fileID: 1876536335806004356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 142.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 350, y: -71.25}
+  m_SizeDelta: {x: 700, y: 142.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6178372660131680461
 CanvasRenderer:

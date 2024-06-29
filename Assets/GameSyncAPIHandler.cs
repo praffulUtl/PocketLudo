@@ -21,7 +21,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
 
     private ClientWebSocket webSocket;
-    private Uri serverUri = new Uri("ws://yourserveraddress"); // Replace with your server address
+    private Uri serverUri = new Uri("ws://localhost:8080"); // Replace with your server address
 
     private void Awake()
     {
@@ -138,10 +138,20 @@ public class GameSyncAPIHandler : MonoBehaviour
             Debug.Log($"Response received: {responseJson}");
 
             var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(responseJson);
+            Debug.Log("sec :"+responseObject.data.remainSeconds);
             foreach (var player in responseObject.data.OtherPlayer)
             {
-                if (waitingScreen.InitializeCount >= 4 && responseObject.data.remainSeconds > 0)
-                    waitingScreen.AddPlayer(player.PlayerTeam);
+                if (waitingScreen.isOpen)
+                {
+                    if (responseObject.data.remainSeconds > 0)
+                    {
+                        waitingScreen.SetTime(responseObject.data.remainSeconds);
+                        if (waitingScreen.InitializeCount >= 4)
+                            waitingScreen.AddPlayer(player.PlayerTeam);
+                    }
+                    else
+                        waitingScreen.close();
+                }
 
                 if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
                 {
