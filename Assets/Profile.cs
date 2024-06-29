@@ -40,11 +40,11 @@ public class Profile : MonoBehaviour
         {
             Debug.Log("LoadProfileDataCallback");
             APIHandler.instance.SetPlayerID(playerDataRoot_JStruct.data._id);
-            nameTxt.text = playerDataRoot_JStruct.data.playerName;
-            nameTxt2.text = playerDataRoot_JStruct.data.playerName;
-            nameInput.text = playerDataRoot_JStruct.data.playerName;
-            if(playerDataRoot_JStruct.data.playerImageUrl.Trim() != "")
-            APIHandler.instance.DownloadTexture(playerDataRoot_JStruct.data.playerImageUrl,LoadImageCallback);
+            //nameTxt.text = playerDataRoot_JStruct.data.playerName;
+            //nameTxt2.text = playerDataRoot_JStruct.data.playerName;
+            //nameInput.text = playerDataRoot_JStruct.data.playerName;
+            //if (playerDataRoot_JStruct.data.playerImageUrl.Trim() != "")
+            //    APIHandler.instance.DownloadTexture(playerDataRoot_JStruct.data.playerImageUrl, LoadImageCallback);
         }
     }
     void LoadImageCallback(bool success, Texture texture)
@@ -55,7 +55,7 @@ public class Profile : MonoBehaviour
     void UpdateProfileData()
     {
         LoadPnl.SetActive(true);
-        playerDetails_JStruct.playerName = nameInput.text;
+        //playerDetails_JStruct.playerName = nameInput.text;
         nameTxt.text = nameInput.text;
         nameTxt2.text = nameInput.text;
         APIHandler.instance.PostUserData(playerDetails_JStruct, UpdateProfileDataCallback);

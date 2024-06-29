@@ -109,7 +109,8 @@ public class APIHandler : MonoBehaviour
     }
     public void PostTournamentJoinData(TournamentJoinData_JStruct data,Action<bool, JoinedTournamentDataRoot_JStruct> callback)
     {
-        string jsonString = JsonUtility.ToJson(data);
+        string jsonString = JsonConvert.SerializeObject(data);
+        Debug.Log("StartPostRequest : " + jsonString);
         StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, callback));
     }
     #endregion
@@ -129,6 +130,8 @@ public class APIHandler : MonoBehaviour
         string url = baseUrl + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
         {
+            if (keyName_authKey.Trim() != "" && key_authKey.Trim() != "")
+                webRequest.SetRequestHeader(keyName_authKey, key_authKey);
             yield return webRequest.SendWebRequest();
 
             if (webRequest.result != UnityWebRequest.Result.Success)
@@ -256,9 +259,20 @@ public class VerifyOTPRes_JStruct
 
 public class PlayerDetails_JStruct
 {
-    public string playerName { get; set; }
-    public string playerImageUrl { get; set; }
     public string _id { get; set; }
+    public string playerId { get; set; }
+    public string mobile { get; set; }
+    public string email { get; set; }
+    public string status { get; set; }
+    public string roleType { get; set; }
+    public int topUpBalance { get; set; }
+    public int winningBalance { get; set; }
+    public int looseBalance { get; set; }
+    public long createdAt { get; set; }
+    public long updatedAt { get; set; }
+    public int __v { get; set; }
+    //public string playerName { get; set; }
+    //public string playerImageUrl { get; set; }
 }
 
 public class PlayerDataRoot_JStruct
@@ -290,9 +304,9 @@ public class TournamentItem_JStruct
 [Serializable] 
 public class TournamentJoinData_JStruct
 {
-    public string TournamentID { get; set; }
-    public string PlayerID { get; set; }
-    public string PaymentConfirmationID { get; set; }
+    public string tournamentId { get; set; }
+    public string playerId { get; set; }
+    //public string paymentConfirmationID { get; set; }
 }
 
 public class GlobalGameJoinData_JStruct

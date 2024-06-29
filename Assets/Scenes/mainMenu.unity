@@ -3788,7 +3788,7 @@ MonoBehaviour:
   mainMenuScript: {fileID: 1726621724}
   onlineGameType: {fileID: 1787995134}
   sceneName: 
-  DummyMode: 1
+  DummyMode: 0
   dummyDataString: "{     \"meta\": {         \"msg\": \"Tournament list found successfully\",        
     \"status\": true     },     \"data\": [         {             \"_id\": \"66772dfaab15b8ae2eb1fcaf\",            
     \"name\": \"Anonymous\",             \"winningAmount\": 10000,             \"entryFee\":
@@ -7493,7 +7493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4b4b8a8cb67f14da17c7af21921d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyMode: 1
+  dummyMode: 0
   nameTxt: {fileID: 511262801}
   nameTxt2: {fileID: 400998516}
   image: {fileID: 1361638784}
@@ -16316,7 +16316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7491becdda790449be1703054fe3444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyMode: 1
+  dummyMode: 0
   onlineGameType: {fileID: 1787995134}
   mainMenuScript: {fileID: 1726621724}
   classicBt: {fileID: 2066313090}
@@ -20270,7 +20270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62496e3be5d534cbea5d776aa87474dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyMode: 1
+  dummyMode: 0
 --- !u!114 &1726621725
 MonoBehaviour:
   m_ObjectHideFlags: 0

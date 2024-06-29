@@ -147,8 +147,8 @@ public class TournamentListHandler : MonoBehaviour
     void OnJoinTournament(TournamentItem_JStruct tournamentItem)
     {
         TournamentJoinData_JStruct tournamentJoinData_JStruct = new TournamentJoinData_JStruct();
-        tournamentJoinData_JStruct.TournamentID = tournamentItem._id;
-        tournamentJoinData_JStruct.PlayerID = "";
+        tournamentJoinData_JStruct.tournamentId = tournamentItem._id;
+        tournamentJoinData_JStruct.playerId = APIHandler.instance.key_playerId;
         if (!DummyMode)
             APIHandler.instance.PostTournamentJoinData(tournamentJoinData_JStruct, JoinCallbak);
         else

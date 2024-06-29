@@ -15,7 +15,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     [SerializeField] OnlineGameType DataKeeper;
     [SerializeField] string dummydata = "";
     [SerializeField] GameScriptOnline gameScript;
-
+    [SerializeField] WaitingScreen waitingScreen;
     public OurPlayerDataSetRoot dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
 
@@ -140,12 +140,15 @@ public class GameSyncAPIHandler : MonoBehaviour
             var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(responseJson);
             foreach (var player in responseObject.data.OtherPlayer)
             {
+                if (waitingScreen.InitializeCount >= 4 && responseObject.data.remainSeconds > 0)
+                    waitingScreen.AddPlayer(player.PlayerTeam);
+
                 if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
                 {
                     dataToBeSent.data.PlayerTurn = false;
                    // DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
                 }
-                if(player.PlayerTeam == "RED")
+                if(player.PlayerTeam == PlayerTeam.R.ToString())
                 {
                     if(player.Playerpiece[0] != null)
                     gameScript.redPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
@@ -156,7 +159,7 @@ public class GameSyncAPIHandler : MonoBehaviour
                     if (player.Playerpiece[3] != null)
                         gameScript.redPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
                 }
-                else if (player.PlayerTeam == "BLUE")
+                else if (player.PlayerTeam == PlayerTeam.B.ToString())
                 {
                     if (player.Playerpiece[0] != null)
                         gameScript.bluePlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
@@ -167,7 +170,7 @@ public class GameSyncAPIHandler : MonoBehaviour
                     if (player.Playerpiece[3] != null)
                         gameScript.bluePlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
                 }
-                else if (player.PlayerTeam == "GREEN")
+                else if (player.PlayerTeam == PlayerTeam.G.ToString())
                 {
                     if (player.Playerpiece[0] != null)
                         gameScript.greenPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
@@ -178,7 +181,7 @@ public class GameSyncAPIHandler : MonoBehaviour
                     if (player.Playerpiece[3] != null)
                         gameScript.greenPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
                 }
-                else if (player.PlayerTeam == "YELLOW")
+                else if (player.PlayerTeam == PlayerTeam.Y.ToString())
                 {
                     if (player.Playerpiece[0] != null)
                         gameScript.yellowPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
@@ -324,6 +327,7 @@ public class RenamedMeta
 [Serializable]
 public class RenamedData
 {
+    public int remainSeconds;
     public List<RenamedOtherPlayer> OtherPlayer;
 }
 
@@ -352,4 +356,12 @@ public class OurPlayerDataSetRoot
 {
     public RenamedMeta meta { get; set; }
     public OurPlayerDataSet data { get; set; }
+}
+public enum PlayerTeam
+{
+    R,
+    B,
+    G,
+    Y
+
 }
