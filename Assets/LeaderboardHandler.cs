@@ -19,7 +19,7 @@ public class LeaderboardHandler : MonoBehaviour
     {
         loadLeaderboardData_JStruct = new LoadLeaderboardData_JStruct();
         scrollbar.onValueChanged.AddListener(CheckScrollOver);
-        LoadLeaderboard();
+        Invoke(nameof(LoadLeaderboard),1f);
     }
     void CheckScrollOver(float f)
     {
