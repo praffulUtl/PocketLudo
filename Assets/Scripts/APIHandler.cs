@@ -20,6 +20,7 @@ public class APIHandler : MonoBehaviour
     string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "tournament/join";
     string endPoint_postJoinGlobalGame = "";
+    string endPoint_PostLoadLeaderboard = "";
 
     string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
@@ -114,6 +115,16 @@ public class APIHandler : MonoBehaviour
         StartCoroutine(StartPostRequest(endPoint_postTournamentJoin, jsonString, callback));
     }
     #endregion
+
+    #region Leaderboard
+    public void PostLoadLeaderboard(LoadLeaderboardData_JStruct data, Action<bool, LeaderboardDataRoot_JStruct> callback)
+    {
+        string jsonString = JsonConvert.SerializeObject(data);
+        Debug.Log("StartPostRequest : " + jsonString);
+        StartCoroutine(StartPostRequest(endPoint_PostLoadLeaderboard, jsonString, callback));
+    }
+    #endregion
+
     #region texture fetching
     public void DownloadTexture(string url, Action<bool,Texture> callback)
     {
@@ -379,4 +390,34 @@ public class PlayersInGame_JStruct
     public string PlayerImageUrl { get; set; }
     public string PlayerTeam { get; set; }
 }
+
+//Leaderboard
+public class LoadLeaderboardData_JStruct
+{
+    public string playerId { get; set; }
+    public int pageNo { get; set; }
+}
+public class LeaderboardData_JStruct
+{
+    public LeaderboardPlayer_JStruct user { get; set; }
+    public int pageNo { get; set; }
+    public List<LeaderboardPlayer_JStruct> players { get; set; }
+}
+
+
+public class LeaderboardPlayer_JStruct
+{
+    public int playerRank { get; set; }
+    public int playerScore { get; set; }
+    public string playerName { get; set; }
+    public string playerImageUrl { get; set; }
+    public string playerId { get; set; }
+}
+
+public class LeaderboardDataRoot_JStruct
+{
+    public Meta meta { get; set; }
+    public LeaderboardData_JStruct data { get; set; }
+}
+
 #endregion
