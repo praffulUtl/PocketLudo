@@ -48,8 +48,18 @@ public class GameScript : MonoBehaviour {
 	private int greenPlayerI_Steps,greenPlayerII_Steps,greenPlayerIII_Steps,greenPlayerIV_Steps;
 	private int bluePlayerI_Steps,bluePlayerII_Steps,bluePlayerIII_Steps,bluePlayerIV_Steps;
 	private int yellowPlayerI_Steps,yellowPlayerII_Steps,yellowPlayerIII_Steps,yellowPlayerIV_Steps;
-	//selection of dice numbers animation...
-	public int selectDiceNumAnimation { get; private set; }
+
+    //TO SET INTERACTABLE TRUE ON FIRST TURN
+    private int redCounter = 0;
+    private int blueCounter = 0;
+    private int greenCounter = 0;
+    private int yellowCounter = 0;
+    private bool isRed2First = true;
+    private bool isRed3First = true;
+    private bool isRed4First = true;
+
+    //selection of dice numbers animation...
+    public int selectDiceNumAnimation { get; private set; }
 
 	//--------------- Dice Animations------
 	public GameObject dice1_Roll_Animation;
@@ -1318,9 +1328,43 @@ public class GameScript : MonoBehaviour {
 		SoundManagerScript.diceAudioSource.Play ();
 		DiceRollButton.interactable = false;
 
-		selectDiceNumAnimation = randomNo.Next (1,7);
+		if(playerTurn == "RED")
+		{
+			redCounter++;
+		}
+        if (playerTurn == "BLUE")
+        {
+            blueCounter++;
+        }
+        if (playerTurn == "GREEN")
+        {
+            greenCounter++;
+        }
+        if (playerTurn == "YELLOW")
+        {
+            yellowCounter++;
+        }
 
-		switch (selectDiceNumAnimation) 
+        selectDiceNumAnimation = randomNo.Next (1,7);
+
+		if(playerTurn == "RED" && redCounter == 1)
+		{
+			selectDiceNumAnimation = 6;
+        }
+        if (playerTurn == "BLUE" && blueCounter == 1)
+        {
+            selectDiceNumAnimation = 6;
+        }
+        if (playerTurn == "GREEN" && greenCounter == 1)
+        {
+            selectDiceNumAnimation = 6;
+        }
+        if (playerTurn == "YELLOW" && yellowCounter == 1)
+        {
+            selectDiceNumAnimation = 6;
+        }
+
+        switch (selectDiceNumAnimation) 
 		{
 			case 1:
 				dice1_Roll_Animation.SetActive (true);
