@@ -12,6 +12,7 @@ public class LeaderboardHandler : MonoBehaviour
     [SerializeField] Transform content;
     [SerializeField] int currentPageNo = 1;
     [SerializeField] Scrollbar scrollbar;
+    [SerializeField] GameObject loadingObj;
     LoadLeaderboardData_JStruct loadLeaderboardData_JStruct;
     bool isLoading = false;
     private void Start()
@@ -29,6 +30,7 @@ public class LeaderboardHandler : MonoBehaviour
     {
         Debug.Log("Loading leaderboard");
         isLoading = true;
+        loadingObj.SetActive(true);
         loadLeaderboardData_JStruct.playerId = APIHandler.instance.key_playerId;
         loadLeaderboardData_JStruct.pageNo = currentPageNo;
         if (!dummyMode)
@@ -55,6 +57,7 @@ public class LeaderboardHandler : MonoBehaviour
             }
         }
         isLoading = false;
+        loadingObj.SetActive(false);
     }
     IEnumerator LoadDummyData()
     {
@@ -64,6 +67,7 @@ public class LeaderboardHandler : MonoBehaviour
             yield return new WaitForSeconds(1f);
             LeaderboardDataRoot_JStruct leaderboardDataRoot_JStruct = JsonConvert.DeserializeObject<LeaderboardDataRoot_JStruct>(dummyData);
             LoadLeaderboardCallback(true, leaderboardDataRoot_JStruct);
+            loadingObj.SetActive(false);
             isLoading = false;
         }
     }
