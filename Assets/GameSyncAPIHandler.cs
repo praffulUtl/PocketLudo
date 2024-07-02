@@ -185,7 +185,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             }
             if (player.PlayerTeam == PlayerTeam.R.ToString())
             {
-                if (player.Playerpiece.Count >= 4)
+                if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                 {
                     if (player.Playerpiece[0].MovementBlockIndex > 0)
                         gameScript.redPlayerI_UI(1);
@@ -199,7 +199,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             }
             else if (player.PlayerTeam == PlayerTeam.B.ToString())
             {
-                if (player.Playerpiece.Count >= 4)
+                if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                 {
                     if (player.Playerpiece[0].MovementBlockIndex > 0)
                         gameScript.bluePlayerI_UI(1);
@@ -213,7 +213,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             }
             else if (player.PlayerTeam == PlayerTeam.G.ToString())
             {
-                if (player.Playerpiece.Count >= 4)
+                if (player.Playerpiece.Count >= 4 && player.DiceNumber>=1)
                 {
                     if (player.Playerpiece[0].MovementBlockIndex > 0)
                         gameScript.greenPlayerI_UI(1);
@@ -227,7 +227,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             }
             else if (player.PlayerTeam == PlayerTeam.Y.ToString())
             {
-                if (player.Playerpiece.Count >= 4)
+                if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                 {
                     if (player.Playerpiece[0].MovementBlockIndex > 0)
                         gameScript.yellowPlayerI_UI(1);
