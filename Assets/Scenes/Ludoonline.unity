@@ -7351,23 +7351,23 @@ MonoBehaviour:
   DataKeeper: {fileID: 0}
   dummydata: "{     \"meta\": {         \"msg\": \"\",         \"status\": true    
     },     \"data\": { \t\"remainSeconds\":60, \t\"OtherPlayer\": \t\t  [{ \t\t 
-    \"PlayerTeam\" : \"B\", \t\t  \"DiceNumber\":4, \t\t  \"PlayerTurn\":true, \t\t 
+    \"PlayerTeam\" : \"B\", \t\t  \"DiceNumber\":0, \t\t  \"PlayerTurn\":false, \t\t 
     \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\"
     : false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
     : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
     false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
     : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1\t\t\t
-    \t\t  }] \t  }, \t{ \t\t  \"PlayerTeam\" : \"G\", \t\t  \"DiceNumber\":-1, \t         
-    \"PlayerTurn\":false, \t\t  \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\"
-    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
+    \t\t  }] \t  }, \t{ \t\t  \"PlayerTeam\" : \"G\", \t\t  \"DiceNumber\":6, \t         
+    \"PlayerTurn\":true, \t\t  \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" :
+    false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
     false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
-    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
+    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
     false, \t\t\t\t  \"MovementBlockIndex\":-1\t\t\t \t\t  }] \t  }, \t\t   { \t\t 
-    \"PlayerTeam\" : \"Y\", \t\t  \"DiceNumber\":-1, \t\t  \"PlayerTurn\":false,
-    \t\t  \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\"
+    \"PlayerTeam\" : \"Y\", \t\t  \"DiceNumber\":0, \t\t  \"PlayerTurn\":false, \t\t 
+    \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\"
     : false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
     : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :

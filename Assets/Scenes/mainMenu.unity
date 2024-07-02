@@ -923,7 +923,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 311.3513, y: -300}
+  m_AnchoredPosition: {x: 320, y: -300}
   m_SizeDelta: {x: 491, y: 147}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &59903328
@@ -7767,7 +7767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4b4b8a8cb67f14da17c7af21921d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyMode: 0
+  dummyMode: 1
   nameTxt: {fileID: 511262801}
   nameTxt2: {fileID: 400998516}
   image: {fileID: 1361638784}
@@ -17445,7 +17445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 311.35135, y: -100}
+  m_AnchoredPosition: {x: 320, y: -100}
   m_SizeDelta: {x: 490, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1305449415
@@ -21866,7 +21866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62496e3be5d534cbea5d776aa87474dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyMode: 0
+  dummyMode: 1
 --- !u!114 &1726621725
 MonoBehaviour:
   m_ObjectHideFlags: 0
