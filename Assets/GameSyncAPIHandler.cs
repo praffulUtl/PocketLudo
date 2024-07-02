@@ -21,7 +21,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
 
     private ClientWebSocket webSocket;
-    private Uri serverUri = new Uri("ws://localhost:8080"); // Replace with your server address
+    private Uri serverUri = new Uri("wss://3sqlfz6r-8080.inc1.devtunnels.ms/"); // Replace with your server address
 
     private void Awake()
     {
@@ -136,79 +136,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             string responseJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
             Debug.Log($"Response received: {responseJson}");
-
-            var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(responseJson);
-            Debug.Log("sec :"+responseObject.data.remainSeconds);
-            foreach (var player in responseObject.data.OtherPlayer)
-            {
-                if (waitingScreen.isOpen)
-                {
-                    if (responseObject.data.remainSeconds > 0)
-                    {
-                        waitingScreen.SetTime(responseObject.data.remainSeconds);
-                        if (waitingScreen.InitializeCount >= 4)
-                            waitingScreen.AddPlayer(player.PlayerTeam);
-                    }
-                    else
-                        waitingScreen.close();
-                }
-
-                if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
-                {
-                    dataToBeSent.data.PlayerTurn = false;
-                   // DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
-                }
-                if(player.PlayerTeam == PlayerTeam.R.ToString())
-                {
-                    if(player.Playerpiece[0] != null)
-                    gameScript.redPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
-                    if (player.Playerpiece[1] != null)
-                        gameScript.redPlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
-                    if (player.Playerpiece[2] != null)
-                        gameScript.redPlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
-                    if (player.Playerpiece[3] != null)
-                        gameScript.redPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
-                }
-                else if (player.PlayerTeam == PlayerTeam.B.ToString())
-                {
-                    if (player.Playerpiece[0] != null)
-                        gameScript.bluePlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
-                    if (player.Playerpiece[1] != null)
-                        gameScript.bluePlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
-                    if (player.Playerpiece[2] != null)
-                        gameScript.bluePlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
-                    if (player.Playerpiece[3] != null)
-                        gameScript.bluePlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
-                }
-                else if (player.PlayerTeam == PlayerTeam.G.ToString())
-                {
-                    if (player.Playerpiece[0] != null)
-                        gameScript.greenPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
-                    if (player.Playerpiece[1] != null)
-                        gameScript.greenPlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
-                    if (player.Playerpiece[2] != null)
-                        gameScript.greenPlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
-                    if (player.Playerpiece[3] != null)
-                        gameScript.greenPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
-                }
-                else if (player.PlayerTeam == PlayerTeam.Y.ToString())
-                {
-                    if (player.Playerpiece[0] != null)
-                        gameScript.yellowPlayerI_UI(player.Playerpiece[0].MovementBlockIndex);
-                    if (player.Playerpiece[1] != null)
-                        gameScript.yellowPlayerII_UI(player.Playerpiece[1].MovementBlockIndex);
-                    if (player.Playerpiece[2] != null)
-                        gameScript.yellowPlayerIII_UI(player.Playerpiece[2].MovementBlockIndex);
-                    if (player.Playerpiece[3] != null)
-                        gameScript.yellowPlayerIV_UI(player.Playerpiece[3].MovementBlockIndex);
-                }
-                if (player.DiceNumber > 0)
-                {
-                    gameScript.DiceRoll(player.DiceNumber);
-                    
-                    return;
-                }
-            }
+            ProcessResponseData(responseJson);
             // Handle the response object as needed
         }
         catch (Exception e)
@@ -219,12 +147,104 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     public void SendData()
     {
-        Task task = SendRequest();
+        //Task task = SendRequest();
 
         //task.Start();
 
         RenamedResponse renamedResponse = JsonConvert.DeserializeObject<RenamedResponse>(dummydata);
 
+    }
+    [ContextMenu("TriggerDummyResponse")]
+    public void TriggerDummyResponse()
+    {
+        ProcessResponseData(dummydata);
+    }
+
+    void ProcessResponseData(string jsonString)
+    {
+        var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(jsonString);
+        Debug.Log("sec :" + responseObject.data.remainSeconds);
+        foreach (var player in responseObject.data.OtherPlayer)
+        {
+            if (waitingScreen.isOpen)
+            {
+                if (responseObject.data.remainSeconds > 0)
+                {
+                    waitingScreen.SetTime(responseObject.data.remainSeconds);
+                    if (waitingScreen.InitializeCount < 4)
+                        waitingScreen.AddPlayer(player.PlayerTeam);
+                }
+                else
+                    waitingScreen.close();
+            }
+
+            if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
+            {
+                dataToBeSent.data.PlayerTurn = false;
+                // DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
+            }
+            if (player.PlayerTeam == PlayerTeam.R.ToString())
+            {
+                if (player.Playerpiece.Count >= 4)
+                {
+                    if (player.Playerpiece[0].MovementBlockIndex > 0)
+                        gameScript.redPlayerI_UI(1);
+                    else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                        gameScript.redPlayerII_UI(1);
+                    else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                        gameScript.redPlayerIII_UI(1);
+                    else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                        gameScript.redPlayerIV_UI(1);
+                }
+            }
+            else if (player.PlayerTeam == PlayerTeam.B.ToString())
+            {
+                if (player.Playerpiece.Count >= 4)
+                {
+                    if (player.Playerpiece[0].MovementBlockIndex > 0)
+                        gameScript.bluePlayerI_UI(1);
+                    else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                        gameScript.bluePlayerII_UI(1);
+                    else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                        gameScript.bluePlayerIII_UI(1);
+                    else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                        gameScript.bluePlayerIV_UI(1);
+                }
+            }
+            else if (player.PlayerTeam == PlayerTeam.G.ToString())
+            {
+                if (player.Playerpiece.Count >= 4)
+                {
+                    if (player.Playerpiece[0].MovementBlockIndex > 0)
+                        gameScript.greenPlayerI_UI(1);
+                    else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                        gameScript.greenPlayerII_UI(1);
+                    else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                        gameScript.greenPlayerIII_UI(1);
+                    else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                        gameScript.greenPlayerIV_UI(1);
+                }
+            }
+            else if (player.PlayerTeam == PlayerTeam.Y.ToString())
+            {
+                if (player.Playerpiece.Count >= 4)
+                {
+                    if (player.Playerpiece[0].MovementBlockIndex > 0)
+                        gameScript.yellowPlayerI_UI(1);
+                    else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                        gameScript.yellowPlayerII_UI(1);
+                    else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                        gameScript.yellowPlayerIII_UI(1);
+                    else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                        gameScript.yellowPlayerIV_UI(1);
+                }
+            }
+            if (player.PlayerTeam == GetColorInitial(gameScript.PlayerTurn))
+            {
+                gameScript.DiceRoll(player.DiceNumber);
+                return;
+            }
+        }
     }
 
     private void OnApplicationQuit()
@@ -310,6 +330,17 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     #endregion
 
+    string GetColorInitial(string clrStr)
+    {
+        if (clrStr == "RED")
+            return "R";
+        else if (clrStr == "BLUE")
+            return "B";
+        else if (clrStr == "GREEN")
+            return "G";
+        else//yellow
+            return "Y";
+    }
 }
 
 [Serializable]

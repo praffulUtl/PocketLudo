@@ -30,7 +30,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 	public GameObject blueScreen, greenScreen, redScreen, yellowScreen;
 	public Text blueRankText, greenRankText, redRankText, yellowRankText;
-
+	public string PlayerTurn => playerTurn;
 	private string playerTurn = "RED";
 	public Transform diceRoll;
 	public Button DiceRollButton;
@@ -1323,6 +1323,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 
 		selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
+		Debug.Log("Dice value"+ selectDiceNumAnimation);
 		//selectDiceNumAnimation = 6;
 
 

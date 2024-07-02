@@ -7350,29 +7350,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DataKeeper: {fileID: 0}
   dummydata: "{     \"meta\": {         \"msg\": \"\",         \"status\": true    
-    },     \"data\": { \t\"OtherPlayer\": \t\t  [{ \t\t  \"PlayerTeam\" : \"BLUE\",
-    \t\t  \"DiceNumber\":6, \t\t  \"PlayerTurn\":false, \t\t  \"Playerpiece\" : 
-    \t\t  [{ \t\t\t\t  \"IsOpen\" : true, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t 
-    \"MovementBlockIndex\":0 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t 
-    \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t 
-    { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t 
-    \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t 
-    \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1\t\t\t \t\t  }]
-    \t  }, \t{ \t\t  \"PlayerTeam\" : \"GREEN\", \t\t  \"DiceNumber\":-1, \t         
+    },     \"data\": { \t\"remainSeconds\":60, \t\"OtherPlayer\": \t\t  [{ \t\t 
+    \"PlayerTeam\" : \"B\", \t\t  \"DiceNumber\":4, \t\t  \"PlayerTurn\":true, \t\t 
+    \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\"
+    : false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
+    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
+    \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
+    false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
+    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1\t\t\t
+    \t\t  }] \t  }, \t{ \t\t  \"PlayerTeam\" : \"G\", \t\t  \"DiceNumber\":-1, \t         
     \"PlayerTurn\":false, \t\t  \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\"
-    : true, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":0
+    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
     false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
     : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
     false, \t\t\t\t  \"MovementBlockIndex\":-1\t\t\t \t\t  }] \t  }, \t\t   { \t\t 
-    \"PlayerTeam\" : \"YELLOW\", \t\t  \"DiceNumber\":-1, \t\t  \"PlayerTurn\":false,
-    \t\t  \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" : true, \t\t\t\t  \"ReachedWinPos\"
-    : false, \t\t\t\t  \"MovementBlockIndex\":0 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
+    \"PlayerTeam\" : \"Y\", \t\t  \"DiceNumber\":-1, \t\t  \"PlayerTurn\":false,
+    \t\t  \"Playerpiece\" :  \t\t  [{ \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\"
+    : false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
     : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1
     \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\" : false, \t\t\t\t  \"ReachedWinPos\" :
     false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
-    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":-1\t\t\t
+    : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":1\t\t\t
     \t\t  }] \t  } \t\t    \t] } }"
   gameScript: {fileID: 541932565}
   waitingScreen: {fileID: 921280946}
@@ -30417,7 +30417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2904785388155836813, guid: 07bbbec4a86b4dd46a1fc76a0ddbb211, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3382767942008378489, guid: 07bbbec4a86b4dd46a1fc76a0ddbb211, type: 3}
       propertyPath: m_AnchorMax.y
