@@ -189,7 +189,8 @@ public class GameSyncAPIHandler : MonoBehaviour
                 if (player.PlayerTeam == GetColorInitial(gameScript.PlayerTurn))
                 {
                     gameScript.DiceRoll(player.DiceNumber);
-                    diceRolled = true;
+                    if (player.DiceNumber > 0)
+                        diceRolled = true;
                     return;
                 }
             }
@@ -252,8 +253,11 @@ public class GameSyncAPIHandler : MonoBehaviour
                             gameScript.yellowPlayerIV_UI(1);
                     }
                 }
-                Debug.Log("dice rolled--2");
-                diceRolled = false;
+                if (player.PlayerTeam == GetColorInitial(gameScript.PlayerTurn))
+                {
+                    diceRolled = false;
+                    Debug.Log("dice rolled--2" + diceRolled);
+                }
             }
         }
     }
