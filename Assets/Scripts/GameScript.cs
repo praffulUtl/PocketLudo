@@ -54,9 +54,7 @@ public class GameScript : MonoBehaviour {
     private int blueCounter = 0;
     private int greenCounter = 0;
     private int yellowCounter = 0;
-    private bool isRed2First = true;
-    private bool isRed3First = true;
-    private bool isRed4First = true;
+    private int lastDiceRoll = 0;
 
     //selection of dice numbers animation...
     public int selectDiceNumAnimation { get; private set; }
@@ -1328,11 +1326,11 @@ public class GameScript : MonoBehaviour {
 		SoundManagerScript.diceAudioSource.Play ();
 		DiceRollButton.interactable = false;
 
-		if(playerTurn == "RED")
+		/*if (playerTurn == "RED")
 		{
 			redCounter++;
 		}
-        if (playerTurn == "BLUE")
+		if (playerTurn == "BLUE")
         {
             blueCounter++;
         }
@@ -1343,25 +1341,37 @@ public class GameScript : MonoBehaviour {
         if (playerTurn == "YELLOW")
         {
             yellowCounter++;
-        }
+        }*/
 
         selectDiceNumAnimation = randomNo.Next (1,7);
 
-		if(playerTurn == "RED" && redCounter == 1)
-		{
-			selectDiceNumAnimation = 6;
-        }
-        if (playerTurn == "BLUE" && blueCounter == 1)
+        if(playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 )
         {
             selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            redCounter++;
         }
-        if (playerTurn == "GREEN" && greenCounter == 1)
+        else if (playerTurn == "BLUE" && blueCounter <= 4 && lastDiceRoll != 6 )
         {
             selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            blueCounter++;
         }
-        if (playerTurn == "YELLOW" && yellowCounter == 1)
+        else if (playerTurn == "GREEN" && greenCounter <= 4 && lastDiceRoll != 6 )
         {
             selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            greenCounter++;
+        }
+        else if (playerTurn == "YELLOW" && yellowCounter <= 4 && lastDiceRoll != 6 )
+        {
+            selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            yellowCounter++;
+        }
+        else
+        {
+            lastDiceRoll = 0;
         }
 
         switch (selectDiceNumAnimation) 

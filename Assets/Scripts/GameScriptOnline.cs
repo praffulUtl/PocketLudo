@@ -51,8 +51,16 @@ public class GameScriptOnline : MonoBehaviour {
 	//selection of dice numbers animation...
 	public int selectDiceNumAnimation { get; private set; }
 
-	//--------------- Dice Animations------
-	public GameObject dice1_Roll_Animation;
+    //TO SET INTERACTABLE TRUE ON FIRST FOUR TURN
+    private int redCounter = 0;
+    private int blueCounter = 0;
+    private int greenCounter = 0;
+    private int yellowCounter = 0;
+    private int lastDiceRoll = 0;
+
+
+    //--------------- Dice Animations------
+    public GameObject dice1_Roll_Animation;
 	public GameObject dice2_Roll_Animation;
 	public GameObject dice3_Roll_Animation;
 	public GameObject dice4_Roll_Animation;
@@ -1321,10 +1329,38 @@ public class GameScriptOnline : MonoBehaviour {
 		SoundManagerScript.diceAudioSource.Play ();
 		DiceRollButton.interactable = false;
 
+        selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
 
-		selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
-		Debug.Log("Dice value"+ selectDiceNumAnimation);
-		//selectDiceNumAnimation = 6;
+        if (playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 && i == -1)
+        {
+            selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            redCounter++;
+        }
+        else if (playerTurn == "BLUE" && blueCounter <= 4 && lastDiceRoll != 6 && i == -1)
+        {
+            selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            blueCounter++;
+        }
+        else if (playerTurn == "GREEN" && greenCounter <= 4 && lastDiceRoll != 6 && i == -1)
+        {
+            selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            greenCounter++;
+        }
+        else if (playerTurn == "YELLOW" && yellowCounter <= 4 && lastDiceRoll != 6 && i == -1)
+        {
+            selectDiceNumAnimation = 6;
+            lastDiceRoll = 6;
+            yellowCounter++;
+        }
+        else
+        {
+            lastDiceRoll = 0;
+        }
+
+        Debug.Log("Dice value"+ selectDiceNumAnimation);
 
 
         switch (selectDiceNumAnimation) 
