@@ -1326,6 +1326,7 @@ public class GameScriptOnline : MonoBehaviour {
 	// Click on Roll Button on Dice UI
 	public void DiceRoll(int i =-1)
 	{
+		Debug.Log("Dice Roll " + i);
 		SoundManagerScript.diceAudioSource.Play ();
 		DiceRollButton.interactable = false;
 

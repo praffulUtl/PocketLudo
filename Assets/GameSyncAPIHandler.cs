@@ -34,6 +34,8 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     private async void Start()
     {
+        StartCoroutine(SetupTurns());
+
         DataKeeper = FindAnyObjectByType<OnlineGameType>();
         bool playerTeamFound = false;
         if (DataKeeper.gameType==GameType.TOURNAMENT && DataKeeper.joinTurnamentJoinData.meta != null)
@@ -126,7 +128,6 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     private async Task ReceiveResponse()
     {
-        dataToBeSent.data.PlayerTurn = true;
         //DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
         var buffer = new byte[1024];
         WebSocketReceiveResult result;
@@ -162,6 +163,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void ProcessResponseData(string jsonString)
     {
+        dataToBeSent.data.PlayerTurn = true;
         var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(jsonString);
         Debug.Log("sec :" + responseObject.data.remainSeconds);
         foreach (var player in responseObject.data.OtherPlayer)
@@ -259,6 +261,18 @@ public class GameSyncAPIHandler : MonoBehaviour
                     Debug.Log("dice rolled--2" + diceRolled);
                 }
             }
+        }
+    }
+
+    IEnumerator SetupTurns()
+    {
+        Debug.Log("SetupTurns");
+        yield return new WaitForSeconds(1f);
+        int i = 0;
+        while(i<4)
+        {
+            gameScript.DiceRoll(0);
+            i++;
         }
     }
 
