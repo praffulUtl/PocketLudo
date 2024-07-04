@@ -19,6 +19,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     public OurPlayerDataSetRoot dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
     bool diceRolled = false;
+    string lastPlayerTurn = "RED";
 
     private ClientWebSocket webSocket;
     private Uri serverUri = new Uri("wss://3sqlfz6r-8080.inc1.devtunnels.ms/"); // Replace with your server address
@@ -35,6 +36,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     private async void Start()
     {
         StartCoroutine(SetupTurns());
+        StartCoroutine(checkForPlayerTurnChange());
 
         DataKeeper = FindAnyObjectByType<OnlineGameType>();
         bool playerTeamFound = false;
@@ -190,6 +192,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             {
                 if (player.PlayerTeam == GetColorInitial(gameScript.PlayerTurn))
                 {
+                    lastPlayerTurn = gameScript.PlayerTurn;
                     gameScript.DiceRoll(player.DiceNumber);
                     if (player.DiceNumber > 0)
                         diceRolled = true;
@@ -273,6 +276,20 @@ public class GameSyncAPIHandler : MonoBehaviour
         {
             gameScript.DiceRoll(0);
             i++;
+        }
+    }
+
+    IEnumerator checkForPlayerTurnChange()
+    {
+        var waitSec = new WaitForSeconds(0.25f);
+        while(true) 
+        {
+            if(diceRolled && lastPlayerTurn != gameScript.PlayerTurn)
+            {
+                lastPlayerTurn = gameScript.PlayerTurn;
+                diceRolled = false;
+            }
+            yield return waitSec;
         }
     }
 
@@ -372,6 +389,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     }
 }
 
+#region JStruct
 [Serializable]
 public class PlayerPiece
 {
@@ -435,3 +453,4 @@ public enum PlayerTeam
     Y
 
 }
+#endregion
