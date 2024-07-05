@@ -6975,7 +6975,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 541932564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb29d98bca1e5a49b5f83a1bbeaac0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2cd6565ddaa8c4d438c3fc51688278cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   webSocketClient: {fileID: 541932567}
@@ -7374,7 +7374,7 @@ MonoBehaviour:
     false, \t\t\t\t  \"MovementBlockIndex\":-1 \t\t  }, \t\t  { \t\t\t\t  \"IsOpen\"
     : false, \t\t\t\t  \"ReachedWinPos\" : false, \t\t\t\t  \"MovementBlockIndex\":1\t\t\t
     \t\t  }] \t  } \t\t    \t] } }"
-  gameScript: {fileID: 541932565}
+  gameScript: {fileID: 0}
   waitingScreen: {fileID: 921280946}
   ourPlayerTeam: RED
 --- !u!1 &545402359
