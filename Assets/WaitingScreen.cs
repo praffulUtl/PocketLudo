@@ -11,7 +11,7 @@ public class WaitingScreen : MonoBehaviour
     [SerializeField] WaitScreenPlayerItem[] waitScreenPlayerItems;
     [SerializeField] Color red, blue, green, yellow;
     [NonSerialized] public int InitializeCount = 0;
-    [NonSerialized] public bool isOpen = true;
+    [NonSerialized] public bool isOpen = false;
     List<PlayerTeam> playerTeams;
     private void Start()
     {
