@@ -12,6 +12,7 @@ using UnityEngine.UI;
 
 public class GameSyncAPIHandler : MonoBehaviour
 {
+    [SerializeField] Image redTimerImg, blueTimerImg, greenTimerImg, yellowTimerImg;
     [SerializeField] OnlineGameType DataKeeper;
     [SerializeField] string dummydata = "";
     [SerializeField] GameScriptOnline gameScript;
@@ -38,7 +39,9 @@ public class GameSyncAPIHandler : MonoBehaviour
     private async void Start()
     {
         StartCoroutine(SetupTurns());
-        StartCoroutine(checkForPlayerTurnChange());        
+        StartCoroutine(checkForPlayerTurnChange());
+
+        gameScript.OnInitializeDiceActiion += SetupPlayerAutoTurn;
 
         DataKeeper = FindAnyObjectByType<OnlineGameType>();
         bool playerTeamFound = false;
@@ -338,6 +341,14 @@ public class GameSyncAPIHandler : MonoBehaviour
         }
     }
 
+    public void SetupPlayerAutoTurn()
+    {
+        if (StartOtherPlayerTimerCoroutine == null)
+        {
+            StartOtherPlayerTimerCoroutine = StartCoroutine(StartOtherPlayerTimer());
+        }
+    }
+
     public void ResetDataToBeSent()
     {        
         foreach(var piece in dataToBeSent.data.Playerpiece)
@@ -429,9 +440,31 @@ public class GameSyncAPIHandler : MonoBehaviour
     IEnumerator StartOtherPlayerTimer()
     {
         var waitsec = new WaitForSeconds(1f);
-        int countSec = 15;
+        float countSec = 30f;
         while (countSec > 0)
         {
+            redTimerImg.fillAmount = 0;
+            blueTimerImg.fillAmount = 0;
+            greenTimerImg.fillAmount = 0;
+            yellowTimerImg.fillAmount = 0;
+
+            float fill = countSec / 30f;
+            Debug.Log( countSec+" : "+fill);
+            switch (gameScript.PlayerTurn)
+            {
+                case "RED":
+                    redTimerImg.fillAmount = fill;
+                    break;
+                case "BLUE":
+                    blueTimerImg.fillAmount = fill;
+                    break;
+                case "GREEN":
+                    greenTimerImg.fillAmount = fill;
+                    break;
+                case "YELLOW":
+                    yellowTimerImg.fillAmount = fill;
+                    break;
+            }
             countSec--;
             Debug.Log("others turn :" + countSec);
             yield return waitsec;
@@ -495,8 +528,6 @@ public class GameSyncAPIHandler : MonoBehaviour
                         gameScript.yellowPlayerIV_UI(1);
                     break;
             }
-            if (lastPlayerTurn != gameScript.PlayerTurn)
-                diceRolled = true;
         }
         else
         {

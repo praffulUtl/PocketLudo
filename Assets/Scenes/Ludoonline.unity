@@ -7348,6 +7348,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9d3d9a01c711e34ba0dc78b0094fae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  redTimerImg: {fileID: 1363842735}
+  blueTimerImg: {fileID: 2035209893}
+  greenTimerImg: {fileID: 1007587606}
+  yellowTimerImg: {fileID: 1255812279}
   DataKeeper: {fileID: 0}
   dummydata: '{   "meta": {     "msg": "",     "status": true   },   "data": {    
     "remainSeconds": 160,     "OtherPlayer": [       {         "PlayerTeam": "R",        
@@ -30425,7 +30429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2904785388155836813, guid: 07bbbec4a86b4dd46a1fc76a0ddbb211, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3382767942008378489, guid: 07bbbec4a86b4dd46a1fc76a0ddbb211, type: 3}
       propertyPath: m_AnchorMax.y

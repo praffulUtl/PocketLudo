@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameScriptOnline : MonoBehaviour {
 
@@ -1805,7 +1806,10 @@ public class GameScriptOnline : MonoBehaviour {
 			}
 			break;
 		}
-	}
+
+		OnInitializeDice();
+
+    }
 
 	//=============================== RED PLAYERS MOVEMENT ===========================================================
 
@@ -4280,5 +4284,12 @@ public class GameScriptOnline : MonoBehaviour {
                 bt.enabled = true;
             }
         }
+    }
+
+	public Action OnInitializeDiceActiion = delegate () { };
+	void OnInitializeDice()
+	{
+		OnInitializeDiceActiion?.Invoke();
+
     }
 }
