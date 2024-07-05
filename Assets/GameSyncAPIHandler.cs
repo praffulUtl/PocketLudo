@@ -16,6 +16,8 @@ public class GameSyncAPIHandler : MonoBehaviour
     [SerializeField] string dummydata = "";
     [SerializeField] GameScriptOnline gameScript;
     [SerializeField] WaitingScreen waitingScreen;
+    List<string> playerTeams = new List<string> {"R","B","G","Y"};
+    bool checkPlayerNotInGame = false;
     public OurPlayerDataSetRoot dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
     bool diceRolled = false;
@@ -36,7 +38,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     private async void Start()
     {
         StartCoroutine(SetupTurns());
-        StartCoroutine(checkForPlayerTurnChange());
+        StartCoroutine(checkForPlayerTurnChange());        
 
         DataKeeper = FindAnyObjectByType<OnlineGameType>();
         bool playerTeamFound = false;
@@ -170,6 +172,21 @@ public class GameSyncAPIHandler : MonoBehaviour
         dataToBeSent.data.PlayerTurn = true;
         var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(jsonString);
         Debug.Log("sec :" + responseObject.data.remainSeconds);
+
+        //if (!checkPlayerNotInGame)
+        //{
+        //    foreach (var player in responseObject.data.OtherPlayer)
+        //    {
+        //        playerTeams.Remove(player.PlayerTeam);
+        //    }
+        //    checkPlayerNotInGame = false;
+        //}
+        //foreach (var player in responseObject.data.OtherPlayer)
+        //{
+        //    if (player.PlayerTeam != GetColorInitial(ourPlayerTeam) && !playerTeams.Contains(player.PlayerTeam))
+        //        gameScript.DiceRoll(0);
+        //}
+
         foreach (var player in responseObject.data.OtherPlayer)
         {
             if (waitingScreen.isOpen && responseObject.data.remainSeconds > 0)
@@ -181,7 +198,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             }
             else
             {
-                waitingScreen.close();
+                //waitingScreen.close();
 
                 if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
                 {
@@ -291,6 +308,17 @@ public class GameSyncAPIHandler : MonoBehaviour
                 lastPlayerTurn = gameScript.PlayerTurn;
                 diceRolled = false;
             }
+            if(gameScript.PlayerTurn == ourPlayerTeam)
+            {
+                Debug.Log("our player team turn");
+                if(StartOurPlayerTimerCoroutine == null)
+                {
+                    StartOurPlayerTimerCoroutine = StartCoroutine(StartOurPlayerTimer());
+                }
+            }
+            else if(StartOurPlayerTimerCoroutine != null)
+                StopCoroutine(StartOurPlayerTimerCoroutine);
+
             yield return waitSec;
         }
     }
@@ -303,6 +331,80 @@ public class GameSyncAPIHandler : MonoBehaviour
         }
     }
 
+    Coroutine StartOurPlayerTimerCoroutine;
+    IEnumerator StartOurPlayerTimer()
+    {
+        var waitsec = new WaitForSeconds(1f);
+        int countSec = 30;
+        while(countSec>0)
+        {
+            countSec--;
+            Debug.Log("Our turn :"+countSec);
+            yield return waitsec;
+        }
+        Debug.Log("Player turn over");
+        StopOurPlayerTimer();
+    }
+    void StopOurPlayerTimer()
+    {
+        StopCoroutine(StartOurPlayerTimerCoroutine);
+        StartOurPlayerTimerCoroutine = null;
+
+        if (gameScript.selectDiceNumAnimation > 0)
+        {
+            if (gameScript.PlayerTurn == ourPlayerTeam)
+            {
+                switch (gameScript.PlayerTurn)
+                {
+                    case "RED":
+                        if (gameScript.redPlayerI_Border.activeInHierarchy)
+                            gameScript.redPlayerI_UI(1);
+                        else if (gameScript.redPlayerII_Border.activeInHierarchy)
+                            gameScript.redPlayerII_UI(1);
+                        else if (gameScript.redPlayerIII_Border.activeInHierarchy)
+                            gameScript.redPlayerIII_UI(1);
+                        else if (gameScript.redPlayerIV_Border.activeInHierarchy)
+                            gameScript.redPlayerIV_UI(1);
+                        break;
+                    case "BLUE":
+                        if (gameScript.bluePlayerI_Border.activeInHierarchy)
+                            gameScript.bluePlayerI_UI(1);
+                        else if (gameScript.bluePlayerII_Border.activeInHierarchy)
+                            gameScript.bluePlayerII_UI(1);
+                        else if (gameScript.bluePlayerIII_Border.activeInHierarchy)
+                            gameScript.bluePlayerIII_UI(1);
+                        else if (gameScript.bluePlayerIV_Border.activeInHierarchy)
+                            gameScript.bluePlayerIV_UI(1);
+                        break;
+                    case "GREEN":
+                        if (gameScript.greenPlayerI_Border.activeInHierarchy)
+                            gameScript.greenPlayerI_UI(1);
+                        else if (gameScript.greenPlayerII_Border.activeInHierarchy)
+                            gameScript.greenPlayerII_UI(1);
+                        else if (gameScript.greenPlayerIII_Border.activeInHierarchy)
+                            gameScript.greenPlayerIII_UI(1);
+                        else if (gameScript.greenPlayerIV_Border.activeInHierarchy)
+                            gameScript.greenPlayerIV_UI(1);
+                        break;
+                    case "YELLOW":
+                        if (gameScript.yellowPlayerI_Border.activeInHierarchy)
+                            gameScript.yellowPlayerI_UI(1);
+                        else if (gameScript.yellowPlayerII_Border.activeInHierarchy)
+                            gameScript.yellowPlayerII_UI(1);
+                        else if (gameScript.yellowPlayerIII_Border.activeInHierarchy)
+                            gameScript.yellowPlayerIII_UI(1);
+                        else if (gameScript.yellowPlayerIV_Border.activeInHierarchy)
+                            gameScript.yellowPlayerIV_UI(1);
+                        break;
+                }
+
+            }
+        }
+        else
+        {
+            gameScript.DiceRoll(0);
+        }
+    }
     private void OnApplicationQuit()
     {
         webSocket?.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
