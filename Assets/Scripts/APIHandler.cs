@@ -10,7 +10,7 @@ public class APIHandler : MonoBehaviour
     public bool dummyMode = false;
     [SerializeField] DialogBox dialogBox;
 
-    string baseUrl = "https://3sqlfz6r-5211.inc1.devtunnels.ms/v1/";
+    string baseUrl = "https://api.utlsolutions.com/ludo/v1/";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
@@ -19,7 +19,7 @@ public class APIHandler : MonoBehaviour
     string endPoint_GetUserData = "player/profile";
     string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "tournament/join";
-    string endPoint_postJoinGlobalGame = "";
+    string endPoint_postJoinGlobalGame = "online-game/join-lobby";
     string endPoint_PostLoadLeaderboard = "";
 
     string keyName_playerId = "playerId";
@@ -323,7 +323,10 @@ public class TournamentJoinData_JStruct
 public class GlobalGameJoinData_JStruct
 {
     public string PlayerID { get; set; }
-    public string GameMode { get; set; }
+    public bool TimerMode { get; set; }
+    public int BetAmount { get; set; }
+    public int PlayerCount { get; set; }
+    public int LobbyId { get; set; }
 }
 
 [Serializable]

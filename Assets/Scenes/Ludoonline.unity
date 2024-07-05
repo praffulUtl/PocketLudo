@@ -7349,39 +7349,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DataKeeper: {fileID: 0}
-  dummydata: "{   \"meta\": {     \"msg\": \"\",     \"status\": true   },   \"data\":
-    {     \"remainSeconds\": 60,     \"OtherPlayer\": [ \t  {         \"PlayerTeam\":
-    \"R\",         \"DiceNumber\": 0,         \"PlayerTurn\": false,         \"Playerpiece\":
-    [           {             \"IsOpen\": false,             \"ReachedWinPos\": false,            
-    \"MovementBlockIndex\": -1           },           {             \"IsOpen\": false,            
-    \"ReachedWinPos\": false,             \"MovementBlockIndex\": -1           },          
-    {             \"IsOpen\": false,             \"ReachedWinPos\": false,            
-    \"MovementBlockIndex\": -1           },           {             \"IsOpen\": false,            
-    \"ReachedWinPos\": false,             \"MovementBlockIndex\": -1           }        
-    ]       },       {         \"PlayerTeam\": \"B\",         \"DiceNumber\": 0,        
-    \"PlayerTurn\": true,         \"Playerpiece\": [           {             \"IsOpen\":
-    false,             \"ReachedWinPos\": false,             \"MovementBlockIndex\":
-    -1           },           {             \"IsOpen\": false,             \"ReachedWinPos\":
-    false,             \"MovementBlockIndex\": -1           },           {            
-    \"IsOpen\": false,             \"ReachedWinPos\": false,             \"MovementBlockIndex\":
-    -1           },           {             \"IsOpen\": false,             \"ReachedWinPos\":
-    false,             \"MovementBlockIndex\": -1           }         ]       },      
-    {         \"PlayerTeam\": \"G\",         \"DiceNumber\": 4,         \"PlayerTurn\":
-    false,         \"Playerpiece\": [           {             \"IsOpen\": false,            
-    \"ReachedWinPos\": false,             \"MovementBlockIndex\": -1           },          
-    {             \"IsOpen\": false,             \"ReachedWinPos\": false,            
-    \"MovementBlockIndex\": -1           },           {             \"IsOpen\": false,            
-    \"ReachedWinPos\": false,             \"MovementBlockIndex\": 1           },          
-    {             \"IsOpen\": false,             \"ReachedWinPos\": false,            
-    \"MovementBlockIndex\": -1           }         ]       },       {         \"PlayerTeam\":
-    \"Y\",         \"DiceNumber\": 0,         \"PlayerTurn\": false,         \"Playerpiece\":
-    [           {             \"IsOpen\": false,             \"ReachedWinPos\": false,            
-    \"MovementBlockIndex\": -1           },           {             \"IsOpen\": false,            
-    \"ReachedWinPos\": false,             \"MovementBlockIndex\": -1           },          
-    {             \"IsOpen\": false,             \"ReachedWinPos\": false,            
-    \"MovementBlockIndex\": -1           },           {             \"IsOpen\": false,            
-    \"ReachedWinPos\": false,             \"MovementBlockIndex\": 1           }        
-    ]       }     ]   } }"
+  dummydata: '{   "meta": {     "msg": "",     "status": true   },   "data": {    
+    "remainSeconds": 160,     "OtherPlayer": [       {         "PlayerTeam": "R",        
+    "DiceNumber": 0,         "PlayerTurn": false,         "Playerpiece": [          
+    {             "IsOpen": false,             "ReachedWinPos": false,            
+    "MovementBlockIndex": -1           },           {             "IsOpen": false,            
+    "ReachedWinPos": false,             "MovementBlockIndex": -1           },          
+    {             "IsOpen": false,             "ReachedWinPos": false,            
+    "MovementBlockIndex": -1           },           {             "IsOpen": false,            
+    "ReachedWinPos": false,             "MovementBlockIndex": -1           }        
+    ]       },       {         "PlayerTeam": "B",         "DiceNumber": 0,        
+    "PlayerTurn": true,         "Playerpiece": [           {             "IsOpen":
+    false,             "ReachedWinPos": false,             "MovementBlockIndex":
+    -1           },           {             "IsOpen": false,             "ReachedWinPos":
+    false,             "MovementBlockIndex": -1           },           {            
+    "IsOpen": false,             "ReachedWinPos": false,             "MovementBlockIndex":
+    -1           },           {             "IsOpen": false,             "ReachedWinPos":
+    false,             "MovementBlockIndex": -1           }         ]       },      
+    {         "PlayerTeam": "G",         "DiceNumber": 0,         "PlayerTurn": false,        
+    "Playerpiece": [           {             "IsOpen": false,             "ReachedWinPos":
+    false,             "MovementBlockIndex": -1           },           {            
+    "IsOpen": false,             "ReachedWinPos": false,             "MovementBlockIndex":
+    -1           },           {             "IsOpen": false,             "ReachedWinPos":
+    false,             "MovementBlockIndex": -1           },           {            
+    "IsOpen": false,             "ReachedWinPos": false,             "MovementBlockIndex":
+    -1           }         ]       },       {         "PlayerTeam": "Y",        
+    "DiceNumber": 0,         "PlayerTurn": false,         "Playerpiece": [          
+    {             "IsOpen": false,             "ReachedWinPos": false,            
+    "MovementBlockIndex": -1           },           {             "IsOpen": false,            
+    "ReachedWinPos": false,             "MovementBlockIndex": -1           },          
+    {             "IsOpen": false,             "ReachedWinPos": false,            
+    "MovementBlockIndex": -1           },           {             "IsOpen": false,            
+    "ReachedWinPos": false,             "MovementBlockIndex": -1           }        
+    ]       }     ]   } }'
   gameScript: {fileID: 541932565}
   waitingScreen: {fileID: 921280946}
   ourPlayerTeam: BLUE
@@ -30425,7 +30425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2904785388155836813, guid: 07bbbec4a86b4dd46a1fc76a0ddbb211, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3382767942008378489, guid: 07bbbec4a86b4dd46a1fc76a0ddbb211, type: 3}
       propertyPath: m_AnchorMax.y

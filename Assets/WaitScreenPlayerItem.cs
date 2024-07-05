@@ -11,13 +11,18 @@ public class WaitScreenPlayerItem : MonoBehaviour
     [SerializeField] GameObject activeContent;
     [SerializeField] GameObject waitingContent;
     public bool isInitialized = false;
+    public PlayerTeam team = PlayerTeam.NONE;
 
-    public void Initialize(Color color, string playerName)
+    public void Initialize(Color color, string playerName,PlayerTeam playerTeam)
     {
-        image.color = color;
-        playerNameTxt.text = playerName;
-        activeContent.SetActive(true);
-        waitingContent.SetActive(false);
-        isInitialized = true;
+        if (team == PlayerTeam.NONE)
+        {
+            team  = playerTeam;
+            image.color = color;
+            playerNameTxt.text = playerName;
+            activeContent.SetActive(true);
+            waitingContent.SetActive(false);
+            isInitialized = true;
+        }
     }
 }

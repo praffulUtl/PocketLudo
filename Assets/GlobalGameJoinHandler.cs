@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,9 @@ public class GlobalGameJoinHandler : MonoBehaviour
     [SerializeField] OnlineGameType onlineGameType;
     GameMode currentGameMode = GameMode.CLASSIC;
     [SerializeField] MainMenuScript mainMenuScript;
-    [SerializeField] Button classicBt,quickBt;
-    [SerializeField] GameObject classicCheck,quickCheck;
+    [SerializeField] Button classicBt,timerBt;
+    [SerializeField] GameObject classicCheck,timerCheck;
+    [SerializeField] TMP_Dropdown playerCount;
     [SerializeField] Button nextBt;
     GlobalGameJoinData_JStruct globalGameJoinData;
     public GlobalGameRootData_JStruct gameLobbyData_JStruct1;
@@ -18,11 +20,12 @@ public class GlobalGameJoinHandler : MonoBehaviour
     {
         globalGameJoinData = new GlobalGameJoinData_JStruct();
         globalGameJoinData.PlayerID = APIHandler.instance.key_playerId;
-        globalGameJoinData.GameMode = currentGameMode.ToString();
+        globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         classicCheck.SetActive(true);
         nextBt.onClick.AddListener(JoinGlobalGame);
         classicBt.onClick.AddListener(SetClassicMode);
-        quickBt.onClick.AddListener(SetQuickMode);
+        timerBt.onClick.AddListener(SetQuickMode);
+        playerCount.onValueChanged.AddListener(checkDropdownValue);
 
         gameLobbyData_JStruct1 = new GlobalGameRootData_JStruct();
         gameLobbyData_JStruct1.meta = new Meta();
@@ -34,7 +37,9 @@ public class GlobalGameJoinHandler : MonoBehaviour
     }
     void JoinGlobalGame()
     {
-        globalGameJoinData.GameMode = currentGameMode.ToString();
+        globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
+        globalGameJoinData.BetAmount = 100;
+        globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
         if (!dummyMode)
             APIHandler.instance.PostJoinGlobalGame(globalGameJoinData, JoinGlobalGameCallback);
         else
@@ -53,20 +58,23 @@ public class GlobalGameJoinHandler : MonoBehaviour
     }
     void SetQuickMode()
     {
-        quickCheck.SetActive(true);
+        timerCheck.SetActive(true);
         classicCheck.SetActive(false);
-        currentGameMode = GameMode.QUICK;
+        currentGameMode = GameMode.TIMER;
     }
     void SetClassicMode()
     {
-        quickCheck.SetActive(false);
+        timerCheck.SetActive(false);
         classicCheck.SetActive(true);
         currentGameMode = GameMode.CLASSIC;
     }
-
+    void checkDropdownValue(int i)
+    {
+        Debug.Log(int.Parse(playerCount.options[playerCount.value].text));
+    }
 }
 public enum GameMode
 {
-    QUICK,
+    TIMER,
     CLASSIC
 }

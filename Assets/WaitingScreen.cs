@@ -11,7 +11,12 @@ public class WaitingScreen : MonoBehaviour
     [SerializeField] WaitScreenPlayerItem[] waitScreenPlayerItems;
     [SerializeField] Color red, blue, green, yellow;
     [NonSerialized] public int InitializeCount = 0;
-    [NonSerialized]public bool isOpen = false;
+    [NonSerialized] public bool isOpen = true;
+    List<PlayerTeam> playerTeams;
+    private void Start()
+    {
+        playerTeams = new List<PlayerTeam>();
+    }
     public void SetTime(int sec)
     {
         if (processTimerCoroutine != null)
@@ -29,18 +34,24 @@ public class WaitingScreen : MonoBehaviour
         while (true)
         {
             time -= 1;
-            remainTimeText.text = $"Remaining Time : {time} s";
+            remainTimeText.text = $"Game will start in : {time} s";
             yield return waitSec;   
         }
     }
     public void AddPlayer(string playerTeam)
     {
+        Debug.Log("1.playerTeam : " + playerTeam);
         PlayerTeam playerTeam1 = Enum.Parse<PlayerTeam>(playerTeam);
+        Debug.Log("2.playerTeam : "+playerTeam1);
+        if (playerTeams.Contains(playerTeam1))
+            return;
+
+        playerTeams.Add(playerTeam1);
         foreach (var player in waitScreenPlayerItems) 
         { 
             if(player != null && !player.isInitialized) 
             {
-                player.Initialize(GetColor(playerTeam1), "Player " + GetPlayerColorName(playerTeam1));
+                player.Initialize(GetColor(playerTeam1), "Player " + GetPlayerColorName(playerTeam1), playerTeam1);
                 InitializeCount++;
             }
         }
