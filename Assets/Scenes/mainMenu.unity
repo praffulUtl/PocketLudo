@@ -18475,6 +18475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyMode: 1
+  isTimerLudo: 0
   onlineGameType: {fileID: 1787995134}
   mainMenuScript: {fileID: 1726621724}
   classicBt: {fileID: 2066313090}
@@ -22990,6 +22991,7 @@ GameObject:
   - component: {fileID: 1726621725}
   - component: {fileID: 1726621724}
   - component: {fileID: 1726621726}
+  - component: {fileID: 1726621727}
   m_Layer: 0
   m_Name: mainMenuManager
   m_TagString: Untagged
@@ -23067,6 +23069,19 @@ MonoBehaviour:
   amountButtons: []
   rechargeScreen: 0
   authKey: 
+--- !u!114 &1726621727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726621722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a029f403833dd45b4bd0ec35af212a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entryFeeText: {fileID: 1953307260}
 --- !u!1 &1730373803
 GameObject:
   m_ObjectHideFlags: 0

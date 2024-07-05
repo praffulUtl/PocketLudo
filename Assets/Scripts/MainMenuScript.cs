@@ -32,13 +32,23 @@ public class MainMenuScript : MonoBehaviour
     }
 
     public void four_player_online()
-	{
-		//SoundManagerScript.buttonAudioSource.Play ();
-		howManyPlayers = 4;
-		if(!dummyMode)
-        SceneManager.LoadScene ("Ludoonline");
-		else
+    {
+        //SoundManagerScript.buttonAudioSource.Play ();
+        howManyPlayers = 4;
+        if (!dummyMode)
+            SceneManager.LoadScene("Ludoonline");
+        else
             SceneManager.LoadScene("Ludo1");
+        //SceneManager.LoadScene("Game234Plr");
+    }
+    public void timerLudo()
+    {
+        //SoundManagerScript.buttonAudioSource.Play ();
+        howManyPlayers = 4;
+     
+            SceneManager.LoadScene("TimerLudo");
+        //else
+        //    SceneManager.LoadScene("Ludo1");
         //SceneManager.LoadScene("Game234Plr");
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameScriptTimerOnline : MonoBehaviour {
 
@@ -51,6 +52,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
 	//selection of dice numbers animation...
 	public int selectDiceNumAnimation { get; private set; }
 
+
     //TO SET INTERACTABLE TRUE ON FIRST FOUR TURN
     private int redCounter = 0;
     private int blueCounter = 0;
@@ -78,8 +80,13 @@ public class GameScriptTimerOnline : MonoBehaviour {
 	public GameObject confirmScreen;
 	public GameObject gameCompletedScreen;
 
-	//===== UI Button ===================
-	public void yesGameCompleted()
+	// Timer Management
+    public float timeRemaining = 10f; // Set your timer duration here
+    public bool timerIsRunning = false;
+    public TMP_Text timeText;
+
+    //===== UI Button ===================
+    public void yesGameCompleted()
 	{
 		SoundManagerScript.buttonAudioSource.Play ();
 		SceneManager.LoadScene ("Ludo");
@@ -1331,37 +1338,39 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		DiceRollButton.interactable = false;
 
         selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
+		if (!timerIsRunning)
+			selectDiceNumAnimation = 0;
 
-        //if (playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    redCounter++;
-        //}
-        //else if (playerTurn == "BLUE" && blueCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    blueCounter++;
-        //}
-        //else if (playerTurn == "GREEN" && greenCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    greenCounter++;
-        //}
-        //else if (playerTurn == "YELLOW" && yellowCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    yellowCounter++;
-        //}
-        //else
-        //{
-        //    lastDiceRoll = 0;
-        //}
+            //if (playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 && i == -1)
+            //{
+            //    selectDiceNumAnimation = 6;
+            //    lastDiceRoll = 6;
+            //    redCounter++;
+            //}
+            //else if (playerTurn == "BLUE" && blueCounter <= 4 && lastDiceRoll != 6 && i == -1)
+            //{
+            //    selectDiceNumAnimation = 6;
+            //    lastDiceRoll = 6;
+            //    blueCounter++;
+            //}
+            //else if (playerTurn == "GREEN" && greenCounter <= 4 && lastDiceRoll != 6 && i == -1)
+            //{
+            //    selectDiceNumAnimation = 6;
+            //    lastDiceRoll = 6;
+            //    greenCounter++;
+            //}
+            //else if (playerTurn == "YELLOW" && yellowCounter <= 4 && lastDiceRoll != 6 && i == -1)
+            //{
+            //    selectDiceNumAnimation = 6;
+            //    lastDiceRoll = 6;
+            //    yellowCounter++;
+            //}
+            //else
+            //{
+            //    lastDiceRoll = 0;
+            //}
 
-        Debug.Log("Dice value"+ selectDiceNumAnimation);
+            Debug.Log("Dice value"+ selectDiceNumAnimation);
 
 
         switch (selectDiceNumAnimation) 
@@ -4064,8 +4073,9 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		Application.targetFrameRate = 30;
 
 		randomNo = new System.Random ();
+        timerIsRunning = true;
 
-		dice1_Roll_Animation.SetActive (false);
+        dice1_Roll_Animation.SetActive (false);
 		dice2_Roll_Animation.SetActive (false);
 		dice3_Roll_Animation.SetActive (false);
 		dice4_Roll_Animation.SetActive (false);
@@ -4179,13 +4189,36 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		StartCoroutine(UpdatePlayerPiecesIntractable());
 	}
 	
-	// Update is called once per frame
+	// Timer Functionality
 	void Update () 
 	{
-	
-	}
+        if (timerIsRunning)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+                DisplayTime(timeRemaining);
+            }
+            else
+            {
+                Debug.Log("Time has run out!");
+                timeRemaining = 0;
+                timerIsRunning = false;
+            }
+        }
+    }
 
-	IEnumerator UpdatePlayerPiecesIntractable()
+    void DisplayTime(float timeToDisplay)
+    {
+        timeToDisplay += 1;
+
+        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+
+        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    IEnumerator UpdatePlayerPiecesIntractable()
 	{
 		var waitSec = new WaitForSeconds(1f);
 		while(true)

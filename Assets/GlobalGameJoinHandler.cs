@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class GlobalGameJoinHandler : MonoBehaviour
 {
     [SerializeField] bool dummyMode = false;
+    [SerializeField] bool isTimerLudo = false;
     [SerializeField] OnlineGameType onlineGameType;
     GameMode currentGameMode = GameMode.CLASSIC;
     [SerializeField] MainMenuScript mainMenuScript;
-    [SerializeField] Button classicBt,timerBt;
-    [SerializeField] GameObject classicCheck,timerCheck;
+    [SerializeField] Button classicBt, timerBt;
+    [SerializeField] GameObject classicCheck, timerCheck;
     [SerializeField] TMP_Dropdown playerCount;
     [SerializeField] Button nextBt;
     GlobalGameJoinData_JStruct globalGameJoinData;
@@ -40,17 +41,25 @@ public class GlobalGameJoinHandler : MonoBehaviour
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         globalGameJoinData.BetAmount = 100;
         globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
-        if (!dummyMode)
-            APIHandler.instance.PostJoinGlobalGame(globalGameJoinData, JoinGlobalGameCallback);
+        if (globalGameJoinData.TimerMode)
+        {
+            mainMenuScript.timerLudo();
+        }
         else
         {
-            gameLobbyData_JStruct1.meta.status = true;
-            JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
+            if (!dummyMode)
+                APIHandler.instance.PostJoinGlobalGame(globalGameJoinData, JoinGlobalGameCallback);
+            else
+            {
+                gameLobbyData_JStruct1.meta.status = true;
+                JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
+            }
         }
+
     }
-    void JoinGlobalGameCallback(bool success,GlobalGameRootData_JStruct gameLobbyData_JStruct)
+    void JoinGlobalGameCallback(bool success, GlobalGameRootData_JStruct gameLobbyData_JStruct)
     {
-        if(success && gameLobbyData_JStruct1.meta.status) 
+        if (success && gameLobbyData_JStruct1.meta.status)
         {
             onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
             mainMenuScript.four_player_online();
