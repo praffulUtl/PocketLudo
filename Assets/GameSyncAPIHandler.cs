@@ -21,7 +21,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     public OurPlayerDataSetRoot dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
     bool diceRolled = false;
-    string lastPlayerTurn = "RED";
+    string lastPlayerTurn = "";
 
     private ClientWebSocket webSocket;
     private Uri serverUri = new Uri("wss://3sqlfz6r-8080.inc1.devtunnels.ms/"); // Replace with your server address
@@ -193,12 +193,12 @@ public class GameSyncAPIHandler : MonoBehaviour
             {
                 Debug.Log("wait screen :" + player.PlayerTeam);
                 waitingScreen.SetTime(responseObject.data.remainSeconds);
-                if (waitingScreen.InitializeCount < 4)
-                    waitingScreen.AddPlayer(player.PlayerTeam);
+                //if (waitingScreen.InitializeCount < 4)
+                //    waitingScreen.AddPlayer(player.PlayerTeam);
             }
             else
             {
-                //waitingScreen.close();
+                waitingScreen.close();
 
                 if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
                 {
@@ -308,16 +308,31 @@ public class GameSyncAPIHandler : MonoBehaviour
                 lastPlayerTurn = gameScript.PlayerTurn;
                 diceRolled = false;
             }
-            if(gameScript.PlayerTurn == ourPlayerTeam)
+            //if (gameScript.PlayerTurn == ourPlayerTeam)
+            //{
+            //    if (StartOurPlayerTimerCoroutine == null)
+            //    {
+            //        StartOurPlayerTimerCoroutine = StartCoroutine(StartOurPlayerTimer());
+            //    }
+            //}
+            //else if (StartOurPlayerTimerCoroutine != null)
+            //{
+            //    StopCoroutine(StartOurPlayerTimerCoroutine);
+            //    StartOurPlayerTimerCoroutine = null;
+            //}
+
+            if (gameScript.PlayerTurn != lastPlayerTurn)
             {
-                Debug.Log("our player team turn");
-                if(StartOurPlayerTimerCoroutine == null)
+                if (StartOtherPlayerTimerCoroutine == null)
                 {
-                    StartOurPlayerTimerCoroutine = StartCoroutine(StartOurPlayerTimer());
+                    StartOtherPlayerTimerCoroutine = StartCoroutine(StartOtherPlayerTimer());
                 }
             }
-            else if(StartOurPlayerTimerCoroutine != null)
+            else if (StartOtherPlayerTimerCoroutine != null)
+            {
                 StopCoroutine(StartOurPlayerTimerCoroutine);
+                StartOtherPlayerTimerCoroutine = null;
+            }
 
             yield return waitSec;
         }
@@ -335,7 +350,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     IEnumerator StartOurPlayerTimer()
     {
         var waitsec = new WaitForSeconds(1f);
-        int countSec = 30;
+        int countSec = 15;
         while(countSec>0)
         {
             countSec--;
@@ -368,7 +383,10 @@ public class GameSyncAPIHandler : MonoBehaviour
                         break;
                     case "BLUE":
                         if (gameScript.bluePlayerI_Border.activeInHierarchy)
+                        {
+                            Debug.Log("Blue player piece 1");
                             gameScript.bluePlayerI_UI(1);
+                        }
                         else if (gameScript.bluePlayerII_Border.activeInHierarchy)
                             gameScript.bluePlayerII_UI(1);
                         else if (gameScript.bluePlayerIII_Border.activeInHierarchy)
@@ -402,7 +420,87 @@ public class GameSyncAPIHandler : MonoBehaviour
         }
         else
         {
-            gameScript.DiceRoll(0);
+            gameScript.DiceRoll(1);
+        }
+    }
+
+
+    Coroutine StartOtherPlayerTimerCoroutine;
+    IEnumerator StartOtherPlayerTimer()
+    {
+        var waitsec = new WaitForSeconds(1f);
+        int countSec = 15;
+        while (countSec > 0)
+        {
+            countSec--;
+            Debug.Log("others turn :" + countSec);
+            yield return waitsec;
+        }
+        Debug.Log("other Player turn over");
+        StopOtherPlayerTimer();
+    }
+    void StopOtherPlayerTimer()
+    {
+        Debug.Log("sTOP : " + gameScript.PlayerTurn);
+        StopCoroutine(StartOtherPlayerTimerCoroutine);
+        StartOtherPlayerTimerCoroutine = null;
+
+        if (gameScript.selectDiceNumAnimation > 0)
+        {
+            Debug.Log("Blue player turn :"+ gameScript.selectDiceNumAnimation);
+            switch (gameScript.PlayerTurn)
+            {
+                case "RED":
+                    if (gameScript.redPlayerI_Border.activeInHierarchy)
+                        gameScript.redPlayerI_UI(1);
+                    else if (gameScript.redPlayerII_Border.activeInHierarchy)
+                        gameScript.redPlayerII_UI(1);
+                    else if (gameScript.redPlayerIII_Border.activeInHierarchy)
+                        gameScript.redPlayerIII_UI(1);
+                    else if (gameScript.redPlayerIV_Border.activeInHierarchy)
+                        gameScript.redPlayerIV_UI(1);
+                    break;
+                case "BLUE":
+                    Debug.Log("Blue player turn");
+                    if (gameScript.bluePlayerI_Border.activeInHierarchy)
+                    {
+                        Debug.Log("Blue player piece 1");
+                        gameScript.bluePlayerI_UI(1);
+                    }
+                    else if (gameScript.bluePlayerII_Border.activeInHierarchy)
+                        gameScript.bluePlayerII_UI(1);
+                    else if (gameScript.bluePlayerIII_Border.activeInHierarchy)
+                        gameScript.bluePlayerIII_UI(1);
+                    else if (gameScript.bluePlayerIV_Border.activeInHierarchy)
+                        gameScript.bluePlayerIV_UI(1);
+                    break;
+                case "GREEN":
+                    if (gameScript.greenPlayerI_Border.activeInHierarchy)
+                        gameScript.greenPlayerI_UI(1);
+                    else if (gameScript.greenPlayerII_Border.activeInHierarchy)
+                        gameScript.greenPlayerII_UI(1);
+                    else if (gameScript.greenPlayerIII_Border.activeInHierarchy)
+                        gameScript.greenPlayerIII_UI(1);
+                    else if (gameScript.greenPlayerIV_Border.activeInHierarchy)
+                        gameScript.greenPlayerIV_UI(1);
+                    break;
+                case "YELLOW":
+                    if (gameScript.yellowPlayerI_Border.activeInHierarchy)
+                        gameScript.yellowPlayerI_UI(1);
+                    else if (gameScript.yellowPlayerII_Border.activeInHierarchy)
+                        gameScript.yellowPlayerII_UI(1);
+                    else if (gameScript.yellowPlayerIII_Border.activeInHierarchy)
+                        gameScript.yellowPlayerIII_UI(1);
+                    else if (gameScript.yellowPlayerIV_Border.activeInHierarchy)
+                        gameScript.yellowPlayerIV_UI(1);
+                    break;
+            }
+            if (lastPlayerTurn != gameScript.PlayerTurn)
+                diceRolled = true;
+        }
+        else
+        {
+            gameScript.DiceRoll(1);
         }
     }
     private void OnApplicationQuit()
