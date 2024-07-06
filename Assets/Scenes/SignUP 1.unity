@@ -1095,6 +1095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyMode: 0
   dialogBox: {fileID: 1178155435}
+  baseUrl: https://api.utlsolutions.com/ludo/v1/
 --- !u!224 &355911762 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8927982189956672814, guid: bbb9771db7075aa4fad2e67252ddc619, type: 3}
@@ -5734,7 +5735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762da77c27cdafd418dcc307b3a59cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DummyMode: 1
+  DummyMode: 0
   loadPnl: {fileID: 1993694962}
   dialogBox: {fileID: 1178155435}
   SignUpSingInScreen: {fileID: 1322146101}

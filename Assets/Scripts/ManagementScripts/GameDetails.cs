@@ -6,9 +6,12 @@ using TMPro;
 public class GameDetails : MonoBehaviour
 {
     public TMP_Text entryFeeText;  // Reference to the TMP_Text component
-
+    private string baseURL;
+    [SerializeField]
+    private APIHandler apiHandler;
     void Start()
     {
+        baseURL = apiHandler.baseUrl;
         // Start the coroutine to fetch game details
         StartCoroutine(GetGameDetails());
     }
@@ -25,7 +28,7 @@ public class GameDetails : MonoBehaviour
         }
 
         // Set up the request
-        UnityWebRequest request = new UnityWebRequest("http://localhost:5211/ludo/v1/user/game/details", "GET");
+        UnityWebRequest request = new UnityWebRequest(baseURL + "user/game/details", "GET");
         request.SetRequestHeader("authkey", authKey);
         request.downloadHandler = new DownloadHandlerBuffer();
 

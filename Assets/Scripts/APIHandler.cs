@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using Newtonsoft.Json;
+using static System.Net.WebRequestMethods;
 
 public class APIHandler : MonoBehaviour
 {
     public bool dummyMode = false;
     [SerializeField] DialogBox dialogBox;
 
-    string baseUrl = "https://api.utlsolutions.com/ludo/v1/";
+    public string baseUrl = "https://3sqlfz6r-5211.inc1.devtunnels.ms/ludo/v1";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";

@@ -22,10 +22,13 @@ public class BalanceManager : MonoBehaviour
 
     public string authKey;
 
-    private const string baseURL = "https://3sqlfz6r-5211.inc1.devtunnels.ms/v1/";
+    private string baseURL;
+    [SerializeField]
+    private APIHandler apiHandler;
 
     private void Start()
     {
+        baseURL = apiHandler.baseUrl;
         // Retrieve the auth token and user ID from PlayerPrefs
 
         //authKey = PlayerPrefs.GetString("authKey", ""); // Assuming this is where the authkey is stored

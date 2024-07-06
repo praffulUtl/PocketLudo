@@ -8097,6 +8097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyMode: 1
   dialogBox: {fileID: 1020927150}
+  baseUrl: https://api.utlsolutions.com/ludo/v1/
 --- !u!4 &621063833
 Transform:
   m_ObjectHideFlags: 0
@@ -14252,7 +14253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &991702253
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14531,43 +14532,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4192208136475796585, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4192208136475796585, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4192208136475796585, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 520
       objectReference: {fileID: 0}
     - target: {fileID: 4192208136475796585, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 4192208136475796585, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -151.715
       objectReference: {fileID: 0}
     - target: {fileID: 4762410269003285654, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4762410269003285654, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4762410269003285654, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 520
       objectReference: {fileID: 0}
     - target: {fileID: 4762410269003285654, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 4762410269003285654, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -73.905
       objectReference: {fileID: 0}
     - target: {fileID: 5013863920037443557, guid: 283a775ab37926444811a587f21e55d9, type: 3}
       propertyPath: m_Name
@@ -14626,6 +14627,10 @@ PrefabInstance:
     - target: {fileID: 4669404211113330656, guid: bbb9771db7075aa4fad2e67252ddc619, type: 3}
       propertyPath: m_Name
       value: DialogAndLoadPnl
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669404211113330656, guid: bbb9771db7075aa4fad2e67252ddc619, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8752498998681515838, guid: bbb9771db7075aa4fad2e67252ddc619, type: 3}
       propertyPath: m_IsActive
@@ -23971,6 +23976,7 @@ MonoBehaviour:
   amountButtons: []
   rechargeScreen: 0
   authKey: 
+  apiHandler: {fileID: 621063832}
 --- !u!114 &1726621727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23984,6 +23990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entryFeeText: {fileID: 1953307260}
+  apiHandler: {fileID: 621063832}
 --- !u!1 &1730373803
 GameObject:
   m_ObjectHideFlags: 0
@@ -24882,7 +24889,6 @@ GameObject:
   - component: {fileID: 1787995133}
   - component: {fileID: 1787995132}
   - component: {fileID: 1787995134}
-  - component: {fileID: 1787995135}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -24930,18 +24936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameType: 0
---- !u!114 &1787995135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787995131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0498d0bea739914ca9449ae394b4c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1788575363
 GameObject:
   m_ObjectHideFlags: 0
