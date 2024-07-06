@@ -49,6 +49,8 @@ public class GameScriptOnline : MonoBehaviour {
 	private int greenPlayerI_Steps,greenPlayerII_Steps,greenPlayerIII_Steps,greenPlayerIV_Steps;
 	private int bluePlayerI_Steps,bluePlayerII_Steps,bluePlayerIII_Steps,bluePlayerIV_Steps;
 	private int yellowPlayerI_Steps,yellowPlayerII_Steps,yellowPlayerIII_Steps,yellowPlayerIV_Steps;
+
+
 	//selection of dice numbers animation...
 	public int selectDiceNumAnimation { get; private set; }
 
@@ -59,6 +61,7 @@ public class GameScriptOnline : MonoBehaviour {
     private int yellowCounter = 0;
     private int lastDiceRoll = 0;
 
+	//M
 
     //--------------- Dice Animations------
     public GameObject dice1_Roll_Animation;
@@ -82,33 +85,38 @@ public class GameScriptOnline : MonoBehaviour {
 	//===== UI Button ===================
 	public void yesGameCompleted()
 	{
+		if(ToggleSound.sfxbool)
 		SoundManagerScript.buttonAudioSource.Play ();
 		SceneManager.LoadScene ("Ludo");
 	}
 
 	public void noGameCompleted()
 	{
-		SoundManagerScript.buttonAudioSource.Play ();
+        if (ToggleSound.sfxbool)
+            SoundManagerScript.buttonAudioSource.Play ();
         //SceneManager.LoadScene ("Main Menu");
         SceneManager.LoadScene ("mainMenu");
     }
 
     public void yesMethod()
 	{
-		SoundManagerScript.buttonAudioSource.Play ();
+        if (ToggleSound.sfxbool)
+            SoundManagerScript.buttonAudioSource.Play ();
         //SceneManager.LoadScene ("Main Menu");
         SceneManager.LoadScene("mainMenu");
     }
 
 	public void noMethod()
 	{
-		SoundManagerScript.buttonAudioSource.Play ();
+        if (ToggleSound.sfxbool)
+            SoundManagerScript.buttonAudioSource.Play ();
 		confirmScreen.SetActive (false);
 	}
 
 	public void ExitMethod()
 	{
-		SoundManagerScript.buttonAudioSource.Play ();
+        if (ToggleSound.sfxbool)
+            SoundManagerScript.buttonAudioSource.Play ();
 		confirmScreen.SetActive (true);
 	}
 	// -============== GAME COMPLETED ROUTINE ==========================================================
@@ -139,7 +147,8 @@ public class GameScriptOnline : MonoBehaviour {
 			case 2:
 				if (totalRedInHouse > 3) 
 				{
-					SoundManagerScript.winAudioSource.Play ();
+                    if (ToggleSound.sfxbool)
+                        SoundManagerScript.winAudioSource.Play ();
 					redScreen.SetActive (true);					
 					StartCoroutine ("GameCompletedRoutine");
 					playerTurn = "NONE";
@@ -147,7 +156,8 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (totalGreenInHouse > 3) 
 				{
-					SoundManagerScript.winAudioSource.Play ();
+                    if (ToggleSound.sfxbool)
+                        SoundManagerScript.winAudioSource.Play ();
 					greenScreen.SetActive (true);
 					StartCoroutine ("GameCompletedRoutine");
 					playerTurn = "NONE";
@@ -159,7 +169,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalRedInHouse > 3 && totalBlueInHouse < 4 && totalYellowInHouse < 4 && playerTurn == "RED") 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 
 					redScreen.SetActive (true);
@@ -170,7 +181,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalBlueInHouse > 3 && totalRedInHouse < 4 && totalYellowInHouse < 4 && playerTurn == "BLUE") 
 				{
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					blueScreen.SetActive (true);
 					Debug.Log ("Blue Player WON");
@@ -180,7 +192,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalYellowInHouse > 3 && totalRedInHouse < 4 && totalBlueInHouse < 4 && playerTurn == "YELLOW") 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					yellowScreen.SetActive (true);
 					Debug.Log ("Yellow Player WON");
@@ -190,10 +203,12 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalRedInHouse > 3 && totalBlueInHouse > 3 && totalYellowInHouse < 4) 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					blueScreen.SetActive (true);
@@ -205,10 +220,12 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalBlueInHouse > 3 && totalYellowInHouse > 3 && totalRedInHouse < 4) 
 				{
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					yellowScreen.SetActive (true);
 					blueScreen.SetActive (true);
@@ -220,10 +237,12 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalYellowInHouse > 3 && totalRedInHouse > 3 && totalBlueInHouse < 4) 
 				{
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					yellowScreen.SetActive (true);
@@ -239,7 +258,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalRedInHouse > 3 && totalBlueInHouse < 4 && totalGreenInHouse < 4 && totalYellowInHouse < 4 && playerTurn == "RED") 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 
 					redScreen.SetActive (true);					
@@ -250,7 +270,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalBlueInHouse > 3 && totalRedInHouse < 4 && totalGreenInHouse < 4 && totalYellowInHouse < 4 && playerTurn == "BLUE") 
 				{
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					blueScreen.SetActive (true);
 					Debug.Log ("Blue Player WON");
@@ -260,7 +281,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalGreenInHouse > 3 && totalRedInHouse < 4 && totalBlueInHouse < 4 && totalYellowInHouse < 4 && playerTurn == "GREEN") 
 				{
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					greenScreen.SetActive (true);					
 					Debug.Log ("Green Player WON");
@@ -270,7 +292,8 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalYellowInHouse > 3 && totalRedInHouse < 4 && totalBlueInHouse < 4 && totalGreenInHouse < 4 && playerTurn == "YELLOW") 
 				{
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					yellowScreen.SetActive (true);					
 					Debug.Log ("Yellow Player WON");
@@ -280,10 +303,12 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalRedInHouse > 3 && totalBlueInHouse > 3 && totalGreenInHouse < 4 && totalYellowInHouse < 4 && (playerTurn == "RED" || playerTurn == "BLUE")) 
 				{	
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					blueScreen.SetActive (true);
@@ -294,10 +319,12 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalBlueInHouse > 3 && totalGreenInHouse > 3 && totalRedInHouse < 4 && totalYellowInHouse < 4 && (playerTurn == "BLUE" || playerTurn == "GREEN")) 
 				{		
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}	
 					blueScreen.SetActive (true);
 					greenScreen.SetActive (true);
@@ -308,10 +335,12 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalGreenInHouse > 3 && totalYellowInHouse > 3 && totalBlueInHouse < 4 && totalRedInHouse < 4 && (playerTurn == "GREEN" || playerTurn == "YELLOW")) 
 				{		
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					greenScreen.SetActive (true);
 					yellowScreen.SetActive (true);
@@ -322,10 +351,12 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalYellowInHouse > 3 && totalRedInHouse > 3 && totalBlueInHouse < 4 && totalGreenInHouse < 4 && (playerTurn == "YELLOW" || playerTurn == "RED")) 
 				{		
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					yellowScreen.SetActive (true);
@@ -337,10 +368,12 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalYellowInHouse > 3 && totalBlueInHouse > 3 && totalRedInHouse < 4 && totalGreenInHouse < 4&& (playerTurn == "YELLOW" || playerTurn == "BLUE")) 
 				{
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					yellowScreen.SetActive (true);
 					blueScreen.SetActive (true);
@@ -361,10 +394,12 @@ public class GameScriptOnline : MonoBehaviour {
 			if (totalRedInHouse > 3 && totalGreenInHouse > 3 && totalYellowInHouse < 4 && totalBlueInHouse < 4&& (playerTurn == "RED" || playerTurn == "GREEN")) 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					greenScreen.SetActive (true);
@@ -385,13 +420,16 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalRedInHouse > 3 && totalGreenInHouse > 3 && totalBlueInHouse > 3 && totalYellowInHouse < 4) 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					greenScreen.SetActive (true);
@@ -403,13 +441,16 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalRedInHouse > 3 && totalGreenInHouse > 3 && totalYellowInHouse > 3 && totalBlueInHouse < 4) 
 				{
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					redScreen.SetActive (true);
 					greenScreen.SetActive (true);
@@ -421,13 +462,16 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalBlueInHouse > 3 && totalGreenInHouse > 3 && totalYellowInHouse > 3 && totalRedInHouse < 4) 
 				{
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!greenScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					blueScreen.SetActive (true);
 					greenScreen.SetActive (true);
@@ -439,13 +483,16 @@ public class GameScriptOnline : MonoBehaviour {
 				if (totalBlueInHouse > 3 && totalRedInHouse > 3 && totalYellowInHouse > 3 && totalGreenInHouse < 4) 
 				{
 					if (!blueScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!redScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					if (!yellowScreen.activeInHierarchy) {
-						SoundManagerScript.winAudioSource.Play ();
+                        if (ToggleSound.sfxbool)
+                            SoundManagerScript.winAudioSource.Play ();
 					}
 					blueScreen.SetActive (true);
 					redScreen.SetActive (true);
@@ -527,28 +574,32 @@ public class GameScriptOnline : MonoBehaviour {
 			case 2:
 				if (currentPlayerName.Contains ("RED PLAYER")) {
 					if (currentPlayer == GreenPlayerI_Script.greenPlayerI_ColName && (currentPlayer != "Star" && GreenPlayerI_Script.greenPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerI.transform.position = greenPlayerI_Pos;
 						GreenPlayerI_Script.greenPlayerI_ColName = "none";
 						greenPlayerI_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == GreenPlayerII_Script.greenPlayerII_ColName && (currentPlayer != "Star" && GreenPlayerII_Script.greenPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerII.transform.position = greenPlayerII_Pos;
 						GreenPlayerII_Script.greenPlayerII_ColName = "none";
 						greenPlayerII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == GreenPlayerIII_Script.greenPlayerIII_ColName && (currentPlayer != "Star" && GreenPlayerIII_Script.greenPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIII.transform.position = greenPlayerIII_Pos;
 						GreenPlayerIII_Script.greenPlayerIII_ColName = "none";
 						greenPlayerIII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == GreenPlayerIV_Script.greenPlayerIV_ColName && (currentPlayer != "Star" && GreenPlayerIV_Script.greenPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIV.transform.position = greenPlayerIV_Pos;
 						GreenPlayerIV_Script.greenPlayerIV_ColName = "none";
 						greenPlayerIV_Steps = 0;
@@ -557,6 +608,7 @@ public class GameScriptOnline : MonoBehaviour {
 				} 
 				if (currentPlayerName.Contains ("GREEN PLAYER")) {
 					if (currentPlayer == RedPlayerI_Script.redPlayerI_ColName && (currentPlayer != "Star" && RedPlayerI_Script.redPlayerI_ColName != "Star")) {
+							if (ToggleSound.sfxbool)
 						SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerI.transform.position = redPlayerI_Pos;
 						RedPlayerI_Script.redPlayerI_ColName = "none";
@@ -564,21 +616,24 @@ public class GameScriptOnline : MonoBehaviour {
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == RedPlayerII_Script.redPlayerII_ColName && (currentPlayer != "Star" && RedPlayerII_Script.redPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerII.transform.position = redPlayerII_Pos;
 						RedPlayerII_Script.redPlayerII_ColName = "none";
 						redPlayerII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == RedPlayerIII_Script.redPlayerIII_ColName && (currentPlayer != "Star" && RedPlayerIII_Script.redPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIII.transform.position = redPlayerIII_Pos;
 						RedPlayerIII_Script.redPlayerIII_ColName = "none";
 						redPlayerIII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == RedPlayerIV_Script.redPlayerIV_ColName && (currentPlayer != "Star" && RedPlayerIV_Script.redPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIV.transform.position = redPlayerIV_Pos;
 						RedPlayerIV_Script.redPlayerIV_ColName = "none";
 						redPlayerIV_Steps = 0;
@@ -590,28 +645,32 @@ public class GameScriptOnline : MonoBehaviour {
 			case 3:
 				if (currentPlayerName.Contains ("RED PLAYER")) {
 					if (currentPlayer == YellowPlayerI_Script.yellowPlayerI_ColName && (currentPlayer != "Star" && YellowPlayerI_Script.yellowPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerI.transform.position = yellowPlayerI_Pos;
 						YellowPlayerI_Script.yellowPlayerI_ColName = "none";
 						yellowPlayerI_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == YellowPlayerII_Script.yellowPlayerII_ColName && (currentPlayer != "Star" && YellowPlayerII_Script.yellowPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerII.transform.position = yellowPlayerII_Pos;
 						YellowPlayerII_Script.yellowPlayerII_ColName = "none";
 						yellowPlayerII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == YellowPlayerIII_Script.yellowPlayerIII_ColName && (currentPlayer != "Star" && YellowPlayerIII_Script.yellowPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIII.transform.position = yellowPlayerIII_Pos;
 						YellowPlayerIII_Script.yellowPlayerIII_ColName = "none";
 						yellowPlayerIII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == YellowPlayerIV_Script.yellowPlayerIV_ColName && (currentPlayer != "Star" && YellowPlayerIV_Script.yellowPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIV.transform.position = yellowPlayerIV_Pos;
 						YellowPlayerIV_Script.yellowPlayerIV_ColName = "none";
 						yellowPlayerIV_Steps = 0;
@@ -619,28 +678,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == BluePlayerI_Script.bluePlayerI_ColName && (currentPlayer != "Star" && BluePlayerI_Script.bluePlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerI.transform.position = bluePlayerI_Pos;
 						BluePlayerI_Script.bluePlayerI_ColName = "none";
 						bluePlayerI_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == BluePlayerII_Script.bluePlayerII_ColName && (currentPlayer != "Star" && BluePlayerII_Script.bluePlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerII.transform.position = bluePlayerII_Pos;
 						BluePlayerII_Script.bluePlayerII_ColName = "none";
 						bluePlayerII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == BluePlayerIII_Script.bluePlayerIII_ColName && (currentPlayer != "Star" && BluePlayerIII_Script.bluePlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIII.transform.position = bluePlayerIII_Pos;
 						BluePlayerIII_Script.bluePlayerIII_ColName = "none";
 						bluePlayerIII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == BluePlayerIV_Script.bluePlayerIV_ColName && (currentPlayer != "Star" && BluePlayerIV_Script.bluePlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIV.transform.position = bluePlayerIV_Pos;
 						BluePlayerIV_Script.bluePlayerIV_ColName = "none";
 						bluePlayerIV_Steps = 0;
@@ -650,28 +713,32 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (currentPlayerName.Contains ("YELLOW PLAYER")) {
 					if (currentPlayer == RedPlayerI_Script.redPlayerI_ColName && (currentPlayer != "Star" && RedPlayerI_Script.redPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerI.transform.position = redPlayerI_Pos;
 						RedPlayerI_Script.redPlayerI_ColName = "none";
 						redPlayerI_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == RedPlayerII_Script.redPlayerII_ColName && (currentPlayer != "Star" && RedPlayerII_Script.redPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerII.transform.position = redPlayerII_Pos;
 						RedPlayerII_Script.redPlayerII_ColName = "none";
 						redPlayerII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == RedPlayerIII_Script.redPlayerIII_ColName && (currentPlayer != "Star" && RedPlayerIII_Script.redPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIII.transform.position = redPlayerIII_Pos;
 						RedPlayerIII_Script.redPlayerIII_ColName = "none";
 						redPlayerIII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == RedPlayerIV_Script.redPlayerIV_ColName && (currentPlayer != "Star" && RedPlayerIV_Script.redPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIV.transform.position = redPlayerIV_Pos;
 						RedPlayerIV_Script.redPlayerIV_ColName = "none";
 						redPlayerIV_Steps = 0;
@@ -679,28 +746,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == BluePlayerI_Script.bluePlayerI_ColName && (currentPlayer != "Star" && BluePlayerI_Script.bluePlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerI.transform.position = bluePlayerI_Pos;
 						BluePlayerI_Script.bluePlayerI_ColName = "none";
 						bluePlayerI_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == BluePlayerII_Script.bluePlayerII_ColName && (currentPlayer != "Star" && BluePlayerII_Script.bluePlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerII.transform.position = bluePlayerII_Pos;
 						BluePlayerII_Script.bluePlayerII_ColName = "none";
 						bluePlayerII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == BluePlayerIII_Script.bluePlayerIII_ColName && (currentPlayer != "Star" && BluePlayerIII_Script.bluePlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIII.transform.position = bluePlayerIII_Pos;
 						BluePlayerIII_Script.bluePlayerIII_ColName = "none";
 						bluePlayerIII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == BluePlayerIV_Script.bluePlayerIV_ColName && (currentPlayer != "Star" && BluePlayerIV_Script.bluePlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIV.transform.position = bluePlayerIV_Pos;
 						BluePlayerIV_Script.bluePlayerIV_ColName = "none";
 						bluePlayerIV_Steps = 0;
@@ -710,28 +781,32 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (currentPlayerName.Contains ("BLUE PLAYER")) {
 					if (currentPlayer == RedPlayerI_Script.redPlayerI_ColName && (currentPlayer != "Star" && RedPlayerI_Script.redPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerI.transform.position = redPlayerI_Pos;
 						RedPlayerI_Script.redPlayerI_ColName = "none";
 						redPlayerI_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == RedPlayerII_Script.redPlayerII_ColName && (currentPlayer != "Star" && RedPlayerII_Script.redPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerII.transform.position = redPlayerII_Pos;
 						RedPlayerII_Script.redPlayerII_ColName = "none";
 						redPlayerII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == RedPlayerIII_Script.redPlayerIII_ColName && (currentPlayer != "Star" && RedPlayerIII_Script.redPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIII.transform.position = redPlayerIII_Pos;
 						RedPlayerIII_Script.redPlayerIII_ColName = "none";
 						redPlayerIII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == RedPlayerIV_Script.redPlayerIV_ColName && (currentPlayer != "Star" && RedPlayerIV_Script.redPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIV.transform.position = redPlayerIV_Pos;
 						RedPlayerIV_Script.redPlayerIV_ColName = "none";
 						redPlayerIV_Steps = 0;
@@ -739,28 +814,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == YellowPlayerI_Script.yellowPlayerI_ColName && (currentPlayer != "Star" && YellowPlayerI_Script.yellowPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerI.transform.position = yellowPlayerI_Pos;
 						YellowPlayerI_Script.yellowPlayerI_ColName = "none";
 						yellowPlayerI_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == YellowPlayerII_Script.yellowPlayerII_ColName && (currentPlayer != "Star" && YellowPlayerII_Script.yellowPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerII.transform.position = yellowPlayerII_Pos;
 						YellowPlayerII_Script.yellowPlayerII_ColName = "none";
 						yellowPlayerII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == YellowPlayerIII_Script.yellowPlayerIII_ColName && (currentPlayer != "Star" && YellowPlayerIII_Script.yellowPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIII.transform.position = yellowPlayerIII_Pos;
 						YellowPlayerIII_Script.yellowPlayerIII_ColName = "none";
 						yellowPlayerIII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == YellowPlayerIV_Script.yellowPlayerIV_ColName && (currentPlayer != "Star" && YellowPlayerIV_Script.yellowPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIV.transform.position = yellowPlayerIV_Pos;
 						YellowPlayerIV_Script.yellowPlayerIV_ColName = "none";
 						yellowPlayerIV_Steps = 0;
@@ -772,28 +851,32 @@ public class GameScriptOnline : MonoBehaviour {
 			case 4:
 				if (currentPlayerName.Contains ("RED PLAYER")) {
 					if (currentPlayer == GreenPlayerI_Script.greenPlayerI_ColName && (currentPlayer != "Star" && GreenPlayerI_Script.greenPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerI.transform.position = greenPlayerI_Pos;
 						GreenPlayerI_Script.greenPlayerI_ColName = "none";
 						greenPlayerI_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == GreenPlayerII_Script.greenPlayerII_ColName && (currentPlayer != "Star" && GreenPlayerII_Script.greenPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerII.transform.position = greenPlayerII_Pos;
 						GreenPlayerII_Script.greenPlayerII_ColName = "none";
 						greenPlayerII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == GreenPlayerIII_Script.greenPlayerIII_ColName && (currentPlayer != "Star" && GreenPlayerIII_Script.greenPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIII.transform.position = greenPlayerIII_Pos;
 						GreenPlayerIII_Script.greenPlayerIII_ColName = "none";
 						greenPlayerIII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == GreenPlayerIV_Script.greenPlayerIV_ColName && (currentPlayer != "Star" && GreenPlayerIV_Script.greenPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIV.transform.position = greenPlayerIV_Pos;
 						GreenPlayerIV_Script.greenPlayerIV_ColName = "none";
 						greenPlayerIV_Steps = 0;
@@ -801,28 +884,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == BluePlayerI_Script.bluePlayerI_ColName && (currentPlayer != "Star" && BluePlayerI_Script.bluePlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerI.transform.position = bluePlayerI_Pos;
 						BluePlayerI_Script.bluePlayerI_ColName = "none";
 						bluePlayerI_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == BluePlayerII_Script.bluePlayerII_ColName && (currentPlayer != "Star" && BluePlayerII_Script.bluePlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerII.transform.position = bluePlayerII_Pos;
 						BluePlayerII_Script.bluePlayerII_ColName = "none";
 						bluePlayerII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == BluePlayerIII_Script.bluePlayerIII_ColName && (currentPlayer != "Star" && BluePlayerIII_Script.bluePlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIII.transform.position = bluePlayerIII_Pos;
 						BluePlayerIII_Script.bluePlayerIII_ColName = "none";
 						bluePlayerIII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == BluePlayerIV_Script.bluePlayerIV_ColName && (currentPlayer != "Star" && BluePlayerIV_Script.bluePlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIV.transform.position = bluePlayerIV_Pos;
 						BluePlayerIV_Script.bluePlayerIV_ColName = "none";
 						bluePlayerIV_Steps = 0;
@@ -830,28 +917,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == YellowPlayerI_Script.yellowPlayerI_ColName && (currentPlayer != "Star" && YellowPlayerI_Script.yellowPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerI.transform.position = yellowPlayerI_Pos;
 						YellowPlayerI_Script.yellowPlayerI_ColName = "none";
 						yellowPlayerI_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == YellowPlayerII_Script.yellowPlayerII_ColName && (currentPlayer != "Star" && YellowPlayerII_Script.yellowPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerII.transform.position = yellowPlayerII_Pos;
 						YellowPlayerII_Script.yellowPlayerII_ColName = "none";
 						yellowPlayerII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == YellowPlayerIII_Script.yellowPlayerIII_ColName && (currentPlayer != "Star" && YellowPlayerIII_Script.yellowPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIII.transform.position = yellowPlayerIII_Pos;
 						YellowPlayerIII_Script.yellowPlayerIII_ColName = "none";
 						yellowPlayerIII_Steps = 0;
 						playerTurn = "RED";
 					}
 					if (currentPlayer == YellowPlayerIV_Script.yellowPlayerIV_ColName && (currentPlayer != "Star" && YellowPlayerIV_Script.yellowPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIV.transform.position = yellowPlayerIV_Pos;
 						YellowPlayerIV_Script.yellowPlayerIV_ColName = "none";
 						yellowPlayerIV_Steps = 0;
@@ -861,28 +952,32 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (currentPlayerName.Contains ("GREEN PLAYER")) {
 					if (currentPlayer == RedPlayerI_Script.redPlayerI_ColName && (currentPlayer != "Star" && RedPlayerI_Script.redPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerI.transform.position = redPlayerI_Pos;
 						RedPlayerI_Script.redPlayerI_ColName = "none";
 						redPlayerI_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == RedPlayerII_Script.redPlayerII_ColName && (currentPlayer != "Star" && RedPlayerII_Script.redPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerII.transform.position = redPlayerII_Pos;
 						RedPlayerII_Script.redPlayerII_ColName = "none";
 						redPlayerII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == RedPlayerIII_Script.redPlayerIII_ColName && (currentPlayer != "Star" && RedPlayerIII_Script.redPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIII.transform.position = redPlayerIII_Pos;
 						RedPlayerIII_Script.redPlayerIII_ColName = "none";
 						redPlayerIII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == RedPlayerIV_Script.redPlayerIV_ColName && (currentPlayer != "Star" && RedPlayerIV_Script.redPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIV.transform.position = redPlayerIV_Pos;
 						RedPlayerIV_Script.redPlayerIV_ColName = "none";
 						redPlayerIV_Steps = 0;
@@ -890,28 +985,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == BluePlayerI_Script.bluePlayerI_ColName && (currentPlayer != "Star" && BluePlayerI_Script.bluePlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerI.transform.position = bluePlayerI_Pos;
 						BluePlayerI_Script.bluePlayerI_ColName = "none";
 						bluePlayerI_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == BluePlayerII_Script.bluePlayerII_ColName && (currentPlayer != "Star" && BluePlayerII_Script.bluePlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerII.transform.position = bluePlayerII_Pos;
 						BluePlayerII_Script.bluePlayerII_ColName = "none";
 						bluePlayerII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == BluePlayerIII_Script.bluePlayerIII_ColName && (currentPlayer != "Star" && BluePlayerIII_Script.bluePlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIII.transform.position = bluePlayerIII_Pos;
 						BluePlayerIII_Script.bluePlayerIII_ColName = "none";
 						bluePlayerIII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == BluePlayerIV_Script.bluePlayerIV_ColName && (currentPlayer != "Star" && BluePlayerIV_Script.bluePlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIV.transform.position = bluePlayerIV_Pos;
 						BluePlayerIV_Script.bluePlayerIV_ColName = "none";
 						bluePlayerIV_Steps = 0;
@@ -919,28 +1018,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == YellowPlayerI_Script.yellowPlayerI_ColName && (currentPlayer != "Star" && YellowPlayerI_Script.yellowPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerI.transform.position = yellowPlayerI_Pos;
 						YellowPlayerI_Script.yellowPlayerI_ColName = "none";
 						yellowPlayerI_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == YellowPlayerII_Script.yellowPlayerII_ColName && (currentPlayer != "Star" && YellowPlayerII_Script.yellowPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerII.transform.position = yellowPlayerII_Pos;
 						YellowPlayerII_Script.yellowPlayerII_ColName = "none";
 						yellowPlayerII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == YellowPlayerIII_Script.yellowPlayerIII_ColName && (currentPlayer != "Star" && YellowPlayerIII_Script.yellowPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIII.transform.position = yellowPlayerIII_Pos;
 						YellowPlayerIII_Script.yellowPlayerIII_ColName = "none";
 						yellowPlayerIII_Steps = 0;
 						playerTurn = "GREEN";
 					}
 					if (currentPlayer == YellowPlayerIV_Script.yellowPlayerIV_ColName && (currentPlayer != "Star" && YellowPlayerIV_Script.yellowPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIV.transform.position = yellowPlayerIV_Pos;
 						YellowPlayerIV_Script.yellowPlayerIV_ColName = "none";
 						yellowPlayerIV_Steps = 0;
@@ -950,28 +1053,32 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (currentPlayerName.Contains ("BLUE PLAYER")) {
 					if (currentPlayer == RedPlayerI_Script.redPlayerI_ColName && (currentPlayer != "Star" && RedPlayerI_Script.redPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerI.transform.position = redPlayerI_Pos;
 						RedPlayerI_Script.redPlayerI_ColName = "none";
 						redPlayerI_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == RedPlayerII_Script.redPlayerII_ColName && (currentPlayer != "Star" && RedPlayerII_Script.redPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerII.transform.position = redPlayerII_Pos;
 						RedPlayerII_Script.redPlayerII_ColName = "none";
 						redPlayerII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == RedPlayerIII_Script.redPlayerIII_ColName && (currentPlayer != "Star" && RedPlayerIII_Script.redPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIII.transform.position = redPlayerIII_Pos;
 						RedPlayerIII_Script.redPlayerIII_ColName = "none";
 						redPlayerIII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == RedPlayerIV_Script.redPlayerIV_ColName && (currentPlayer != "Star" && RedPlayerIV_Script.redPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIV.transform.position = redPlayerIV_Pos;
 						RedPlayerIV_Script.redPlayerIV_ColName = "none";
 						redPlayerIV_Steps = 0;
@@ -979,28 +1086,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == GreenPlayerI_Script.greenPlayerI_ColName && (currentPlayer != "Star" && GreenPlayerI_Script.greenPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerI.transform.position = greenPlayerI_Pos;
 						GreenPlayerI_Script.greenPlayerI_ColName = "none";
 						greenPlayerI_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == GreenPlayerII_Script.greenPlayerII_ColName && (currentPlayer != "Star" && GreenPlayerII_Script.greenPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerII.transform.position = greenPlayerII_Pos;
 						GreenPlayerII_Script.greenPlayerII_ColName = "none";
 						greenPlayerII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == GreenPlayerIII_Script.greenPlayerIII_ColName && (currentPlayer != "Star" && GreenPlayerIII_Script.greenPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIII.transform.position = greenPlayerIII_Pos;
 						GreenPlayerIII_Script.greenPlayerIII_ColName = "none";
 						greenPlayerIII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == GreenPlayerIV_Script.greenPlayerIV_ColName && (currentPlayer != "Star" && GreenPlayerIV_Script.greenPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIV.transform.position = greenPlayerIV_Pos;
 						GreenPlayerIV_Script.greenPlayerIV_ColName = "none";
 						greenPlayerIV_Steps = 0;
@@ -1008,28 +1119,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == YellowPlayerI_Script.yellowPlayerI_ColName && (currentPlayer != "Star" && YellowPlayerI_Script.yellowPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerI.transform.position = yellowPlayerI_Pos;
 						YellowPlayerI_Script.yellowPlayerI_ColName = "none";
 						yellowPlayerI_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == YellowPlayerII_Script.yellowPlayerII_ColName && (currentPlayer != "Star" && YellowPlayerII_Script.yellowPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerII.transform.position = yellowPlayerII_Pos;
 						YellowPlayerII_Script.yellowPlayerII_ColName = "none";
 						yellowPlayerII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == YellowPlayerIII_Script.yellowPlayerIII_ColName && (currentPlayer != "Star" && YellowPlayerIII_Script.yellowPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIII.transform.position = yellowPlayerIII_Pos;
 						YellowPlayerIII_Script.yellowPlayerIII_ColName = "none";
 						yellowPlayerIII_Steps = 0;
 						playerTurn = "BLUE";
 					}
 					if (currentPlayer == YellowPlayerIV_Script.yellowPlayerIV_ColName && (currentPlayer != "Star" && YellowPlayerIV_Script.yellowPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						yellowPlayerIV.transform.position = yellowPlayerIV_Pos;
 						YellowPlayerIV_Script.yellowPlayerIV_ColName = "none";
 						yellowPlayerIV_Steps = 0;
@@ -1039,28 +1154,32 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (currentPlayerName.Contains ("YELLOW PLAYER")) {
 					if (currentPlayer == RedPlayerI_Script.redPlayerI_ColName && (currentPlayer != "Star" && RedPlayerI_Script.redPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerI.transform.position = redPlayerI_Pos;
 						RedPlayerI_Script.redPlayerI_ColName = "none";
 						redPlayerI_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == RedPlayerII_Script.redPlayerII_ColName && (currentPlayer != "Star" && RedPlayerII_Script.redPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerII.transform.position = redPlayerII_Pos;
 						RedPlayerII_Script.redPlayerII_ColName = "none";
 						redPlayerII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == RedPlayerIII_Script.redPlayerIII_ColName && (currentPlayer != "Star" && RedPlayerIII_Script.redPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIII.transform.position = redPlayerIII_Pos;
 						RedPlayerIII_Script.redPlayerIII_ColName = "none";
 						redPlayerIII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == RedPlayerIV_Script.redPlayerIV_ColName && (currentPlayer != "Star" && RedPlayerIV_Script.redPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						redPlayerIV.transform.position = redPlayerIV_Pos;
 						RedPlayerIV_Script.redPlayerIV_ColName = "none";
 						redPlayerIV_Steps = 0;
@@ -1068,28 +1187,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == GreenPlayerI_Script.greenPlayerI_ColName && (currentPlayer != "Star" && GreenPlayerI_Script.greenPlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerI.transform.position = greenPlayerI_Pos;
 						GreenPlayerI_Script.greenPlayerI_ColName = "none";
 						greenPlayerI_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == GreenPlayerII_Script.greenPlayerII_ColName && (currentPlayer != "Star" && GreenPlayerII_Script.greenPlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerII.transform.position = greenPlayerII_Pos;
 						GreenPlayerII_Script.greenPlayerII_ColName = "none";
 						greenPlayerII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == GreenPlayerIII_Script.greenPlayerIII_ColName && (currentPlayer != "Star" && GreenPlayerIII_Script.greenPlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIII.transform.position = greenPlayerIII_Pos;
 						GreenPlayerIII_Script.greenPlayerIII_ColName = "none";
 						greenPlayerIII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == GreenPlayerIV_Script.greenPlayerIV_ColName && (currentPlayer != "Star" && GreenPlayerIV_Script.greenPlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						greenPlayerIV.transform.position = greenPlayerIV_Pos;
 						GreenPlayerIV_Script.greenPlayerIV_ColName = "none";
 						greenPlayerIV_Steps = 0;
@@ -1097,28 +1220,32 @@ public class GameScriptOnline : MonoBehaviour {
 					}
 
 					if (currentPlayer == BluePlayerI_Script.bluePlayerI_ColName && (currentPlayer != "Star" && BluePlayerI_Script.bluePlayerI_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerI.transform.position = bluePlayerI_Pos;
 						BluePlayerI_Script.bluePlayerI_ColName = "none";
 						bluePlayerI_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == BluePlayerII_Script.bluePlayerII_ColName && (currentPlayer != "Star" && BluePlayerII_Script.bluePlayerII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerII.transform.position = bluePlayerII_Pos;
 						BluePlayerII_Script.bluePlayerII_ColName = "none";
 						bluePlayerII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == BluePlayerIII_Script.bluePlayerIII_ColName && (currentPlayer != "Star" && BluePlayerIII_Script.bluePlayerIII_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIII.transform.position = bluePlayerIII_Pos;
 						BluePlayerIII_Script.bluePlayerIII_ColName = "none";
 						bluePlayerIII_Steps = 0;
 						playerTurn = "YELLOW";
 					}
 					if (currentPlayer == BluePlayerIV_Script.bluePlayerIV_ColName && (currentPlayer != "Star" && BluePlayerIV_Script.bluePlayerIV_ColName != "Star")) {
-						SoundManagerScript.dismissalAudioSource.Play ();
+                            if (ToggleSound.sfxbool)
+                                SoundManagerScript.dismissalAudioSource.Play ();
 						bluePlayerIV.transform.position = bluePlayerIV_Pos;
 						BluePlayerIV_Script.bluePlayerIV_ColName = "none";
 						bluePlayerIV_Steps = 0;
@@ -1328,7 +1455,8 @@ public class GameScriptOnline : MonoBehaviour {
 	public void DiceRoll(int i =-1)
 	{
 		Debug.Log("Dice Roll " + i);
-		SoundManagerScript.diceAudioSource.Play ();
+        if (ToggleSound.sfxbool)
+            SoundManagerScript.diceAudioSource.Play ();
 		DiceRollButton.interactable = false;
 
         selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
@@ -1819,7 +1947,8 @@ public class GameScriptOnline : MonoBehaviour {
 		if (webSocketClient.ourPlayerTeam != "RED" && pathIndex == -1)
 			return;
         Debug.Log("redPlayerI_UI");
-        SoundManagerScript.playerAudioSource.Play ();
+        if (ToggleSound.sfxbool)
+            SoundManagerScript.playerAudioSource.Play ();
 		redPlayerI_Border.SetActive (false);
 		redPlayerII_Border.SetActive (false);
 		redPlayerIII_Border.SetActive (false);
