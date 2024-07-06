@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class GlobalGameJoinHandler : MonoBehaviour
 {
     [SerializeField] bool dummyMode = false;
+    [SerializeField] string dummyLobbyList = "";
     [SerializeField] bool isTimerLudo = false;
     [SerializeField] OnlineGameType onlineGameType;
     GameMode currentGameMode = GameMode.CLASSIC;
@@ -14,7 +16,7 @@ public class GlobalGameJoinHandler : MonoBehaviour
     [SerializeField] Button classicBt, timerBt;
     [SerializeField] GameObject classicCheck, timerCheck;
     [SerializeField] TMP_Dropdown playerCount;
-    [SerializeField] Button nextBt;
+    [SerializeField] Button nextBt, listBt;
     GlobalGameJoinData_JStruct globalGameJoinData;
     public OnlineGameJoinDataRoot_JStruct gameLobbyData_JStruct1;
 
@@ -31,6 +33,7 @@ public class GlobalGameJoinHandler : MonoBehaviour
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         classicCheck.SetActive(true);
         nextBt.onClick.AddListener(JoinGlobalGame);
+        listBt.onClick.AddListener(LoadLobbyList);
         classicBt.onClick.AddListener(SetClassicMode);
         timerBt.onClick.AddListener(SetQuickMode);
         playerCount.onValueChanged.AddListener(checkDropdownValue);
@@ -91,9 +94,20 @@ public class GlobalGameJoinHandler : MonoBehaviour
             {
                 Debug.Log("JoinGlobalGameCallback : " + gameLobbyData_JStruct1.meta.msg);
                 dialogBox.Show(gameLobbyData_JStruct1.meta.msg);
-                APIHandler.instance.GetLobbyList(GetLobbyListCallback);
+                LoadLobbyList();
             }
         }
+    }
+    void LoadLobbyList()
+    {
+        if(!dummyMode)
+        APIHandler.instance.GetLobbyList(GetLobbyListCallback);
+        else
+        {
+            LobbiesData_JStruct dt = JsonConvert.DeserializeObject<LobbiesData_JStruct>(dummyLobbyList);
+            GetLobbyListCallback(true, dt);
+        }
+
     }
     void GetLobbyListCallback(bool success, LobbiesData_JStruct lobbiesData_JStruct)
     {

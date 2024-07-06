@@ -13704,17 +13704,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1726621725}
-        m_TargetAssemblyTypeName: disableItems, Assembly-CSharp
-        m_MethodName: onClickOnline
-        m_Mode: 1
+      - m_Target: {fileID: 957589666}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &934500771
 MonoBehaviour:
@@ -14101,6 +14101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winingAmount: {fileID: 356960622}
   entryFee: {fileID: 598692905}
+--- !u!1 &957589666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 461435623007361384, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+  m_PrefabInstance: {fileID: 1183804349}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &960490155
 GameObject:
   m_ObjectHideFlags: 0
@@ -17477,6 +17482,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1020927150}
     - target: {fileID: 8529565641636316856, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: dummyMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8529565641636316856, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
       propertyPath: lobbylistPnl
       value: 
       objectReference: {fileID: 1683032478}
@@ -19140,6 +19149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyMode: 0
+  dummyLobbyList: 
   isTimerLudo: 0
   onlineGameType: {fileID: 1787995134}
   mainMenuScript: {fileID: 1726621724}
@@ -19149,6 +19159,7 @@ MonoBehaviour:
   timerCheck: {fileID: 1624680135}
   playerCount: {fileID: 1283058973}
   nextBt: {fileID: 1835393763}
+  listBt: {fileID: 0}
   lobbylistPnl: {fileID: 0}
   LobbyItemContent: {fileID: 0}
   prefab_lobbyListItem: {fileID: 0}
