@@ -9,6 +9,7 @@ public class DialogBox : MonoBehaviour
     [SerializeField] TextMeshProUGUI text;
     public void Show(string Message)
     {
+        Debug.Log("showing message :" +Message);
         text.text = Message;
         gameObject.SetActive(true);
     }

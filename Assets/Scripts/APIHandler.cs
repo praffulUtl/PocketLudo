@@ -11,7 +11,8 @@ public class APIHandler : MonoBehaviour
     public bool dummyMode = false;
     [SerializeField] DialogBox dialogBox;
 
-    public string baseUrl = "https://3sqlfz6r-5211.inc1.devtunnels.ms/ludo/v1";
+    public string baseUrl => baseUrlPrv;
+    string baseUrlPrv = "https://3sqlfz6r-5211.inc1.devtunnels.ms/ludo/v1";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
@@ -27,10 +28,13 @@ public class APIHandler : MonoBehaviour
     string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
     string keyName_isRegistered = "isRegistered";
+    string keyName_lastLobbyId = "lastLobbyId";
 
     public string key_playerId { get; private set; }
     public string key_authKey { get; private set; }
     public bool key_isRegistered { get; private set; }
+
+    public string key_lastLobbyId { get; private set; }
     public static APIHandler instance { get; private set; }
 
     private void Start()
@@ -48,6 +52,9 @@ public class APIHandler : MonoBehaviour
 
         if (PlayerPrefs.HasKey(keyName_playerId))
             this.key_playerId = PlayerPrefs.GetString(keyName_playerId);
+
+        if(PlayerPrefs.HasKey(keyName_lastLobbyId))
+            this.key_lastLobbyId = PlayerPrefs.GetString(keyName_lastLobbyId);
     }
     public void SetAuthKey(string key)
     {
@@ -63,6 +70,12 @@ public class APIHandler : MonoBehaviour
     {
         this.key_isRegistered = reg;
         PlayerPrefs.SetInt(keyName_isRegistered, reg ? 1 : 0);
+    }
+
+    public void SetLobbyID(string lobbyId)
+    {
+        this.key_lastLobbyId = lobbyId;
+        PlayerPrefs.SetString(keyName_lastLobbyId, this.key_lastLobbyId);
     }
 
     #region User auth/data
@@ -87,7 +100,8 @@ public class APIHandler : MonoBehaviour
         StartCoroutine(StartPostRequest(endPoint_VerifyLoginUser, jsonString, callback));
     }
     public void GetUserData(Action<bool, PlayerDataRoot_JStruct> callback)
-    {        
+    {
+        Debug.Log("GetUserData");
         StartCoroutine(GetRequest(endPoint_GetUserData, callback));
     }
     public void PostUserData(PlayerDetails_JStruct data, Action<bool, Meta> callback)
@@ -98,9 +112,9 @@ public class APIHandler : MonoBehaviour
     #endregion
 
     #region Global game
-    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, GlobalGameRootData_JStruct> callback)
+    public void PostJoinGlobalGame(GlobalGameJoinData_JStruct data, Action<bool, OnlineGameJoinDataRoot_JStruct> callback)
     {
-        string jsonString = JsonUtility.ToJson(data);
+        string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, callback));
     }
     public void GetLobbyList(Action<bool, LobbiesData_JStruct> callback) 
@@ -144,10 +158,10 @@ public class APIHandler : MonoBehaviour
     IEnumerator StartPostRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
     {
         Debug.Log("StartPostRequest : " + jsonString);
-        string url = baseUrl + urlEndPoint;
+        string url = baseUrlPrv + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
         {
-            if (keyName_authKey.Trim() != "" && key_authKey.Trim() != "")
+            if (key_authKey != null && key_authKey.Trim() != "")
                 webRequest.SetRequestHeader(keyName_authKey, key_authKey);
             yield return webRequest.SendWebRequest();
 
@@ -156,11 +170,12 @@ public class APIHandler : MonoBehaviour
                 Debug.Log("Unable to hit api : "+url);
                 try
                 {
+                    dialogBox.Show(webRequest.error);
                     callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
                 }
                 catch
                 {
-                    dialogBox.Show(webRequest.error);
+
                 }
             }
             else
@@ -170,6 +185,7 @@ public class APIHandler : MonoBehaviour
                 try
                 {
                     callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
+                    Debug.Log("Post response data deserialize success");
                 }
                 catch
                 {
@@ -178,12 +194,13 @@ public class APIHandler : MonoBehaviour
             }
         }
     }
-    IEnumerator GetRequest<T>(string urlEndPoint, Action<bool,T> callBack)
+    IEnumerator GetRequest<T>(string urlEndPoint, Action<bool, T> callBack)
     {
-        string url = baseUrl + urlEndPoint;
+        string url = baseUrlPrv + urlEndPoint;
+        Debug.Log("get req: " + url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
-            if (keyName_authKey.Trim() != "" && key_authKey.Trim() != "")
+            if (key_authKey != null && key_authKey.Trim() != "")
                 webRequest.SetRequestHeader(keyName_authKey, key_authKey);
             yield return webRequest.SendWebRequest();
 
@@ -192,17 +209,17 @@ public class APIHandler : MonoBehaviour
                 Debug.Log(webRequest.error);
                 try
                 {
+                    dialogBox.Show(webRequest.error.ToString());
                     callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
                 }
                 catch
                 {
-                    dialogBox.Show(webRequest.error);
                 }
             }
             else
             {
                 string resData = webRequest.downloadHandler.text;
-                Debug.Log("Post response data :" + url + "\n" + resData);
+                Debug.Log("Get response data :" + url + "\n" + resData);
                 try
                 {
                     callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
@@ -276,18 +293,18 @@ public class VerifyOTPRes_JStruct
 
 public class PlayerDetails_JStruct
 {
+    public int winningBalance { get; set; }
+    public int looseBalance { get; set; }
     public string _id { get; set; }
     public string playerId { get; set; }
     public string mobile { get; set; }
     public string email { get; set; }
     public string status { get; set; }
     public string roleType { get; set; }
-    public int topUpBalance { get; set; }
-    public int winningBalance { get; set; }
-    public int looseBalance { get; set; }
     public long createdAt { get; set; }
     public long updatedAt { get; set; }
     public int __v { get; set; }
+    public int topUpBalance { get; set; }
     //public string playerName { get; set; }
     //public string playerImageUrl { get; set; }
 }
@@ -330,23 +347,22 @@ public class GlobalGameJoinData_JStruct
 {
     public string PlayerID { get; set; }
     public bool TimerMode { get; set; }
-    public int BetAmount { get; set; }
     public int PlayerCount { get; set; }
-    public int LobbyId { get; set; }
+    public string LobbyId { get; set; }
 }
 
 [Serializable]
-public class GlobalGameRootData_JStruct
+public class OnlineGameJoinDataRoot_JStruct
 {
     public Meta meta { get; set; }
-    //public GlobalGameData_JStruct data { get; set; }
+    public OnlineGameJoinData_JStruct data { get; set; }
 }
 [Serializable]
-public class GlobalGameData_JStruct
-{ 
-    public string GameLobbyId { get; set; }
-    public List<PlayerItem_JStruct> PlayersInGame { get; set; }    
+public class OnlineGameJoinData_JStruct
+{
+    public int lobbyId { get; set; }
 }
+
 [Serializable]
 public class PlayerItem_JStruct
 {
@@ -433,7 +449,7 @@ public class Lobbies_JStruct
 {
     public string _id { get; set; }
     public int playersCount { get; set; }
-    public int lobbyId { get; set; }
+    public string lobbyId { get; set; }
     public int betAmount { get; set; }
     public bool timerMode { get; set; }
     public string gameType { get; set; }

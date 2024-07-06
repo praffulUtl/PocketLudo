@@ -28,7 +28,7 @@ public class LeaderboardHandler : MonoBehaviour
     }
     void LoadLeaderboard()
     {
-        Debug.Log("Loading leaderboard");
+       // Debug.Log("Loading leaderboard");
         isLoading = true;
         loadingObj.SetActive(true);
         loadLeaderboardData_JStruct.playerId = APIHandler.instance.key_playerId;
@@ -40,7 +40,7 @@ public class LeaderboardHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("LoadDummyData");
+            //Debug.Log("LoadDummyData");
             StartCoroutine(LoadDummyData());
         }
     }
@@ -63,7 +63,7 @@ public class LeaderboardHandler : MonoBehaviour
     {
         while (isLoading)
         {
-            Debug.Log("LoadDummyData");
+            //Debug.Log("LoadDummyData");
             yield return new WaitForSeconds(1f);
             LeaderboardDataRoot_JStruct leaderboardDataRoot_JStruct = JsonConvert.DeserializeObject<LeaderboardDataRoot_JStruct>(dummyData);
             LoadLeaderboardCallback(true, leaderboardDataRoot_JStruct);

@@ -106,7 +106,7 @@ public class AuthScreen : MonoBehaviour
                 dialogBox.Show(res.meta.msg);
         }
         else
-            dialogBox.Show("Error while "+(signUpActive?"signing up.": "signing in."));
+            dialogBox.Show("Error while "+(signUpActive?"signing up.": "logging in."));
 
         loadPnl.SetActive(false);
     }
@@ -177,7 +177,7 @@ public class AuthScreen : MonoBehaviour
         APIHandler.instance.SetUseRegistered(!signUpActive);
         screenTitleTxt.text = signUpActive ? "Sign Up" : "Sign In";
         signUpsignInTxt.text = signUpActive ? "Existing User?" : "New User?";
-        signUpsignInBtTxt.text = signUpActive ? "Sign in here." : "Sign up here.";
+        signUpsignInBtTxt.text = signUpActive ? "Log in here." : "Sign up here.";
         agreementContent.SetActive(signUpActive);
         sendOtpBt.interactable = CheckFields();
     }

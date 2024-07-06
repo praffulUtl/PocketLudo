@@ -16,7 +16,14 @@ public class GlobalGameJoinHandler : MonoBehaviour
     [SerializeField] TMP_Dropdown playerCount;
     [SerializeField] Button nextBt;
     GlobalGameJoinData_JStruct globalGameJoinData;
-    public GlobalGameRootData_JStruct gameLobbyData_JStruct1;
+    public OnlineGameJoinDataRoot_JStruct gameLobbyData_JStruct1;
+
+    [SerializeField] GameObject lobbylistPnl;
+    [SerializeField] Transform LobbyItemContent;
+    [SerializeField] LobbyListItem prefab_lobbyListItem;
+
+    [SerializeField] DialogBox dialogBox;
+    [SerializeField] GameObject loadPnl;
     private void Start()
     {
         globalGameJoinData = new GlobalGameJoinData_JStruct();
@@ -28,7 +35,7 @@ public class GlobalGameJoinHandler : MonoBehaviour
         timerBt.onClick.AddListener(SetQuickMode);
         playerCount.onValueChanged.AddListener(checkDropdownValue);
 
-        gameLobbyData_JStruct1 = new GlobalGameRootData_JStruct();
+        gameLobbyData_JStruct1 = new OnlineGameJoinDataRoot_JStruct();
         gameLobbyData_JStruct1.meta = new Meta();
         //gameLobbyData_JStruct1.data = new GlobalGameData_JStruct();
         //gameLobbyData_JStruct1.data.PlayersInGame = new List<PlayerItem_JStruct> { new PlayerItem_JStruct() };
@@ -38,44 +45,76 @@ public class GlobalGameJoinHandler : MonoBehaviour
     }
     void JoinGlobalGame()
     {
+        globalGameJoinData.LobbyId = APIHandler.instance.key_lastLobbyId != null ? APIHandler.instance.key_lastLobbyId : "";
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
-        globalGameJoinData.BetAmount = 100;
         globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
-        if (globalGameJoinData.TimerMode)
+        if (!dummyMode)
         {
-            mainMenuScript.timerLudo();
+            loadPnl.SetActive(true);
+            APIHandler.instance.PostJoinGlobalGame(globalGameJoinData, JoinGlobalGameCallback);
         }
         else
         {
-            if (!dummyMode)
-                APIHandler.instance.PostJoinGlobalGame(globalGameJoinData, JoinGlobalGameCallback);
+            gameLobbyData_JStruct1.meta.status = true;
+            JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
+        }
+    }
+    void JoinGlobalGame(string lobbyId,bool timer,int lobbyPlayersCount)
+    {
+        APIHandler.instance.SetLobbyID(lobbyId);
+        globalGameJoinData.LobbyId = lobbyId;
+        globalGameJoinData.TimerMode = timer;
+        globalGameJoinData.PlayerCount = lobbyPlayersCount;
+        globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
+        if (!dummyMode)
+        {
+            loadPnl.SetActive(true);
+            APIHandler.instance.PostJoinGlobalGame(globalGameJoinData, JoinGlobalGameCallback);
+        }
+        else
+        {
+            gameLobbyData_JStruct1.meta.status = true;
+            JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
+        }
+    }
+    void JoinGlobalGameCallback(bool success, OnlineGameJoinDataRoot_JStruct gameLobbyData_JStruct)
+    {
+        loadPnl.SetActive(false);
+        if (success)
+        {
+            if (gameLobbyData_JStruct1.meta.status)
+            {
+                //onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
+                mainMenuScript.four_player_online();
+            }
             else
             {
-                gameLobbyData_JStruct1.meta.status = true;
-                JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
+                Debug.Log("JoinGlobalGameCallback : " + gameLobbyData_JStruct1.meta.msg);
+                dialogBox.Show(gameLobbyData_JStruct1.meta.msg);
+                APIHandler.instance.GetLobbyList(GetLobbyListCallback);
             }
-        }
-
-    }
-    void JoinGlobalGameCallback(bool success, GlobalGameRootData_JStruct gameLobbyData_JStruct)
-    {
-        if (success && gameLobbyData_JStruct1.meta.status)
-        {
-            onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
-            mainMenuScript.four_player_online();
-        }
-        else
-        {
-            APIHandler.instance.GetLobbyList(GetLobbyListCallback);
         }
     }
     void GetLobbyListCallback(bool success, LobbiesData_JStruct lobbiesData_JStruct)
     {
-        if(success && lobbiesData_JStruct.meta.status)
+        loadPnl.SetActive(false);
+        foreach (Transform obj in LobbyItemContent)
         {
+            Destroy(obj.gameObject);
+        }
 
+        lobbylistPnl.SetActive(true);
+
+        if (success && lobbiesData_JStruct.meta.status)
+        {
+            foreach(var lobby in lobbiesData_JStruct.data)
+            {
+                LobbyListItem item = Instantiate(prefab_lobbyListItem, LobbyItemContent);
+                item.Initialize(lobby, JoinGlobalGame);
+            }
         }
     }
+
     void SetQuickMode()
     {
         timerCheck.SetActive(true);
