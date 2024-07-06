@@ -20,6 +20,7 @@ public class APIHandler : MonoBehaviour
     string endPoint_getTournaments = "tournament";
     string endPoint_postTournamentJoin = "tournament/join";
     string endPoint_postJoinGlobalGame = "online-game/join-lobby";
+    string endPoint_lobbyList = "online-game/lobbylist";
     string endPoint_PostLoadLeaderboard = "";
 
     string keyName_playerId = "playerId";
@@ -100,6 +101,10 @@ public class APIHandler : MonoBehaviour
     {
         string jsonString = JsonUtility.ToJson(data);
         StartCoroutine(StartPostRequest(endPoint_postJoinGlobalGame, jsonString, callback));
+    }
+    public void GetLobbyList(Action<bool, LobbiesData_JStruct> callback) 
+    {
+        StartCoroutine(GetRequest(endPoint_lobbyList,callback));
     }
     #endregion
 
@@ -333,7 +338,7 @@ public class GlobalGameJoinData_JStruct
 public class GlobalGameRootData_JStruct
 {
     public Meta meta { get; set; }
-    public GlobalGameData_JStruct data { get; set; }
+    //public GlobalGameData_JStruct data { get; set; }
 }
 [Serializable]
 public class GlobalGameData_JStruct
@@ -423,4 +428,40 @@ public class LeaderboardDataRoot_JStruct
     public LeaderboardData_JStruct data { get; set; }
 }
 
+public class Lobbies_JStruct
+{
+    public string _id { get; set; }
+    public int playersCount { get; set; }
+    public int lobbyId { get; set; }
+    public int betAmount { get; set; }
+    public bool timerMode { get; set; }
+    public string gameType { get; set; }
+    public List<LobbyListItemPlayer_JStruct> players { get; set; }
+    public object existPlayerCount { get; set; }
+    public object startTime { get; set; }
+    public object endTime { get; set; }
+    public bool lobbyIdExpiration { get; set; }
+    public bool isLobbyFull { get; set; }
+    public long createdAt { get; set; }
+    public long updatedAt { get; set; }
+    public int __v { get; set; }
+}
+
+public class LobbyListItemPlayer_JStruct
+{
+    public string playerId { get; set; }
+    public string playerTeam { get; set; }
+    public int winningAmount { get; set; }
+    public string winningStatus { get; set; }
+    public object winningNumber { get; set; }
+    public object winDate { get; set; }
+    public object looseDate { get; set; }
+    public string _id { get; set; }
+}
+
+public class LobbiesData_JStruct
+{
+    public Meta meta { get; set; }
+    public List<Lobbies_JStruct> data { get; set; }
+}
 #endregion

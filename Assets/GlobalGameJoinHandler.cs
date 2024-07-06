@@ -30,10 +30,10 @@ public class GlobalGameJoinHandler : MonoBehaviour
 
         gameLobbyData_JStruct1 = new GlobalGameRootData_JStruct();
         gameLobbyData_JStruct1.meta = new Meta();
-        gameLobbyData_JStruct1.data = new GlobalGameData_JStruct();
-        gameLobbyData_JStruct1.data.PlayersInGame = new List<PlayerItem_JStruct> { new PlayerItem_JStruct() };
-        gameLobbyData_JStruct1.data.PlayersInGame[0].PlayerID = APIHandler.instance.key_playerId;
-        gameLobbyData_JStruct1.data.PlayersInGame[0].PlayerTeam = "RED";
+        //gameLobbyData_JStruct1.data = new GlobalGameData_JStruct();
+        //gameLobbyData_JStruct1.data.PlayersInGame = new List<PlayerItem_JStruct> { new PlayerItem_JStruct() };
+        //gameLobbyData_JStruct1.data.PlayersInGame[0].PlayerID = APIHandler.instance.key_playerId;
+        //gameLobbyData_JStruct1.data.PlayersInGame[0].PlayerTeam = "RED";
 
     }
     void JoinGlobalGame()
@@ -63,6 +63,17 @@ public class GlobalGameJoinHandler : MonoBehaviour
         {
             onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
             mainMenuScript.four_player_online();
+        }
+        else
+        {
+            APIHandler.instance.GetLobbyList(GetLobbyListCallback);
+        }
+    }
+    void GetLobbyListCallback(bool success, LobbiesData_JStruct lobbiesData_JStruct)
+    {
+        if(success && lobbiesData_JStruct.meta.status)
+        {
+
         }
     }
     void SetQuickMode()

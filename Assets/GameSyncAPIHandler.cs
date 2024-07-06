@@ -59,15 +59,15 @@ public class GameSyncAPIHandler : MonoBehaviour
         }
         else if (DataKeeper.gameType == GameType.GLOBAL && DataKeeper.globalGameRootData.meta != null)
         {
-            foreach (var player in DataKeeper.globalGameRootData.data.PlayersInGame)
-            {
-                if (!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
-                {
-                    ourPlayerTeam = player.PlayerTeam;
-                    playerTeamFound = true;
-                    break;
-                }
-            }
+            //foreach (var player in DataKeeper.globalGameRootData.data.PlayersInGame)
+            //{
+            //    if (!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
+            //    {
+            //        ourPlayerTeam = player.PlayerTeam;
+            //        playerTeamFound = true;
+            //        break;
+            //    }
+            //}
         }
 
         dataToBeSent.data.PlayerTeam = GetColorInitial(ourPlayerTeam);
