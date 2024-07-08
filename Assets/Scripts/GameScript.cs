@@ -1469,8 +1469,10 @@ public class GameScript : MonoBehaviour {
         }*/
 
         selectDiceNumAnimation = randomNo.Next (1,7);
+		if (selectDiceNumAnimation == 6)
+			lastDiceRoll = 6;
 
-        if(playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 )
+        if (playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 )
         {
             selectDiceNumAnimation = 6;
             lastDiceRoll = 6;

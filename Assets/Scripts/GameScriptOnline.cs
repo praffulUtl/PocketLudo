@@ -1460,37 +1460,39 @@ public class GameScriptOnline : MonoBehaviour {
 		DiceRollButton.interactable = false;
 
         selectDiceNumAnimation = (i != -1) ? i : randomNo.Next(1, 7);
+        if (selectDiceNumAnimation == 6)
+            lastDiceRoll = 6;
 
-        //if (playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    redCounter++;
-        //}
-        //else if (playerTurn == "BLUE" && blueCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    blueCounter++;
-        //}
-        //else if (playerTurn == "GREEN" && greenCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    greenCounter++;
-        //}
-        //else if (playerTurn == "YELLOW" && yellowCounter <= 4 && lastDiceRoll != 6 && i == -1)
-        //{
-        //    selectDiceNumAnimation = 6;
-        //    lastDiceRoll = 6;
-        //    yellowCounter++;
-        //}
-        //else
-        //{
-        //    lastDiceRoll = 0;
-        //}
+        if (playerTurn == "RED" && redCounter <= 4 && lastDiceRoll != 6 && i == -1)
+		{
+			selectDiceNumAnimation = 6;
+			lastDiceRoll = 6;
+			redCounter++;
+		}
+		else if (playerTurn == "BLUE" && blueCounter <= 4 && lastDiceRoll != 6 && i == -1)
+		{
+			selectDiceNumAnimation = 6;
+			lastDiceRoll = 6;
+			blueCounter++;
+		}
+		else if (playerTurn == "GREEN" && greenCounter <= 4 && lastDiceRoll != 6 && i == -1)
+		{
+			selectDiceNumAnimation = 6;
+			lastDiceRoll = 6;
+			greenCounter++;
+		}
+		else if (playerTurn == "YELLOW" && yellowCounter <= 4 && lastDiceRoll != 6 && i == -1)
+		{
+			selectDiceNumAnimation = 6;
+			lastDiceRoll = 6;
+			yellowCounter++;
+		}
+		else
+		{
+			lastDiceRoll = 0;
+		}
 
-        Debug.Log("Dice value"+ selectDiceNumAnimation);
+		Debug.Log("Dice value"+ selectDiceNumAnimation);
 
 
         switch (selectDiceNumAnimation) 
