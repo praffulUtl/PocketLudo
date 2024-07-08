@@ -10,7 +10,8 @@ public class BalanceManager : MonoBehaviour
     public GameObject transactionDetailPrefab; // Reference to the Transaction Detail prefab
     public Transform transactionListParent; // Parent GameObject to contain the instantiated transaction details
 
-    public TMP_Text balanceText; // Reference to the TextMeshPro text field for balance display
+    public TMP_Text balanceText; //  to the TextMeshPro text field for balance display
+    public TMP_Text balanceText2; // Reference to the TextMeshPro text field for balance display
     public TMP_Text winningBalanceText; // Reference to the TextMeshPro text field for winning balance display
     public TMP_InputField rechargeAmountInputField; // Reference to the TMP InputField for recharge amount
     public Button fetchBalanceButton; // Button to fetch the balance
@@ -117,6 +118,8 @@ public class BalanceManager : MonoBehaviour
                 string jsonResponse = request.downloadHandler.text;
                 ProfileResponse profileResponse = JsonUtility.FromJson<ProfileResponse>(jsonResponse);
                 balanceText.text = profileResponse.data.topUpBalance.ToString();
+                if(balanceText2!=null)
+                    balanceText2.text = profileResponse.data.topUpBalance.ToString();
                 balance = profileResponse.data.topUpBalance.ToString();
                 PlayerPrefs.SetString("balance", balance);
                 Debug.Log("Balance fetched successfully: " + profileResponse.data.topUpBalance);
