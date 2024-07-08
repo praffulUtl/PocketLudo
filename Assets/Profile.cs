@@ -40,12 +40,17 @@ public class Profile : MonoBehaviour
         {
             Debug.Log("LoadProfileDataCallback");
             APIHandler.instance.SetPlayerID(playerDataRoot_JStruct.data._id);
-            //nameTxt.text = playerDataRoot_JStruct.data.playerName;
-            //nameTxt2.text = playerDataRoot_JStruct.data.playerName;
-            //nameInput.text = playerDataRoot_JStruct.data.playerName;
+            nameTxt.text = RemoveAfterAtCharacter(playerDataRoot_JStruct.data.email);
+            nameTxt2.text = RemoveAfterAtCharacter(playerDataRoot_JStruct.data.email); 
+            nameInput.text = RemoveAfterAtCharacter(playerDataRoot_JStruct.data.email);
             //if (playerDataRoot_JStruct.data.playerImageUrl.Trim() != "")
             //    APIHandler.instance.DownloadTexture(playerDataRoot_JStruct.data.playerImageUrl, LoadImageCallback);
         }
+    }
+    string RemoveAfterAtCharacter(string input)
+    {
+        int atIndex = input.IndexOf('@');
+        return atIndex >= 0 ? input.Substring(0, atIndex) : input;
     }
     void LoadImageCallback(bool success, Texture texture)
     {
