@@ -11,7 +11,8 @@ public class ToggleSound : MonoBehaviour
     void Start()
     {
         // Ensure the AudioSource is not playing at the start
-        audioSource.Stop();
+        //audioSource.Stop();
+        toggle.isOn = true;
 
         // Add a listener to the toggle to call the ToggleAudio method when its value changes
         toggle.onValueChanged.AddListener(ToggleAudio);
