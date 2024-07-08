@@ -28,13 +28,11 @@ public class APIHandler : MonoBehaviour
     string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
     string keyName_isRegistered = "isRegistered";
-    string keyName_lastLobbyId = "lastLobbyId";
 
     public string key_playerId { get; private set; }
     public string key_authKey { get; private set; }
     public bool key_isRegistered { get; private set; }
 
-    public string key_lastLobbyId { get; private set; }
     public static APIHandler instance { get; private set; }
 
     private void Start()
@@ -52,9 +50,6 @@ public class APIHandler : MonoBehaviour
 
         if (PlayerPrefs.HasKey(keyName_playerId))
             this.key_playerId = PlayerPrefs.GetString(keyName_playerId);
-
-        if(PlayerPrefs.HasKey(keyName_lastLobbyId))
-            this.key_lastLobbyId = PlayerPrefs.GetString(keyName_lastLobbyId);
     }
     public void SetAuthKey(string key)
     {
@@ -72,11 +67,6 @@ public class APIHandler : MonoBehaviour
         PlayerPrefs.SetInt(keyName_isRegistered, reg ? 1 : 0);
     }
 
-    public void SetLobbyID(string lobbyId)
-    {
-        this.key_lastLobbyId = lobbyId;
-        PlayerPrefs.SetString(keyName_lastLobbyId, this.key_lastLobbyId);
-    }
 
     #region User auth/data
     public void PostUserMailPhoneReg(UserMailAndPhone_JStruct data, Action<bool, RegLogUserAuth> callback)

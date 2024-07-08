@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class LobbyListItem : MonoBehaviour
 {
     string id = "";
+    public bool IsTimer => isTimer;
     bool isTimer = false;
     int playerCount;
     [SerializeField] TextMeshProUGUI playerCountTxt;

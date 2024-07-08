@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +14,8 @@ public class GlobalGameJoinHandler : MonoBehaviour
     [SerializeField] OnlineGameType onlineGameType;
     GameMode currentGameMode = GameMode.CLASSIC;
     [SerializeField] MainMenuScript mainMenuScript;
-    [SerializeField] Button classicBt, timerBt;
-    [SerializeField] GameObject classicCheck, timerCheck;
+    [SerializeField] Button classicBt, classicBtList, timerBt, timerBtList;
+    [SerializeField] GameObject classicCheck, classicCheckList, timerCheck, timerCheckList;
     [SerializeField] TMP_Dropdown playerCount;
     [SerializeField] Button nextBt, listBt;
     GlobalGameJoinData_JStruct globalGameJoinData;
@@ -32,10 +33,13 @@ public class GlobalGameJoinHandler : MonoBehaviour
         globalGameJoinData.PlayerID = APIHandler.instance.key_playerId;
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         classicCheck.SetActive(true);
+        classicCheckList.SetActive(true);
         nextBt.onClick.AddListener(JoinGlobalGame);
         listBt.onClick.AddListener(LoadLobbyList);
         classicBt.onClick.AddListener(SetClassicMode);
         timerBt.onClick.AddListener(SetQuickMode);
+        classicBtList.onClick.AddListener(SetClassicMode);
+        timerBtList.onClick.AddListener(SetQuickMode);
         playerCount.onValueChanged.AddListener(checkDropdownValue);
 
         gameLobbyData_JStruct1 = new OnlineGameJoinDataRoot_JStruct();
@@ -48,7 +52,6 @@ public class GlobalGameJoinHandler : MonoBehaviour
     }
     void JoinGlobalGame()
     {
-        globalGameJoinData.LobbyId = APIHandler.instance.key_lastLobbyId != null ? APIHandler.instance.key_lastLobbyId : "";
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
         if (!dummyMode)
@@ -64,7 +67,6 @@ public class GlobalGameJoinHandler : MonoBehaviour
     }
     void JoinGlobalGame(string lobbyId,bool timer,int lobbyPlayersCount)
     {
-        APIHandler.instance.SetLobbyID(lobbyId);
         globalGameJoinData.LobbyId = lobbyId;
         globalGameJoinData.TimerMode = timer;
         globalGameJoinData.PlayerCount = lobbyPlayersCount;
@@ -85,22 +87,23 @@ public class GlobalGameJoinHandler : MonoBehaviour
         loadPnl.SetActive(false);
         if (success)
         {
-            if (gameLobbyData_JStruct1.meta.status)
+            if (gameLobbyData_JStruct.meta.status)
             {
                 //onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
                 mainMenuScript.four_player_online();
             }
             else
             {
-                Debug.Log("JoinGlobalGameCallback : " + gameLobbyData_JStruct1.meta.msg);
-                dialogBox.Show(gameLobbyData_JStruct1.meta.msg);
+                Debug.Log("JoinGlobalGameCallback : " + gameLobbyData_JStruct.meta.msg);
+                dialogBox.Show(gameLobbyData_JStruct.meta.msg);
                 LoadLobbyList();
             }
         }
     }
     void LoadLobbyList()
     {
-        if(!dummyMode)
+        loadPnl.SetActive(true);
+        if (!dummyMode)
         APIHandler.instance.GetLobbyList(GetLobbyListCallback);
         else
         {
@@ -112,19 +115,23 @@ public class GlobalGameJoinHandler : MonoBehaviour
     void GetLobbyListCallback(bool success, LobbiesData_JStruct lobbiesData_JStruct)
     {
         loadPnl.SetActive(false);
-        foreach (Transform obj in LobbyItemContent)
+        if (LobbyItemContent.childCount > 0)
         {
-            Destroy(obj.gameObject);
+            foreach (Transform obj in LobbyItemContent)
+            {
+                Destroy(obj.gameObject);
+            }
         }
 
         lobbylistPnl.SetActive(true);
 
         if (success && lobbiesData_JStruct.meta.status)
         {
-            foreach(var lobby in lobbiesData_JStruct.data)
+            foreach (var lobby in lobbiesData_JStruct.data)
             {
                 LobbyListItem item = Instantiate(prefab_lobbyListItem, LobbyItemContent);
                 item.Initialize(lobby, JoinGlobalGame);
+                item.gameObject.SetActive(lobby.timerMode == isTimerLudo);
             }
         }
     }
@@ -133,13 +140,32 @@ public class GlobalGameJoinHandler : MonoBehaviour
     {
         timerCheck.SetActive(true);
         classicCheck.SetActive(false);
+        timerCheckList.SetActive(true);
+        classicCheckList.SetActive(false);
         currentGameMode = GameMode.TIMER;
+        isTimerLudo = (currentGameMode == GameMode.TIMER);
+        SwitchLobbies();
     }
     void SetClassicMode()
     {
         timerCheck.SetActive(false);
         classicCheck.SetActive(true);
+        timerCheckList.SetActive(false);
+        classicCheckList.SetActive(true);
         currentGameMode = GameMode.CLASSIC;
+        isTimerLudo = (currentGameMode == GameMode.TIMER);
+        SwitchLobbies();
+    }
+    void SwitchLobbies()
+    {
+        if (LobbyItemContent.childCount > 0)
+        {
+            foreach (Transform obj in LobbyItemContent)
+            {
+                obj.gameObject.SetActive(false);
+                obj.gameObject.SetActive(obj.GetComponent<LobbyListItem>().IsTimer == isTimerLudo);
+            }
+        }
     }
     void checkDropdownValue(int i)
     {
