@@ -284,6 +284,8 @@ public class VerifyOTPRes_JStruct
 public class PlayerDetails_JStruct
 {
     public int winningBalance { get; set; }
+    public string playerName { get; set; }
+    public string playerImageUrl { get; set; }
     public int looseBalance { get; set; }
     public string _id { get; set; }
     public string playerId { get; set; }
