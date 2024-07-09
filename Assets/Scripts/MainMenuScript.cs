@@ -51,6 +51,10 @@ public class MainMenuScript : MonoBehaviour
         //    SceneManager.LoadScene("Ludo1");
         //SceneManager.LoadScene("Game234Plr");
     }
+    public void vsComputer()
+    {
+        SceneManager.LoadScene("LudoComputer");
+    }
 
     public void quit()
 	{
