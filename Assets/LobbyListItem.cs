@@ -38,7 +38,7 @@ public class LobbyListItem : MonoBehaviour
         if (sec > 0)
             StartCoroutine(processTimer(sec));
         else
-            Destroy(gameObject);
+            ClearItem();
     }
     void JoinBtAction()
     {
@@ -55,6 +55,19 @@ public class LobbyListItem : MonoBehaviour
             gameStartInTime.text = $"{time}s";
             yield return waitSec;
         }
+        ClearItem();
+    }
+    void ClearItem()
+    {
+        LobbyExpiration_JStruct lobbyExpiration_JStruct = new LobbyExpiration_JStruct();
+        lobbyExpiration_JStruct.lobbyId = int.Parse(id);
+        lobbyExpiration_JStruct.lobbyIdExpiration = true;
+        //APIHandler.instance.PostLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
         Destroy(gameObject);
+    }
+    void LobbyExpiryCallBack(bool success, StartGame_JStruct data)
+    {
+        if (success && data.meta.status)
+            Debug.Log("Lobby "+id+" cleard");
     }
 }

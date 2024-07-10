@@ -1952,7 +1952,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		{
 			webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = redPlayerI_Steps - 1;
 			webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
-			webSocketClient.SendData();
+			webSocketClient.SendPlayerData();
 		}
     }
 
@@ -2094,7 +2094,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		{
 			webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = redPlayerII_Steps - 1;
 			webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
-			webSocketClient.SendData();
+			webSocketClient.SendPlayerData();
 		}
     }
 
@@ -2232,7 +2232,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		{
 			webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = redPlayerIII_Steps - 1;
 			webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
-			webSocketClient.SendData();
+			webSocketClient.SendPlayerData();
 		}
     }
 
@@ -2372,7 +2372,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
 		{
 			webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = redPlayerIV_Steps - 1;
 			webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
-			webSocketClient.SendData();
+			webSocketClient.SendPlayerData();
 		}
     }
 	//==================================== GREEN PLAYERS MOVEMENT =================================================================
@@ -2513,7 +2513,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = greenPlayerI_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -2653,7 +2653,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = greenPlayerII_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -2793,7 +2793,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = greenPlayerIII_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -2933,7 +2933,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = greenPlayerIV_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 	//===================================== BLUE PLAYERS MOVEMENT =========================================================
@@ -3073,7 +3073,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = bluePlayerI_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -3214,7 +3214,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = bluePlayerII_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -3354,7 +3354,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = bluePlayerIII_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -3494,7 +3494,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = bluePlayerIV_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 	//==================================== YELLOW PLAYERS MOVEMENT =============================================================
@@ -3636,7 +3636,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = yellowPlayerI_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -3779,7 +3779,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = yellowPlayerII_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -3920,7 +3920,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = yellowPlayerIII_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 
@@ -4061,7 +4061,7 @@ public class GameScriptTimerOnline : MonoBehaviour {
         {
             webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = yellowPlayerIV_Steps - 1;
             webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
-            webSocketClient.SendData();
+            webSocketClient.SendPlayerData();
         }
     }
 	//=============================================================================================================================

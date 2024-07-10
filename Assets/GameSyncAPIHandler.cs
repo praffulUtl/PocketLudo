@@ -24,6 +24,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     List<string> playerTeams = new List<string> {"R","B","G","Y"};
     bool checkPlayerNotInGame = false;
     public DataRoot<OurPlayerDataSet> dataToBeSent;
+    DataRoot<GetPlayers> getPlayersLobbyData;
     public string ourPlayerTeam = "RED"; // R B G Y
     bool diceRolled = false;
     string lastPlayerTurn = "";
@@ -32,7 +33,9 @@ public class GameSyncAPIHandler : MonoBehaviour
     string sendJson = "";
 
     private ClientWebSocket webSocket;
-    private Uri serverUri = new Uri("wss://3sqlfz6r-8081.inc1.devtunnels.ms/"); // Replace with your server address
+    private Uri serverUri = new Uri("wss://3sqlfz6r-8080.inc1.devtunnels.ms/"); // Replace with your server address
+
+    public bool socketConnected = false;
 
     private void Awake()
     {
@@ -40,6 +43,9 @@ public class GameSyncAPIHandler : MonoBehaviour
         dataToBeSent.type = "movePiece";
         dataToBeSent.data = new OurPlayerDataSet();
         dataToBeSent.data.PlayerPiece = new List<PlayerPiece> { new PlayerPiece(), new PlayerPiece(), new PlayerPiece(), new PlayerPiece() };
+
+        getPlayersLobbyData = new DataRoot<GetPlayers>();
+        getPlayersLobbyData.data = new GetPlayers();
     }
 
     void Start()
@@ -131,19 +137,29 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void StartGame()
     {
-        //Debug.Log("Auth key : " + APIHandler.instance.key_authKey);
-        //TriggerStartGame_JStruct triggerStartGame_JStruct = new TriggerStartGame_JStruct();
-        //triggerStartGame_JStruct.lobbyId = lobbyId;
-        //triggerStartGame_JStruct.startGame = true;
-        //APIHandler.instance.PostStartGlobalGame(triggerStartGame_JStruct, StartGlobalGameCallback);
+        Debug.Log("StartGame");
 
         DataRoot<StartGameData> startData = new DataRoot<StartGameData>();
         startData.type = "startGame";
+        startData.data = new StartGameData();
         startData.data.lobbyId = lobbyId;
         startData.data.playerId = APIHandler.instance.key_playerId;
         startData.data.startGame = true;
+
+        Debug.Log("StartGame--1");
+        Debug.Log("StartGame : "+startData.data.lobbyId);
         sendJson = JsonConvert.SerializeObject(startData);
-        Debug.Log("sent : "+sendJson);
+        Debug.Log("ws StartGame sent : " + sendJson);
+        Task task = SendRequest();
+        GetPlayersInLobby();
+    }
+    void GetPlayersInLobby()
+    {
+        Debug.Log("GetPlayersInLobby");
+        getPlayersLobbyData.type = "getPlayers";
+        getPlayersLobbyData.data.lobbyID = lobbyId;
+        sendJson = JsonConvert.SerializeObject(getPlayersLobbyData);
+        Debug.Log("ws GetPlayersInLobby : " + sendJson);
         Task task = SendRequest();
     }
 
@@ -171,6 +187,7 @@ public class GameSyncAPIHandler : MonoBehaviour
         {
             await webSocket.ConnectAsync(serverUri, CancellationToken.None);
             Debug.Log("WebSocket connected!");
+            socketConnected = true;
             StartGame();
         }
         catch (Exception e)
@@ -235,6 +252,9 @@ public class GameSyncAPIHandler : MonoBehaviour
             var responseObject = JsonConvert.DeserializeObject<DataRoot<System.Object>>(responseJson);
             if (responseObject.type == "movePiece")
                 ProcessResponseData(responseJson);
+            //if (responseObject.type == "getPlayers")
+            //    ProcessLobbyData(responseJson);
+
 
             // Handle the response object as needed
         }
@@ -244,9 +264,10 @@ public class GameSyncAPIHandler : MonoBehaviour
         }
     }
 
-    public void SendData()
+    public void SendPlayerData()
     {
         sendJson = JsonConvert.SerializeObject(dataToBeSent);
+        Debug.Log("ws SendPlayerData : " + sendJson);
         Task task = SendRequest();
 
         //task.Start();
@@ -259,7 +280,11 @@ public class GameSyncAPIHandler : MonoBehaviour
     {
         ProcessResponseData(dummydata);
     }
-
+    void ProcessLobbyData(string json)
+    {
+        var responseObject = JsonConvert.DeserializeObject<DataRoot<LobbyPlayerData>>(json);
+        waitingScreen.ShowPlayerCount(responseObject.data.players.Count);
+    }
     void ProcessResponseData(string jsonString)
     {
         dataToBeSent.data.playerTurn = true;
@@ -780,10 +805,32 @@ public class StartGameData
     public string playerId { get; set; }
     public bool startGame { get; set; }
 }
+
+public class GetPlayers
+{
+    public int lobbyID { get; set; }
+}
 public class DataRoot<T>
 {
     public string type { get; set; }
     public T data { get; set; }
+}
+
+public class LobbyPlayer
+{
+    public string playerName { get; set; }
+    public string playerImageUrl { get; set; }
+    public string _id { get; set; }
+}
+
+public class LobbyPlayerData
+{
+    public List<LobbyPlayer> players { get; set; }
+}
+
+public class LobbyPlayerDataRoot
+{
+    public Meta meta { get; set; }
 }
 public enum PlayerTeam
 {

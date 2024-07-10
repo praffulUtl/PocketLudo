@@ -27,6 +27,7 @@ public class APIHandler : MonoBehaviour
     string endPoint_startGame = "online-game/start-game";
     string endPoint_startGame2 = "online-game/start-game";
     string endPoint_PostLoadLeaderboard = "online-game/leader-list";
+    string endPoint_lobbyExpiry = "online-game/lobby-expiration";
 
     string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
@@ -123,8 +124,15 @@ public class APIHandler : MonoBehaviour
     public void PostStartGlobalGame(TriggerStartGame_JStruct data, Action<bool, StartGame_JStruct> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
-        StartCoroutine(StartPostRequest2(endPoint_startGame2, jsonString, callback));
+        StartCoroutine(StartPostRequest(endPoint_startGame2, jsonString, callback));
     }
+
+    public void PostLobbyExpiry(LobbyExpiration_JStruct data, Action<bool, StartGame_JStruct> callback)
+    {
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest(endPoint_lobbyExpiry, jsonString, callback));
+    }
+
     #endregion
 
     #region tournament
@@ -196,43 +204,22 @@ public class APIHandler : MonoBehaviour
                 }
             }
         }
-    }IEnumerator StartPostRequest2<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
+    }
+
+    IEnumerator Upload(string endpoint,string data)
     {
-        Debug.Log("StartPostRequest : " + jsonString);
-        string url = baseUrlPrv + urlEndPoint;
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
+        var url = baseUrlPrv+ endpoint;
+        using (UnityWebRequest www = UnityWebRequest.Post(url,data, "application/json"))
         {
-            //if (key_authKey != null && key_authKey.Trim() != "")
-            //    webRequest.SetRequestHeader(keyName_authKey, key_authKey);
-            webRequest.SetRequestHeader("authkey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdmOWY0OWQxNzUzZjY0ZTIwZTM0ZTIiLCJlbWFpbCI6InByYWZmdWwuYmhhcnRpM0BnbWFpbC5jb20iLCJpYXQiOjE3MjA1Mzk3ODUsImV4cCI6MTc1MjA5NzM4NX0.FLyQmoFd1G9JVlLOX3mnAJraaLiV6FPNZl2scnfy08I");
-            yield return webRequest.SendWebRequest();
+            yield return www.SendWebRequest();
 
-            if (webRequest.result != UnityWebRequest.Result.Success)
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("Unable to hit api : "+url+" "+webRequest.GetRequestHeader(keyName_authKey));
-                try
-                {
-                    dialogBox.Show(webRequest.error);
-                    callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
-                }
-                catch
-                {
-
-                }
+                Debug.LogError(www.error);
             }
             else
             {
-                string resData = webRequest.downloadHandler.text;
-                Debug.Log("Post response data :" + url + "\n" + resData);
-                try
-                {
-                    callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
-                    Debug.Log("Post response data deserialize success");
-                }
-                catch
-                {
-                    dialogBox.Show("Error : " + resData);
-                }
+                Debug.Log("Form upload complete!");
             }
         }
     }
@@ -523,6 +510,11 @@ public class LobbiesData_JStruct
 {
     public Meta meta { get; set; }
     public List<Lobbies_JStruct> data { get; set; }
+}
+public class LobbyExpiration_JStruct
+{
+    public int lobbyId { get; set; }
+    public bool lobbyIdExpiration { get; set; }
 }
 public class LobbyPlayers
 {
