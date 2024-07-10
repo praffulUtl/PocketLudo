@@ -53,7 +53,8 @@ public class MainMenuScript : MonoBehaviour
     }
     public void vsComputer()
     {
-        SceneManager.LoadScene("LudoComputer");
+        howManyPlayers = 2;
+        SceneManager.LoadScene("Ludo2");
     }
 
     public void quit()

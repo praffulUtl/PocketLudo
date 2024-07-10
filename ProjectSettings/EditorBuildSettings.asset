@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LudoComputer.unity
     guid: ef28a5e7aa5e2114fb751fc9d1498819
+  - enabled: 1
+    path: Assets/Scenes/Ludo2.unity
+    guid: f86bc5b59b9b34a489a50012d2c9b730
   m_configObjects: {}
