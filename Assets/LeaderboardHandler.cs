@@ -35,7 +35,7 @@ public class LeaderboardHandler : MonoBehaviour
         loadLeaderboardData_JStruct.pageNo = currentPageNo;
         if (!dummyMode)
         {
-            APIHandler.instance.PostLoadLeaderboard(loadLeaderboardData_JStruct, LoadLeaderboardCallback);
+            APIHandler.instance.GetLoadLeaderboard(LoadLeaderboardCallback);
             currentPageNo++;
         }
         else
@@ -46,14 +46,16 @@ public class LeaderboardHandler : MonoBehaviour
     }
     void LoadLeaderboardCallback(bool success, LeaderboardDataRoot_JStruct leaderboardDataRoot_JStruct)
     {
+        int i=0;
         if (success && leaderboardDataRoot_JStruct.meta.status)
         {
-            var players = leaderboardDataRoot_JStruct.data.players;
+            var players = leaderboardDataRoot_JStruct.data;
             foreach (var item in players)
             {
+                i++;
                 GameObject newPlayerItem = Instantiate(Prefab_LeaderboardPlayerItem.gameObject, content);
                 LeaderboardPlayerItem newObj = newPlayerItem.GetComponent<LeaderboardPlayerItem>();
-                newObj.Initialize(item);
+                newObj.Initialize(item,i);
             }
         }
         isLoading = false;

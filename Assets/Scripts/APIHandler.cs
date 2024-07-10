@@ -26,7 +26,7 @@ public class APIHandler : MonoBehaviour
     string endPoint_lobbyPlayers = "online-game/players/";
     string endPoint_startGame = "online-game/start-game";
     string endPoint_startGame2 = "online-game/start-game";
-    string endPoint_PostLoadLeaderboard = "";
+    string endPoint_PostLoadLeaderboard = "online-game/leader-list";
 
     string keyName_playerId = "playerId";
     string keyName_authKey = "authKey";
@@ -141,11 +141,9 @@ public class APIHandler : MonoBehaviour
     #endregion
 
     #region Leaderboard
-    public void PostLoadLeaderboard(LoadLeaderboardData_JStruct data, Action<bool, LeaderboardDataRoot_JStruct> callback)
+    public void GetLoadLeaderboard(Action<bool, LeaderboardDataRoot_JStruct> callback)
     {
-        string jsonString = JsonConvert.SerializeObject(data);
-        Debug.Log("StartPostRequest : " + jsonString);
-        StartCoroutine(StartPostRequest(endPoint_PostLoadLeaderboard, jsonString, callback));
+        StartCoroutine(GetRequest(endPoint_PostLoadLeaderboard, callback));
     }
     #endregion
 
@@ -478,17 +476,16 @@ public class LeaderboardData_JStruct
 
 public class LeaderboardPlayer_JStruct
 {
-    public int playerRank { get; set; }
-    public int playerScore { get; set; }
     public string playerName { get; set; }
     public string playerImageUrl { get; set; }
-    public string playerId { get; set; }
+    public int score { get; set; }
+    public string _id { get; set; }
 }
 
 public class LeaderboardDataRoot_JStruct
 {
     public Meta meta { get; set; }
-    public LeaderboardData_JStruct data { get; set; }
+    public List<LeaderboardPlayer_JStruct> data { get; set; }
 }
 
 public class Lobbies_JStruct

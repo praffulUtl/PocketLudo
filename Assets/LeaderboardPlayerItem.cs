@@ -10,7 +10,7 @@ public class LeaderboardPlayerItem : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerNameTxt;
     [SerializeField] TextMeshProUGUI playerRankTxt;
     [SerializeField] TextMeshProUGUI playerScoreTxt;
-    public void Initialize(LeaderboardPlayer_JStruct leaderboardPlayer_JStruct)
+    public void Initialize(LeaderboardPlayer_JStruct leaderboardPlayer_JStruct,int index)
     {
         var data = leaderboardPlayer_JStruct;
 
@@ -18,8 +18,8 @@ public class LeaderboardPlayerItem : MonoBehaviour
         APIHandler.instance.DownloadTexture(data.playerImageUrl,PlayerImageDownloadCallback);
 
         playerNameTxt.text = data.playerName;
-        playerRankTxt.text = data.playerRank.ToString();
-        playerScoreTxt.text = data.playerScore.ToString();
+        playerRankTxt.text = index.ToString();
+        playerScoreTxt.text = data.score.ToString();
     }
     void PlayerImageDownloadCallback(bool success, Texture texture)
     {
