@@ -23,6 +23,9 @@ public class APIHandler : MonoBehaviour
     string endPoint_postTournamentJoin = "tournament/join";
     string endPoint_postJoinGlobalGame = "online-game/join-lobby";
     string endPoint_lobbyList = "online-game/lobbylist";
+    string endPoint_lobbyPlayers = "online-game/players/";
+    string endPoint_startGame = "online-game/start-game";
+    string endPoint_startGame2 = "online-game/start-game";
     string endPoint_PostLoadLeaderboard = "";
 
     string keyName_playerId = "playerId";
@@ -111,6 +114,17 @@ public class APIHandler : MonoBehaviour
     {
         StartCoroutine(GetRequest(endPoint_lobbyList,callback));
     }
+
+    public void GetLobbyPlayers(int lobbyId, Action<bool, LobbyPlayers> callback)
+    {
+        StartCoroutine(GetRequest(endPoint_lobbyPlayers+lobbyId, callback));
+    }
+
+    public void PostStartGlobalGame(TriggerStartGame_JStruct data, Action<bool, StartGame_JStruct> callback)
+    {
+        string jsonString = JsonConvert.SerializeObject(data);
+        StartCoroutine(StartPostRequest2(endPoint_startGame2, jsonString, callback));
+    }
     #endregion
 
     #region tournament
@@ -153,11 +167,51 @@ public class APIHandler : MonoBehaviour
         {
             if (key_authKey != null && key_authKey.Trim() != "")
                 webRequest.SetRequestHeader(keyName_authKey, key_authKey);
+            //webRequest.SetRequestHeader("authKey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdmOWY0OWQxNzUzZjY0ZTIwZTM0ZTIiLCJlbWFpbCI6InByYWZmdWwuYmhhcnRpM0BnbWFpbC5jb20iLCJpYXQiOjE3MjA1Mzk3ODUsImV4cCI6MTc1MjA5NzM4NX0.FLyQmoFd1G9JVlLOX3mnAJraaLiV6FPNZl2scnfy08I");
             yield return webRequest.SendWebRequest();
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("Unable to hit api : "+url);
+                Debug.Log("Unable to hit api : "+url+" "+webRequest.GetRequestHeader(keyName_authKey));
+                try
+                {
+                    dialogBox.Show(webRequest.error);
+                    callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
+                }
+                catch
+                {
+
+                }
+            }
+            else
+            {
+                string resData = webRequest.downloadHandler.text;
+                Debug.Log("Post response data :" + url + "\n" + resData);
+                try
+                {
+                    callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
+                    Debug.Log("Post response data deserialize success");
+                }
+                catch
+                {
+                    dialogBox.Show("Error : " + resData);
+                }
+            }
+        }
+    }IEnumerator StartPostRequest2<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
+    {
+        Debug.Log("StartPostRequest : " + jsonString);
+        string url = baseUrlPrv + urlEndPoint;
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonString, "application/json"))
+        {
+            //if (key_authKey != null && key_authKey.Trim() != "")
+            //    webRequest.SetRequestHeader(keyName_authKey, key_authKey);
+            webRequest.SetRequestHeader("authkey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdmOWY0OWQxNzUzZjY0ZTIwZTM0ZTIiLCJlbWFpbCI6InByYWZmdWwuYmhhcnRpM0BnbWFpbC5jb20iLCJpYXQiOjE3MjA1Mzk3ODUsImV4cCI6MTc1MjA5NzM4NX0.FLyQmoFd1G9JVlLOX3mnAJraaLiV6FPNZl2scnfy08I");
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Unable to hit api : "+url+" "+webRequest.GetRequestHeader(keyName_authKey));
                 try
                 {
                     dialogBox.Show(webRequest.error);
@@ -473,4 +527,44 @@ public class LobbiesData_JStruct
     public Meta meta { get; set; }
     public List<Lobbies_JStruct> data { get; set; }
 }
+public class LobbyPlayers
+{
+    public Meta meta { get; set; }
+    public LobbyPlayers_JStruct data { get; set; }
+}
+
+// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+public class LobbyPlayers_JStruct
+{
+    public string _id { get; set; }
+    public int lobbyId { get; set; }
+    public long createdAt { get; set; }
+    public long updatedAt { get; set; }
+    public int betAmount { get; set; }
+    public bool timerMode { get; set; }
+    public string gameType { get; set; }
+    public bool lobbyIdExpiration { get; set; }
+    public int RemainSeconds { get; set; }
+    public int PlayerTurnSeconds { get; set; }
+    public List<LobbyPlayer_JStruct> players { get; set; }
+}
+
+
+public class LobbyPlayer_JStruct
+{
+    public string playerTeam { get; set; }
+    public string PlayerId { get; set; }
+}
+
+public class TriggerStartGame_JStruct
+{
+    public int lobbyId { get; set; }
+    public bool startGame { get; set; }
+}
+
+public class StartGame_JStruct
+{ 
+    public Meta meta { get; set; }
+}
+
 #endregion

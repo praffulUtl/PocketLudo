@@ -1093,7 +1093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f6fe78c86e3dc4c9475134ac7d99d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyMode: 1
+  dummyMode: 0
   dialogBox: {fileID: 1178155435}
 --- !u!224 &355911762 stripped
 RectTransform:

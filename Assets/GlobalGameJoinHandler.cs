@@ -54,6 +54,7 @@ public class GlobalGameJoinHandler : MonoBehaviour
     {
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
+        globalGameJoinData.LobbyId = null;
         if (!dummyMode)
         {
             loadPnl.SetActive(true);
@@ -90,6 +91,9 @@ public class GlobalGameJoinHandler : MonoBehaviour
             if (gameLobbyData_JStruct.meta.status)
             {
                 //onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
+                onlineGameType.lobbyId = gameLobbyData_JStruct.data.lobbyId;
+                onlineGameType.isTimer = isTimerLudo;
+                onlineGameType.gameType = GameType.GLOBAL;
                 mainMenuScript.four_player_online();
             }
             else

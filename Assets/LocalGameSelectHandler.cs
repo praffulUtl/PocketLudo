@@ -19,14 +19,23 @@ public class LocalGameSelectHandler : MonoBehaviour
     void SetTwoPlayer()
     {
         playersCount = PlayersCount.TWO_Player;
+        TwoPlayerBt.interactable = false;
+        ThreePlayerBt.interactable = true;
+        FourPlayerBt.interactable= true;
     }
     void SetThreePlayer()
     {
         playersCount = PlayersCount.THREE_PLAYER;
+        TwoPlayerBt.interactable = true;
+        ThreePlayerBt.interactable = false;
+        FourPlayerBt.interactable = true;
     }
     void SetFourPlayer()
     {
         playersCount = PlayersCount.FOUR_Player;
+        TwoPlayerBt.interactable = true;
+        ThreePlayerBt.interactable = true;
+        FourPlayerBt.interactable = false;
     }
     void joinGame()
     {

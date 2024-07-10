@@ -1557,7 +1557,7 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == playerTurn)
         {
             webSocketClient.ResetDataToBeSent();
-			webSocketClient.dataToBeSent.data.DiceNumber = selectDiceNumAnimation;
+			webSocketClient.dataToBeSent.data.diceNumber = selectDiceNumAnimation;
             webSocketClient.SendData();
         }
 
@@ -2054,7 +2054,7 @@ public class GameScriptOnline : MonoBehaviour {
 				}
 				totalRedInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "RED")                
-                    webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;                
+                    webSocketClient.dataToBeSent.data.PlayerPiece[0].reachedWinPos = true;                
                 Debug.Log ("Cool !!");
 				RedPlayerI_Button.enabled = false;
 			}
@@ -2085,8 +2085,8 @@ public class GameScriptOnline : MonoBehaviour {
 		if (webSocketClient.ourPlayerTeam == "RED")
 		{
 			webSocketClient.ResetDataToBeSent();
-			webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = redPlayerI_Steps - 1;
-			webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+			webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = redPlayerI_Steps - 1;
+			webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
 			webSocketClient.SendData();
 		}
     }
@@ -2197,7 +2197,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalRedInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "RED")
-                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[1].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				RedPlayerII_Button.enabled = false;
 			}
@@ -2228,8 +2228,8 @@ public class GameScriptOnline : MonoBehaviour {
 		if (webSocketClient.ourPlayerTeam == "RED")
 		{
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = redPlayerII_Steps - 1;
-			webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = redPlayerII_Steps - 1;
+			webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
 			webSocketClient.SendData();
 		}
     }
@@ -2336,7 +2336,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalRedInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "RED")
-                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[2].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				RedPlayerIII_Button.enabled = false;
 			}
@@ -2367,8 +2367,8 @@ public class GameScriptOnline : MonoBehaviour {
 		if (webSocketClient.ourPlayerTeam == "RED")
 		{
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = redPlayerIII_Steps - 1;
-			webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = redPlayerIII_Steps - 1;
+			webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
 			webSocketClient.SendData();
 		}
     }
@@ -2477,7 +2477,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalRedInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "RED")
-                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[3].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				RedPlayerIV_Button.enabled = false;
 			}
@@ -2508,8 +2508,8 @@ public class GameScriptOnline : MonoBehaviour {
 		if (webSocketClient.ourPlayerTeam == "RED")
 		{
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = redPlayerIV_Steps - 1;
-			webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = redPlayerIV_Steps - 1;
+			webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
 			webSocketClient.SendData();
 		}
     }
@@ -2619,7 +2619,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalGreenInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "GREEN")                
-					webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;                
+					webSocketClient.dataToBeSent.data.PlayerPiece[0].reachedWinPos = true;                
                 Debug.Log ("Cool !!");
 				GreenPlayerI_Button.enabled = false;
 			} 
@@ -2650,8 +2650,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "GREEN")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = greenPlayerI_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = greenPlayerI_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -2760,7 +2760,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalGreenInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "GREEN")
-                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[1].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				GreenPlayerII_Button.enabled = false;
 			} 
@@ -2791,8 +2791,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "GREEN")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = greenPlayerII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = greenPlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -2901,7 +2901,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalGreenInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "GREEN")
-                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[2].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				GreenPlayerIII_Button.enabled = false;
 			} 
@@ -2932,8 +2932,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "GREEN")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = greenPlayerIII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = greenPlayerIII_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3042,7 +3042,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalGreenInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "GREEN")
-                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[3].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				GreenPlayerIV_Button.enabled = false;
 			} 
@@ -3073,8 +3073,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "GREEN")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = greenPlayerIV_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = greenPlayerIV_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3183,7 +3183,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalBlueInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "BLUE")
-                    webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[0].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				BluePlayerI_Button.enabled = false;
 			} 
@@ -3214,8 +3214,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "BLUE")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = bluePlayerI_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = bluePlayerI_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3325,7 +3325,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalBlueInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "BLUE")
-                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[1].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				BluePlayerII_Button.enabled = false;
 			} 
@@ -3356,8 +3356,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "BLUE")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = bluePlayerII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = bluePlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3466,7 +3466,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalBlueInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "BLUE")
-                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[2].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				BluePlayerIII_Button.enabled = false;
 			} 
@@ -3497,8 +3497,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "BLUE")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = bluePlayerIII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = bluePlayerIII_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3607,7 +3607,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalBlueInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "BLUE")
-                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[3].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				BluePlayerIV_Button.enabled = false;
 			} 
@@ -3638,8 +3638,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "BLUE")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = bluePlayerIV_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = bluePlayerIV_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3750,7 +3750,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalYellowInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "YELLOW")
-                    webSocketClient.dataToBeSent.data.Playerpiece[0].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[0].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				YellowPlayerI_Button.enabled = false;
 			} 
@@ -3781,8 +3781,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "YELLOW")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[0].MovementBlockIndex = yellowPlayerI_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[0].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[0].movementBlockIndex = yellowPlayerI_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[0].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -3894,7 +3894,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalYellowInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "YELLOW")
-                    webSocketClient.dataToBeSent.data.Playerpiece[1].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[1].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				YellowPlayerII_Button.enabled = false;
 			} 
@@ -3925,8 +3925,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "YELLOW")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[1].MovementBlockIndex = yellowPlayerII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[1].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].movementBlockIndex = yellowPlayerII_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[1].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -4036,7 +4036,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalYellowInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "YELLOW")
-                    webSocketClient.dataToBeSent.data.Playerpiece[2].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[2].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				YellowPlayerIII_Button.enabled = false;
 			} 
@@ -4067,8 +4067,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "YELLOW")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[2].MovementBlockIndex = yellowPlayerIII_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[2].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].movementBlockIndex = yellowPlayerIII_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[2].isOpen = true;
             webSocketClient.SendData();
         }
     }
@@ -4178,7 +4178,7 @@ public class GameScriptOnline : MonoBehaviour {
 
 				totalYellowInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "YELLOW")
-                    webSocketClient.dataToBeSent.data.Playerpiece[3].ReachedWinPos = true;
+                    webSocketClient.dataToBeSent.data.PlayerPiece[3].reachedWinPos = true;
                 Debug.Log ("Cool !!");
 				YellowPlayerIV_Button.enabled = false;
 			} 
@@ -4209,8 +4209,8 @@ public class GameScriptOnline : MonoBehaviour {
         if (webSocketClient.ourPlayerTeam == "YELLOW")
         {
             webSocketClient.ResetDataToBeSent();
-            webSocketClient.dataToBeSent.data.Playerpiece[3].MovementBlockIndex = yellowPlayerIV_Steps - 1;
-            webSocketClient.dataToBeSent.data.Playerpiece[3].IsOpen = true;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].movementBlockIndex = yellowPlayerIV_Steps - 1;
+            webSocketClient.dataToBeSent.data.PlayerPiece[3].isOpen = true;
             webSocketClient.SendData();
         }
     }

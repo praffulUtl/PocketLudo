@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unity.Mathematics;
 using UnityEngine.UI;
+using System.Security.Cryptography;
+using Newtonsoft.Json.Converters;
 
 public class GameSyncAPIHandler : MonoBehaviour
 {
@@ -17,35 +19,38 @@ public class GameSyncAPIHandler : MonoBehaviour
     [SerializeField] string dummydata = "";
     [SerializeField] GameScriptOnline gameScript;
     [SerializeField] WaitingScreen waitingScreen;
+    [SerializeField] Button startGameBt;
+    float playerTurnDuration = 30f;
     List<string> playerTeams = new List<string> {"R","B","G","Y"};
     bool checkPlayerNotInGame = false;
-    public OurPlayerDataSetRoot dataToBeSent;
+    public DataRoot<OurPlayerDataSet> dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
     bool diceRolled = false;
     string lastPlayerTurn = "";
+    int lobbyId;
 
     private ClientWebSocket webSocket;
-    private Uri serverUri = new Uri("wss://3sqlfz6r-8080.inc1.devtunnels.ms/"); // Replace with your server address
+    private Uri serverUri = new Uri("wss://3sqlfz6r-8081.inc1.devtunnels.ms/"); // Replace with your server address
 
     private void Awake()
     {
-        dataToBeSent = new OurPlayerDataSetRoot();
-        dataToBeSent.meta = new RenamedMeta();
+        dataToBeSent = new DataRoot<OurPlayerDataSet>();
+        dataToBeSent.type = "movePiece";
         dataToBeSent.data = new OurPlayerDataSet();
-        dataToBeSent.data.Playerpiece = new List<PlayerPiece> { new PlayerPiece(), new PlayerPiece(), new PlayerPiece(), new PlayerPiece() };
+        dataToBeSent.data.PlayerPiece = new List<PlayerPiece> { new PlayerPiece(), new PlayerPiece(), new PlayerPiece(), new PlayerPiece() };
     }
 
-
-    private async void Start()
+    void Start()
     {
-        StartCoroutine(SetupTurns());
-        StartCoroutine(checkForPlayerTurnChange());
-
-        gameScript.OnInitializeDiceActiion += SetupPlayerAutoTurn;
-
-        DataKeeper = FindAnyObjectByType<OnlineGameType>();
         bool playerTeamFound = false;
-        if (DataKeeper.gameType==GameType.TOURNAMENT && DataKeeper.joinTurnamentJoinData.meta != null)
+        DataKeeper = FindAnyObjectByType<OnlineGameType>();
+
+        if (DataKeeper.gameType == GameType.GLOBAL)
+        {
+            dataToBeSent.data.gameLobbyID = DataKeeper.lobbyId;
+            dataToBeSent.data.playerID = APIHandler.instance.key_playerId;
+        }
+        else if (DataKeeper.gameType == GameType.TOURNAMENT && DataKeeper.joinTurnamentJoinData.meta != null)
         {
             foreach (var player in DataKeeper.joinTurnamentJoinData.data.PlayersInGame)
             {
@@ -57,29 +62,95 @@ public class GameSyncAPIHandler : MonoBehaviour
                 }
             }
         }
-        else if (DataKeeper.gameType == GameType.GLOBAL && DataKeeper.globalGameRootData.meta != null)
+        if (APIHandler.instance == null)
+            Debug.Log("APIHandler.instance is null");
+
+        APIHandler.instance.GetLobbyPlayers(DataKeeper.lobbyId, StartProcess);
+
+        startGameBt.onClick.AddListener(StartGame);
+    }
+    private async void StartProcess(bool success, LobbyPlayers lobbyPlayers)
+    {
+        if (success)
         {
-            //foreach (var player in DataKeeper.globalGameRootData.data.PlayersInGame)
-            //{
-            //    if (!playerTeamFound && player.PlayerID == APIHandler.instance.key_playerId)
-            //    {
-            //        ourPlayerTeam = player.PlayerTeam;
-            //        playerTeamFound = true;
-            //        break;
-            //    }
-            //}
+            if (lobbyPlayers.meta.status)
+            {
+                waitingScreen.actionOnTimerEnd = OnTimerEnd;
+                playerTurnDuration = lobbyPlayers.data.PlayerTurnSeconds;
+                gameScript.OnInitializeDiceActiion += SetupPlayerAutoTurn;
+
+                foreach (var player in lobbyPlayers.data.players)
+                {
+                    if (player.PlayerId == APIHandler.instance.key_playerId)
+                        dataToBeSent.data.playerTeam = player.playerTeam;
+                    PlayerTeam playerTeam = Enum.Parse<PlayerTeam>(player.playerTeam);
+                    switch(playerTeam)
+                    {
+                        case PlayerTeam.R:
+                            ourPlayerTeam = "RED";
+                            break;
+                        case PlayerTeam.B:
+                            ourPlayerTeam = "BLUE";
+                            break;
+                        case PlayerTeam.G:
+                            ourPlayerTeam = "GREEN";
+                            break;
+                        case PlayerTeam.Y:
+                            ourPlayerTeam = "YELLOW";
+                            break;
+                    }
+                }
+
+                gameScript.SetOurPlayerPieceButton(ourPlayerTeam);
+
+
+                double tmp = lobbyPlayers.data.createdAt;
+                DateTime now = UnixTimestampConverter.UnixTimeStampToDateTime(tmp);
+                DateTime end = UnixTimestampConverter.UnixTimeStampToDateTime(tmp + lobbyPlayers.data.RemainSeconds * 1000);
+                double sec = (end - now).TotalSeconds;
+                Debug.Log("seconds : " + sec);
+                Debug.Log("created at time : "+ now);
+                Debug.Log("end at time : " + end);
+
+                waitingScreen.SetTime(sec);
+
+                lobbyId = lobbyPlayers.data.lobbyId;
+
+                webSocket = new ClientWebSocket();
+                await Connect();
+                await SendRequest();
+                await ReceiveResponse();
+            }
+        } 
+
+    }
+
+
+    void StartGame()
+    {
+        Debug.Log("Auth key : " + APIHandler.instance.key_authKey);
+        TriggerStartGame_JStruct triggerStartGame_JStruct = new TriggerStartGame_JStruct();
+        triggerStartGame_JStruct.lobbyId = lobbyId;
+        triggerStartGame_JStruct.startGame = true;
+        APIHandler.instance.PostStartGlobalGame(triggerStartGame_JStruct, StartGlobalGameCallback);
+    }
+
+    void OnTimerEnd()
+    {
+        StartCoroutine(SetupTurns());
+        StartCoroutine(checkForPlayerTurnChange());
+        waitingScreen.close();
+    }
+    void StartGlobalGameCallback(bool success, StartGame_JStruct startGameData)
+    {
+        if(success)
+        {
+            if(startGameData.meta.status)
+            {
+
+            }
+
         }
-
-        dataToBeSent.data.PlayerTeam = GetColorInitial(ourPlayerTeam);
-
-        gameScript.SetOurPlayerPieceButton(ourPlayerTeam);
-
-        webSocket = new ClientWebSocket();
-        await Connect();
-        await SendRequest();
-        await ReceiveResponse();
-   
-
     }
 
     private async Task Connect()
@@ -122,6 +193,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
         //string jsonRequest = JsonConvert.SerializeObject(requestBody);
         string jsonRequest = JsonConvert.SerializeObject(dataToBeSent);
+        Debug.Log("Request sent data : "+jsonRequest);
         byte[] bytesToSend = Encoding.UTF8.GetBytes(jsonRequest);
 
         try
@@ -146,7 +218,10 @@ public class GameSyncAPIHandler : MonoBehaviour
             result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             string responseJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
             Debug.Log($"Response received: {responseJson}");
-            ProcessResponseData(responseJson);
+
+            var responseObject = JsonConvert.DeserializeObject<DataRoot<System.Object>>(responseJson);
+            if (responseObject.type == "movePiece")
+                ProcessResponseData(responseJson);
             // Handle the response object as needed
         }
         catch (Exception e)
@@ -157,11 +232,11 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     public void SendData()
     {
-        //Task task = SendRequest();
+        Task task = SendRequest();
 
         //task.Start();
 
-        RenamedResponse renamedResponse = JsonConvert.DeserializeObject<RenamedResponse>(dummydata);
+        //RenamedResponse renamedResponse = JsonConvert.DeserializeObject<RenamedResponse>(dummydata);
 
     }
     [ContextMenu("TriggerDummyResponse")]
@@ -172,8 +247,8 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void ProcessResponseData(string jsonString)
     {
-        dataToBeSent.data.PlayerTurn = true;
-        var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(jsonString);
+        dataToBeSent.data.playerTurn = true;
+        var responseObject = JsonConvert.DeserializeObject<DataRoot<OtherPlayersData>>(jsonString);
         Debug.Log("sec :" + responseObject.data.remainSeconds);
 
         //if (!checkPlayerNotInGame)
@@ -203,9 +278,9 @@ public class GameSyncAPIHandler : MonoBehaviour
             {
                 waitingScreen.close();
 
-                if (player.PlayerTurn && dataToBeSent.data.PlayerTurn)
+                if (player.PlayerTurn && dataToBeSent.data.playerTurn)
                 {
-                    dataToBeSent.data.PlayerTurn = false;
+                    dataToBeSent.data.playerTurn = false;
                     // DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
                 }
 
@@ -227,13 +302,13 @@ public class GameSyncAPIHandler : MonoBehaviour
                     {
                         if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                         {
-                            if (player.Playerpiece[0].MovementBlockIndex > 0)
+                            if (player.Playerpiece[0].movementBlockIndex > 0)
                                 gameScript.redPlayerI_UI(1);
-                            else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[1].movementBlockIndex > 0)
                                 gameScript.redPlayerII_UI(1);
-                            else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[2].movementBlockIndex > 0)
                                 gameScript.redPlayerIII_UI(1);
-                            else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[3].movementBlockIndex > 0)
                                 gameScript.redPlayerIV_UI(1);
                         }
                     }
@@ -241,13 +316,13 @@ public class GameSyncAPIHandler : MonoBehaviour
                     {
                         if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                         {
-                            if (player.Playerpiece[0].MovementBlockIndex > 0)
+                            if (player.Playerpiece[0].movementBlockIndex > 0)
                                 gameScript.bluePlayerI_UI(1);
-                            else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[1].movementBlockIndex > 0)
                                 gameScript.bluePlayerII_UI(1);
-                            else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[2].movementBlockIndex > 0)
                                 gameScript.bluePlayerIII_UI(1);
-                            else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[3].movementBlockIndex > 0)
                                 gameScript.bluePlayerIV_UI(1);
                         }
                     }
@@ -255,13 +330,13 @@ public class GameSyncAPIHandler : MonoBehaviour
                     {
                         if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                         {
-                            if (player.Playerpiece[0].MovementBlockIndex > 0)
+                            if (player.Playerpiece[0].movementBlockIndex > 0)
                                 gameScript.greenPlayerI_UI(1);
-                            else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[1].movementBlockIndex > 0)
                                 gameScript.greenPlayerII_UI(1);
-                            else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[2].movementBlockIndex > 0)
                                 gameScript.greenPlayerIII_UI(1);
-                            else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[3].movementBlockIndex > 0)
                                 gameScript.greenPlayerIV_UI(1);
                         }
                     }
@@ -269,13 +344,13 @@ public class GameSyncAPIHandler : MonoBehaviour
                     {
                         if (player.Playerpiece.Count >= 4 && player.DiceNumber >= 1)
                         {
-                            if (player.Playerpiece[0].MovementBlockIndex > 0)
+                            if (player.Playerpiece[0].movementBlockIndex > 0)
                                 gameScript.yellowPlayerI_UI(1);
-                            else if (player.Playerpiece[1].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[1].movementBlockIndex > 0)
                                 gameScript.yellowPlayerII_UI(1);
-                            else if (player.Playerpiece[2].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[2].movementBlockIndex > 0)
                                 gameScript.yellowPlayerIII_UI(1);
-                            else if (player.Playerpiece[3].MovementBlockIndex > 0)
+                            else if (player.Playerpiece[3].movementBlockIndex > 0)
                                 gameScript.yellowPlayerIV_UI(1);
                         }
                     }
@@ -343,17 +418,19 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     public void SetupPlayerAutoTurn()
     {
-        if (StartOtherPlayerTimerCoroutine == null)
+        if (StartOtherPlayerTimerCoroutine != null)
         {
-            StartOtherPlayerTimerCoroutine = StartCoroutine(StartOtherPlayerTimer());
+            StopCoroutine(StartOurPlayerTimerCoroutine);
+            StartOtherPlayerTimerCoroutine = null;
         }
+        StartOtherPlayerTimerCoroutine = StartCoroutine(StartOtherPlayerTimer());
     }
 
     public void ResetDataToBeSent()
     {        
-        foreach(var piece in dataToBeSent.data.Playerpiece)
+        foreach(var piece in dataToBeSent.data.PlayerPiece)
         {
-            piece.MovementBlockIndex = -1;
+            piece.movementBlockIndex = -1;
         }
     }
 
@@ -440,7 +517,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     IEnumerator StartOtherPlayerTimer()
     {
         var waitsec = new WaitForSeconds(1f);
-        float countSec = 30f;
+        float countSec = playerTurnDuration;
         while (countSec > 0)
         {
             redTimerImg.fillAmount = 0;
@@ -634,16 +711,16 @@ public class GameSyncAPIHandler : MonoBehaviour
 [Serializable]
 public class PlayerPiece
 {
-    public bool IsOpen;
-    public bool ReachedWinPos;
-    public int MovementBlockIndex;
+    public bool isOpen;
+    public bool reachedWinPos;
+    public int movementBlockIndex;
 }
 
 [Serializable]
 public class RenamedResponse
 {
     public RenamedMeta meta;
-    public RenamedData data;
+    public OtherPlayersData data;
 }
 
 [Serializable]
@@ -654,7 +731,7 @@ public class RenamedMeta
 }
 
 [Serializable]
-public class RenamedData
+public class OtherPlayersData
 {
     public int remainSeconds;
     public List<RenamedOtherPlayer> OtherPlayer;
@@ -673,18 +750,18 @@ public class RenamedOtherPlayer
 [Serializable]
 public class OurPlayerDataSet
 {
-    public string GameLobbyID { get; set; }
-    public string PlayerID { get; set; }
-    public string PlayerTeam { get; set; }
-    public int DiceNumber { get; set; }
-    public bool PlayerTurn { get; set; }
-    public List<PlayerPiece> Playerpiece { get; set; }
+    public int gameLobbyID { get; set; }
+    public string playerID { get; set; }
+    public string playerTeam { get; set; }
+    public int diceNumber { get; set; }
+    public bool playerTurn { get; set; }
+    public List<PlayerPiece> PlayerPiece { get; set; }
 }
 [Serializable]
-public class OurPlayerDataSetRoot
+public class DataRoot<T>
 {
-    public RenamedMeta meta { get; set; }
-    public OurPlayerDataSet data { get; set; }
+    public string type { get; set; }
+    public T data { get; set; }
 }
 public enum PlayerTeam
 {
@@ -696,3 +773,12 @@ public enum PlayerTeam
 
 }
 #endregion
+public class UnixTimestampConverter
+{
+    public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+    {
+        // Unix timestamp is seconds past epoch
+        DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        return epoch.AddMilliseconds(unixTimeStamp).ToLocalTime();
+    }
+}
