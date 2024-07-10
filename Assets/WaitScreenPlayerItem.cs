@@ -12,7 +12,7 @@ public class WaitScreenPlayerItem : MonoBehaviour
     [SerializeField] GameObject waitingContent;
     public bool isInitialized = false;
     public PlayerTeam team = PlayerTeam.NONE;
-
+    [SerializeField] GameObject ourplayerind;
     public void Initialize(Color color, string playerName,PlayerTeam playerTeam)
     {
         if (team == PlayerTeam.NONE)

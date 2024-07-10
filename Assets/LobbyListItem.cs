@@ -17,7 +17,7 @@ public class LobbyListItem : MonoBehaviour
     [SerializeField] Button joinBt;
     Action<string, bool, int> actionOnJoin;
     [SerializeField] TextMeshProUGUI gameStartInTime;
-    public void Initialize(Lobbies_JStruct lobbies_JStruct, Action<string,bool,int> actionOnJoin)
+    public void Initialize(Lobbies_JStruct lobbies_JStruct, Action<string, bool, int> actionOnJoin)
     {
         this.actionOnJoin = actionOnJoin;
 
@@ -28,30 +28,33 @@ public class LobbyListItem : MonoBehaviour
         entryFeeTxt.text = "Entry :" + lobbies_JStruct.betAmount.ToString();
         joinBt.onClick.AddListener(JoinBtAction);
 
-
-        DateTime now = UnixTimestampConverter.UnixTimeStampToDateTime(lobbies_JStruct.createdAt);
-        Debug.Log("lobby time : "+ now);
         DateTime end = UnixTimestampConverter.UnixTimeStampToDateTime(lobbies_JStruct.createdAt + 60000);
-        double sec = (end - now).TotalSeconds;
+        DateTime currentTime = DateTime.Now;
+
+
+        double sec = (end - currentTime).TotalSeconds;
+        sec = Math.Round(sec);
         gameStartInTime.text = $"{sec}s";
-        //StartCoroutine(processTimer(sec));
+        if (sec > 0)
+            StartCoroutine(processTimer(sec));
+        else
+            Destroy(gameObject);
     }
     void JoinBtAction()
     {
-        actionOnJoin?.Invoke(id,isTimer,playerCount);
+        actionOnJoin?.Invoke(id, isTimer, playerCount);
     }
 
     IEnumerator processTimer(double sec)
     {
         var waitSec = new WaitForSeconds(1);
         time = sec;
-        while (time > 0)
+        while (time > 1)
         {
             time -= 1;
             gameStartInTime.text = $"{time}s";
             yield return waitSec;
         }
-
-            Destroy(gameObject);
+        Destroy(gameObject);
     }
 }

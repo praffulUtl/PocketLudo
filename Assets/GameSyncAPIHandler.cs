@@ -28,6 +28,8 @@ public class GameSyncAPIHandler : MonoBehaviour
     bool diceRolled = false;
     string lastPlayerTurn = "";
     int lobbyId;
+    PlayerTeam ourplayerTeam;
+    string sendJson = "";
 
     private ClientWebSocket webSocket;
     private Uri serverUri = new Uri("wss://3sqlfz6r-8081.inc1.devtunnels.ms/"); // Replace with your server address
@@ -78,13 +80,14 @@ public class GameSyncAPIHandler : MonoBehaviour
                 waitingScreen.actionOnTimerEnd = OnTimerEnd;
                 playerTurnDuration = lobbyPlayers.data.PlayerTurnSeconds;
                 gameScript.OnInitializeDiceActiion += SetupPlayerAutoTurn;
-
+                waitingScreen.ShowPlayerCount(lobbyPlayers.data.players.Count);
                 foreach (var player in lobbyPlayers.data.players)
                 {
                     if (player.PlayerId == APIHandler.instance.key_playerId)
                         dataToBeSent.data.playerTeam = player.playerTeam;
                     PlayerTeam playerTeam = Enum.Parse<PlayerTeam>(player.playerTeam);
-                    switch(playerTeam)
+                    ourplayerTeam = playerTeam;
+                    switch (playerTeam)
                     {
                         case PlayerTeam.R:
                             ourPlayerTeam = "RED";
@@ -105,14 +108,14 @@ public class GameSyncAPIHandler : MonoBehaviour
 
 
                 double tmp = lobbyPlayers.data.createdAt;
-                DateTime now = UnixTimestampConverter.UnixTimeStampToDateTime(tmp);
+                DateTime now = DateTime.Now;
                 DateTime end = UnixTimestampConverter.UnixTimeStampToDateTime(tmp + lobbyPlayers.data.RemainSeconds * 1000);
                 double sec = (end - now).TotalSeconds;
                 Debug.Log("seconds : " + sec);
                 Debug.Log("created at time : "+ now);
                 Debug.Log("end at time : " + end);
 
-                waitingScreen.SetTime(sec);
+                waitingScreen.SetTime(sec, ourplayerTeam);
 
                 lobbyId = lobbyPlayers.data.lobbyId;
 
@@ -128,11 +131,20 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void StartGame()
     {
-        Debug.Log("Auth key : " + APIHandler.instance.key_authKey);
-        TriggerStartGame_JStruct triggerStartGame_JStruct = new TriggerStartGame_JStruct();
-        triggerStartGame_JStruct.lobbyId = lobbyId;
-        triggerStartGame_JStruct.startGame = true;
-        APIHandler.instance.PostStartGlobalGame(triggerStartGame_JStruct, StartGlobalGameCallback);
+        //Debug.Log("Auth key : " + APIHandler.instance.key_authKey);
+        //TriggerStartGame_JStruct triggerStartGame_JStruct = new TriggerStartGame_JStruct();
+        //triggerStartGame_JStruct.lobbyId = lobbyId;
+        //triggerStartGame_JStruct.startGame = true;
+        //APIHandler.instance.PostStartGlobalGame(triggerStartGame_JStruct, StartGlobalGameCallback);
+
+        DataRoot<StartGameData> startData = new DataRoot<StartGameData>();
+        startData.type = "startGame";
+        startData.data.lobbyId = lobbyId;
+        startData.data.playerId = APIHandler.instance.key_playerId;
+        startData.data.startGame = true;
+        sendJson = JsonConvert.SerializeObject(startData);
+        Debug.Log("sent : "+sendJson);
+        Task task = SendRequest();
     }
 
     void OnTimerEnd()
@@ -159,6 +171,7 @@ public class GameSyncAPIHandler : MonoBehaviour
         {
             await webSocket.ConnectAsync(serverUri, CancellationToken.None);
             Debug.Log("WebSocket connected!");
+            StartGame();
         }
         catch (Exception e)
         {
@@ -192,7 +205,7 @@ public class GameSyncAPIHandler : MonoBehaviour
         //};
 
         //string jsonRequest = JsonConvert.SerializeObject(requestBody);
-        string jsonRequest = JsonConvert.SerializeObject(dataToBeSent);
+        string jsonRequest = sendJson;
         Debug.Log("Request sent data : "+jsonRequest);
         byte[] bytesToSend = Encoding.UTF8.GetBytes(jsonRequest);
 
@@ -222,6 +235,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             var responseObject = JsonConvert.DeserializeObject<DataRoot<System.Object>>(responseJson);
             if (responseObject.type == "movePiece")
                 ProcessResponseData(responseJson);
+
             // Handle the response object as needed
         }
         catch (Exception e)
@@ -232,6 +246,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     public void SendData()
     {
+        sendJson = JsonConvert.SerializeObject(dataToBeSent);
         Task task = SendRequest();
 
         //task.Start();
@@ -270,7 +285,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             if (waitingScreen.isOpen && responseObject.data.remainSeconds > 0)
             {
                 Debug.Log("wait screen :" + player.PlayerTeam);
-                waitingScreen.SetTime(responseObject.data.remainSeconds);
+                waitingScreen.SetTime(responseObject.data.remainSeconds,ourplayerTeam);
                 //if (waitingScreen.InitializeCount < 4)
                 //    waitingScreen.AddPlayer(player.PlayerTeam);
             }
@@ -758,6 +773,13 @@ public class OurPlayerDataSet
     public List<PlayerPiece> PlayerPiece { get; set; }
 }
 [Serializable]
+
+public class StartGameData
+{
+    public int lobbyId { get; set; }
+    public string playerId { get; set; }
+    public bool startGame { get; set; }
+}
 public class DataRoot<T>
 {
     public string type { get; set; }

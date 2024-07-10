@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.UI;
 
 public class WaitingScreen : MonoBehaviour
 {
@@ -14,18 +15,25 @@ public class WaitingScreen : MonoBehaviour
     [NonSerialized] public bool isOpen = true;
     List<PlayerTeam> playerTeams;
     public Action actionOnTimerEnd;
+    [SerializeField] Image ourPlayerTeam;
+    [SerializeField] TextMeshProUGUI playerInGame;
     private void Start()
     {
         playerTeams = new List<PlayerTeam>();
     }
-    public void SetTime(double sec)
+    public void SetTime(double sec, PlayerTeam playerTeam)
     {
+        ourPlayerTeam.color = GetColor(playerTeam);
         if (processTimerCoroutine != null)
         {
             StopCoroutine(processTimerCoroutine);
             processTimerCoroutine = null;
         }
-        processTimerCoroutine = StartCoroutine(processTimer(sec));
+        processTimerCoroutine = StartCoroutine(processTimer(Math.Round(sec)));
+    }
+    public void ShowPlayerCount(int count)
+    {
+        playerInGame.text = "Player : " + count;
     }
     Coroutine processTimerCoroutine;
     IEnumerator processTimer(double sec)
