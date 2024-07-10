@@ -19,7 +19,7 @@ public class GameSyncComputerHandler : MonoBehaviour
     [SerializeField] WaitingScreen waitingScreen;
     List<string> playerTeams = new List<string> { "R", "B", "G", "Y" };
     bool checkPlayerNotInGame = false;
-    public OurPlayerDataSetRoot dataToBeSent;
+    public OurPlayerDataSetRoot2 dataToBeSent;
     public string ourPlayerTeam = "RED"; // R B G Y
     bool diceRolled = false;
     string lastPlayerTurn = "";
@@ -29,10 +29,10 @@ public class GameSyncComputerHandler : MonoBehaviour
 
     private void Awake()
     {
-        dataToBeSent = new OurPlayerDataSetRoot();
-        dataToBeSent.meta = new RenamedMeta();
-        dataToBeSent.data = new OurPlayerDataSet();
-        dataToBeSent.data.Playerpiece = new List<PlayerPiece> { new PlayerPiece(), new PlayerPiece(), new PlayerPiece(), new PlayerPiece() };
+        dataToBeSent = new OurPlayerDataSetRoot2();
+        dataToBeSent.meta = new RenamedMeta2();
+        dataToBeSent.data = new OurPlayerDataSet2();
+        dataToBeSent.data.Playerpiece = new List<PlayerPiece2> { new PlayerPiece2(), new PlayerPiece2(), new PlayerPiece2(), new PlayerPiece2() };
     }
 
 
@@ -173,7 +173,7 @@ public class GameSyncComputerHandler : MonoBehaviour
     void ProcessResponseData(string jsonString)
     {
         dataToBeSent.data.PlayerTurn = true;
-        var responseObject = JsonConvert.DeserializeObject<RenamedResponse>(jsonString);
+        var responseObject = JsonConvert.DeserializeObject<RenamedResponse2>(jsonString);
         Debug.Log("sec :" + responseObject.data.remainSeconds);
 
         //if (!checkPlayerNotInGame)
@@ -607,6 +607,63 @@ public class GameSyncComputerHandler : MonoBehaviour
             return "G";
         else//yellow
             return "Y";
+    }
+
+
+    [Serializable]
+    public class PlayerPiece2
+    {
+        public bool IsOpen;
+        public bool ReachedWinPos;
+        public int MovementBlockIndex;
+    }
+
+    [Serializable]
+    public class RenamedResponse2
+    {
+        public RenamedMeta2 meta;
+        public RenamedData2 data;
+    }
+
+    [Serializable]
+    public class RenamedMeta2
+    {
+        public string msg;
+        public bool status;
+    }
+
+    [Serializable]
+    public class RenamedData2
+    {
+        public int remainSeconds;
+        public List<RenamedOtherPlayer2> OtherPlayer;
+    }
+
+    [Serializable]
+    public class RenamedOtherPlayer2
+    {
+        public string PlayerTeam;
+        public int DiceNumber;
+        public bool PlayerTurn { get; set; }
+        public List<PlayerPiece2> Playerpiece;
+    }
+
+
+    [Serializable]
+    public class OurPlayerDataSet2
+    {
+        public string GameLobbyID { get; set; }
+        public string PlayerID { get; set; }
+        public string PlayerTeam { get; set; }
+        public int DiceNumber { get; set; }
+        public bool PlayerTurn { get; set; }
+        public List<PlayerPiece2> Playerpiece { get; set; }
+    }
+    [Serializable]
+    public class OurPlayerDataSetRoot2
+    {
+        public RenamedMeta2 meta { get; set; }
+        public OurPlayerDataSet2 data { get; set; }
     }
 }
 
