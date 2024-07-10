@@ -196,6 +196,7 @@ public class BalanceManager : MonoBehaviour
                         textFields[2].text = transaction.createdAt.ToString();
                         textFields[3].text = transaction.transactionId;
                     }
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(transactionListParent.GetComponent<RectTransform>());
                 }
                 else
                 {
