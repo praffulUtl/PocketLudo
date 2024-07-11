@@ -17325,6 +17325,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Overlay-Online (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 461435623007361384, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440828758916484788, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440828758916484788, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440828758916484788, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440828758916484788, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4682002272917323659, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17405,6 +17425,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8018508104601983391, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018508104601983391, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018508104601983391, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018508104601983391, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8529565641636316856, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
       propertyPath: loadPnl
       value: 
@@ -17421,6 +17457,22 @@ PrefabInstance:
       propertyPath: onlineGameType
       value: 
       objectReference: {fileID: 1787995134}
+    - target: {fileID: 8608122782413128048, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608122782413128048, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608122782413128048, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608122782413128048, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
