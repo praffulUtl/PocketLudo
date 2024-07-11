@@ -16,6 +16,7 @@ public class Profile : MonoBehaviour
     [SerializeField] Button pickImageBt;
     [SerializeField] Button openEditProfile,updateDataBt;
     PlayerDetails_JStruct playerDetails_JStruct;
+    UpdateProfile_JStruct updateProfile_JStruct;
     [SerializeField] GameObject editProfilePnl, LoadPnl;
 
     private void Start()
@@ -56,10 +57,10 @@ public class Profile : MonoBehaviour
     void UpdateProfileData()
     {
         LoadPnl.SetActive(true);
-        //playerDetails_JStruct.playerName = nameInput.text;
+        updateProfile_JStruct.playerName = nameInput.text;
         nameTxt.text = nameInput.text;
         nameTxt2.text = nameInput.text;
-        APIHandler.instance.PutUserData(playerDetails_JStruct, UpdateProfileDataCallback);
+        APIHandler.instance.PutUserData(updateProfile_JStruct, UpdateProfileDataCallback);
     }
     void UpdateProfileDataCallback(bool success, Meta meta)
     {
@@ -71,6 +72,7 @@ public class Profile : MonoBehaviour
     }
     void OpenEditPnl()
     {
+        APIHandler.instance.GetUserData(LoadProfileDataCallback);
         editProfilePnl.SetActive(true);
     }
     void CloseEditPnl()
