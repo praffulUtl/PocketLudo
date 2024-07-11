@@ -99,7 +99,7 @@ public class APIHandler : MonoBehaviour
         Debug.Log("GetUserData");
         StartCoroutine(GetRequest(endPoint_GetUserData, callback));
     }
-    public void PutUserData(PlayerDetails_JStruct data, Action<bool, Meta> callback)
+    public void PutUserData(UpdateProfile_JStruct data, Action<bool, Meta> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPutRequest(endPoint_postUserData, jsonString, callback));
@@ -597,5 +597,9 @@ public class StartGame_JStruct
 { 
     public Meta meta { get; set; }
 }
-
+public class UpdateProfile_JStruct
+{
+    public string playerName { get; set; }
+    public string playerImageUrl { get; set; }
+}
 #endregion
