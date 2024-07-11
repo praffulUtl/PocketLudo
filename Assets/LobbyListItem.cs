@@ -8,16 +8,16 @@ using UnityEngine.UI;
 public class LobbyListItem : MonoBehaviour
 {
     double time = 0;
-    string id = "";
+    int id;
     public bool IsTimer => isTimer;
     bool isTimer = false;
     int playerCount;
     [SerializeField] TextMeshProUGUI playerCountTxt;
     [SerializeField] TextMeshProUGUI entryFeeTxt;
     [SerializeField] Button joinBt;
-    Action<string, bool, int> actionOnJoin;
+    Action<int, bool, int> actionOnJoin;
     [SerializeField] TextMeshProUGUI gameStartInTime;
-    public void Initialize(Lobbies_JStruct lobbies_JStruct, Action<string, bool, int> actionOnJoin)
+    public void Initialize(Lobbies_JStruct lobbies_JStruct, Action<int, bool, int> actionOnJoin)
     {
         this.actionOnJoin = actionOnJoin;
 
@@ -60,7 +60,7 @@ public class LobbyListItem : MonoBehaviour
     void ClearItem()
     {
         LobbyExpiration_JStruct lobbyExpiration_JStruct = new LobbyExpiration_JStruct();
-        lobbyExpiration_JStruct.lobbyId = int.Parse(id);
+        lobbyExpiration_JStruct.lobbyId = id;
         lobbyExpiration_JStruct.lobbyIdExpiration = true;
         //APIHandler.instance.PostLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
         Destroy(gameObject);

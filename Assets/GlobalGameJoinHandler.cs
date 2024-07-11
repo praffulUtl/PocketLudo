@@ -52,9 +52,9 @@ public class GlobalGameJoinHandler : MonoBehaviour
     }
     void JoinGlobalGame()
     {
+        globalGameJoinData.LobbyId = 0;
         globalGameJoinData.TimerMode = (currentGameMode == GameMode.TIMER);
         globalGameJoinData.PlayerCount = int.Parse(playerCount.options[playerCount.value].text);
-        globalGameJoinData.LobbyId = null;
         if (!dummyMode)
         {
             loadPnl.SetActive(true);
@@ -66,7 +66,7 @@ public class GlobalGameJoinHandler : MonoBehaviour
             JoinGlobalGameCallback(true, gameLobbyData_JStruct1);
         }
     }
-    void JoinGlobalGame(string lobbyId,bool timer,int lobbyPlayersCount)
+    void JoinGlobalGame(int lobbyId,bool timer,int lobbyPlayersCount)
     {
         globalGameJoinData.LobbyId = lobbyId;
         globalGameJoinData.TimerMode = timer;
@@ -91,6 +91,7 @@ public class GlobalGameJoinHandler : MonoBehaviour
             if (gameLobbyData_JStruct.meta.status)
             {
                 //onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
+                Debug.Log("JoinGlobalGameCallback success");
                 onlineGameType.lobbyId = gameLobbyData_JStruct.data.lobbyId;
                 onlineGameType.isTimer = isTimerLudo;
                 onlineGameType.gameType = GameType.GLOBAL;

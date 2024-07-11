@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using System;
 using Newtonsoft.Json;
 using static System.Net.WebRequestMethods;
+using System.Net;
 
 public class APIHandler : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class APIHandler : MonoBehaviour
     [SerializeField] DialogBox dialogBox;
 
     public string baseUrl => baseUrlPrv;
-    string baseUrlPrv = "https://3sqlfz6r-5211.inc1.devtunnels.ms/ludo/v1/";
+    string baseUrlPrv = "https://api.eldercabs.com/ludo/v1";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
@@ -98,10 +99,10 @@ public class APIHandler : MonoBehaviour
         Debug.Log("GetUserData");
         StartCoroutine(GetRequest(endPoint_GetUserData, callback));
     }
-    public void PostUserData(PlayerDetails_JStruct data, Action<bool, Meta> callback)
+    public void PutUserData(PlayerDetails_JStruct data, Action<bool, Meta> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
-        StartCoroutine(StartPostRequest(endPoint_postUserData, jsonString, callback));
+        StartCoroutine(StartPutRequest(endPoint_postUserData, jsonString, callback));
     }
     #endregion
 
@@ -127,10 +128,10 @@ public class APIHandler : MonoBehaviour
         StartCoroutine(StartPostRequest(endPoint_startGame2, jsonString, callback));
     }
 
-    public void PostLobbyExpiry(LobbyExpiration_JStruct data, Action<bool, StartGame_JStruct> callback)
+    public void PutLobbyExpiry(LobbyExpiration_JStruct data, Action<bool, StartGame_JStruct> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
-        StartCoroutine(StartPostRequest(endPoint_lobbyExpiry, jsonString, callback));
+        StartCoroutine(StartPutRequest(endPoint_lobbyExpiry, jsonString, callback));
     }
 
     #endregion
@@ -165,6 +166,47 @@ public class APIHandler : MonoBehaviour
 
 
     #region API Client
+
+    IEnumerator StartPutRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
+    {
+        Debug.Log("StartPostRequest : " + jsonString);
+        byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonString);
+        string url = baseUrlPrv + urlEndPoint;
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, data))
+        {
+            if (key_authKey != null && key_authKey.Trim() != "")
+                webRequest.SetRequestHeader(keyName_authKey, key_authKey);
+            yield return webRequest.SendWebRequest();
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Unable to hit api : " + url + " " + webRequest.GetRequestHeader(keyName_authKey));
+                try
+                {
+                    dialogBox.Show(webRequest.error);
+                    callBack?.Invoke(false, JsonConvert.DeserializeObject<T>(""));
+                }
+                catch
+                {
+
+                }
+            }
+            else
+            {
+                string resData = webRequest.downloadHandler.text;
+                Debug.Log("Post response data :" + url + "\n" + resData);
+                try
+                {
+                    callBack?.Invoke(true, JsonConvert.DeserializeObject<T>(resData));
+                Debug.Log("Upload complete!");
+                }
+                catch
+                {
+                    dialogBox.Show("Error : " + resData);
+                }
+            }
+        }
+    }
+
     IEnumerator StartPostRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
     {
         Debug.Log("StartPostRequest : " + jsonString);
@@ -379,7 +421,7 @@ public class GlobalGameJoinData_JStruct
     public string PlayerID { get; set; }
     public bool TimerMode { get; set; }
     public int PlayerCount { get; set; }
-    public string LobbyId { get; set; }
+    public int LobbyId { get; set; }
 }
 
 [Serializable]
@@ -391,7 +433,7 @@ public class OnlineGameJoinDataRoot_JStruct
 [Serializable]
 public class OnlineGameJoinData_JStruct
 {
-    public int lobbyId { get; set; }
+    public int lobbyId;
 }
 
 [Serializable]
@@ -479,7 +521,7 @@ public class Lobbies_JStruct
 {
     public string _id { get; set; }
     public int playersCount { get; set; }
-    public string lobbyId { get; set; }
+    public int lobbyId { get; set; }
     public int betAmount { get; set; }
     public bool timerMode { get; set; }
     public string gameType { get; set; }

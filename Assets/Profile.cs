@@ -59,7 +59,7 @@ public class Profile : MonoBehaviour
         //playerDetails_JStruct.playerName = nameInput.text;
         nameTxt.text = nameInput.text;
         nameTxt2.text = nameInput.text;
-        APIHandler.instance.PostUserData(playerDetails_JStruct, UpdateProfileDataCallback);
+        APIHandler.instance.PutUserData(playerDetails_JStruct, UpdateProfileDataCallback);
     }
     void UpdateProfileDataCallback(bool success, Meta meta)
     {
