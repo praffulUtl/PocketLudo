@@ -13,7 +13,7 @@ public class APIHandler : MonoBehaviour
     [SerializeField] DialogBox dialogBox;
 
     public string baseUrl => baseUrlPrv;
-    string baseUrlPrv = "https://api.eldercabs.com/ludo/v1";
+    string baseUrlPrv = "https://api.eldercabs.com/ludo/v1/";
     string endPoint_PostUserEmailReg = "player/register";
     string endPoint_PostUserEmailLogin = "player/login";
     string endPoint_VerifyRegUser = "player/register-verify/otp";
