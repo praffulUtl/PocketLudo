@@ -74,6 +74,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             Debug.Log("APIHandler.instance is null");
 
         APIHandler.instance.GetLobbyPlayers(DataKeeper.lobbyId, StartProcess);
+        Destroy(DataKeeper.gameObject);
 
         startGameBt.onClick.AddListener(StartGame);
     }

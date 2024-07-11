@@ -22,7 +22,7 @@ public class Profile : MonoBehaviour
     private void Start()
     {
         playerDetails_JStruct = new PlayerDetails_JStruct();
-        Invoke(nameof(LoadProfileData), 0.5f);
+        LoadProfileData();
         openEditProfile.onClick.AddListener(OpenEditPnl);
         if(!dummyMode)
         updateDataBt.onClick.AddListener(UpdateProfileData);
