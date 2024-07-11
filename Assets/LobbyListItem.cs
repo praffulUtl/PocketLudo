@@ -17,11 +17,13 @@ public class LobbyListItem : MonoBehaviour
     [SerializeField] Button joinBt;
     Action<int, bool, int> actionOnJoin;
     [SerializeField] TextMeshProUGUI gameStartInTime;
+    [SerializeField] TextMeshProUGUI lobbyIdTxt;
     public void Initialize(Lobbies_JStruct lobbies_JStruct, Action<int, bool, int> actionOnJoin)
     {
         this.actionOnJoin = actionOnJoin;
 
         this.id = lobbies_JStruct.lobbyId;
+        lobbyIdTxt.text = lobbies_JStruct.lobbyId.ToString();
         isTimer = lobbies_JStruct.timerMode;
         playerCount = lobbies_JStruct.playersCount;
         playerCountTxt.text = lobbies_JStruct.players.Count.ToString() + "/" + lobbies_JStruct.playersCount.ToString();
@@ -34,7 +36,7 @@ public class LobbyListItem : MonoBehaviour
 
         double sec = (end - currentTime).TotalSeconds;
         sec = Math.Round(sec);
-        gameStartInTime.text = $"{sec}s";
+        //gameStartInTime.text = $"{sec}s";
         if (sec > 0)
             StartCoroutine(processTimer(sec));
         else
@@ -62,8 +64,8 @@ public class LobbyListItem : MonoBehaviour
         LobbyExpiration_JStruct lobbyExpiration_JStruct = new LobbyExpiration_JStruct();
         lobbyExpiration_JStruct.lobbyId = id;
         lobbyExpiration_JStruct.lobbyIdExpiration = true;
-        APIHandler.instance.PutLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
-        Destroy(gameObject);
+        //APIHandler.instance.PutLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
+        //Destroy(gameObject);
     }
     void LobbyExpiryCallBack(bool success, StartGame_JStruct data)
     {

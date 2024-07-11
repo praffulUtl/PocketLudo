@@ -92,9 +92,12 @@ public class GlobalGameJoinHandler : MonoBehaviour
             {
                 //onlineGameType.globalGameRootData = gameLobbyData_JStruct1;
                 Debug.Log("JoinGlobalGameCallback success");
-                onlineGameType.lobbyId = gameLobbyData_JStruct.data.lobbyId;
-                onlineGameType.isTimer = isTimerLudo;
-                onlineGameType.gameType = GameType.GLOBAL;
+                if (!dummyMode)
+                {
+                    onlineGameType.lobbyId = gameLobbyData_JStruct.data.lobbyId;
+                    onlineGameType.isTimer = isTimerLudo;
+                    onlineGameType.gameType = GameType.GLOBAL;
+                }
                 mainMenuScript.four_player_online();
             }
             else

@@ -14,6 +14,8 @@ using Newtonsoft.Json.Converters;
 
 public class GameSyncAPIHandler : MonoBehaviour
 {
+    [SerializeField] bool dummyMode = false;
+    [SerializeField] string dummyData = "";
     [SerializeField] Image redTimerImg, blueTimerImg, greenTimerImg, yellowTimerImg;
     [SerializeField] OnlineGameType DataKeeper;
     [SerializeField] string dummydata = "";
@@ -50,6 +52,12 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void Start()
     {
+        if(dummyMode)
+        {
+            LobbyPlayers lobbyPlayers = JsonConvert.DeserializeObject<LobbyPlayers>(dummyData);
+            StartProcess(true,lobbyPlayers);
+            return;
+        }
         bool playerTeamFound = false;
         DataKeeper = FindAnyObjectByType<OnlineGameType>();
 
@@ -122,14 +130,17 @@ public class GameSyncAPIHandler : MonoBehaviour
                 Debug.Log("created at time : "+ now);
                 Debug.Log("end at time : " + end);
 
-                waitingScreen.SetTime(sec, ourplayerTeam);
+                waitingScreen.SetTime(dummyMode ? 60 : sec, ourplayerTeam);
 
                 lobbyId = lobbyPlayers.data.lobbyId;
 
-                webSocket = new ClientWebSocket();
-                await Connect();
-                await SendRequest();
-                await ReceiveResponse();
+                if (!dummyMode)
+                {
+                    webSocket = new ClientWebSocket();
+                    await Connect();
+                    await SendRequest();
+                    await ReceiveResponse();
+                }
             }
         } 
 
@@ -166,6 +177,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void OnTimerEnd()
     {
+        Debug.Log("setup turn");
         StartCoroutine(SetupTurns());
         StartCoroutine(checkForPlayerTurnChange());
         waitingScreen.close();
