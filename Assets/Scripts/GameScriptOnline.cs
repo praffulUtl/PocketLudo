@@ -82,8 +82,11 @@ public class GameScriptOnline : MonoBehaviour {
 	public GameObject confirmScreen;
 	public GameObject gameCompletedScreen;
 
-	//===== UI Button ===================
-	public void yesGameCompleted()
+    [SerializeField] private float movementTime = 1f;
+    [SerializeField] private int movementSpeed = 200;
+
+    //===== UI Button ===================
+    public void yesGameCompleted()
 	{
 		if(ToggleSound.sfxbool)
 		SoundManagerScript.buttonAudioSource.Play ();
@@ -2005,11 +2008,11 @@ public class GameScriptOnline : MonoBehaviour {
 				if (redPlayer_Path.Length > 1) 
 				{
 					//redPlayerI.transform.DOPath (redPlayer_Path, 2.0f, PathType.Linear, PathMode.Full3D, 10, Color.red);
-					iTween.MoveTo (redPlayerI, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerI, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			} 
 			else 
@@ -2022,7 +2025,7 @@ public class GameScriptOnline : MonoBehaviour {
 					playerTurn = "RED";
 					//currentPlayer = RedPlayerI_Script.redPlayerI_ColName;
 					currentPlayerName = "RED PLAYER I";
-					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		}
@@ -2046,11 +2049,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerI, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerI, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerI, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 				totalRedInHouse += 1;
                 if (webSocketClient.ourPlayerTeam == "RED")                
@@ -2147,11 +2150,11 @@ public class GameScriptOnline : MonoBehaviour {
 				//if(redPlayerII_Steps + selectDiceNumAnimation == redMovementBlocks.Count)
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerII, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerII, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerII, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerII, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			} 
 			else 
@@ -2164,7 +2167,7 @@ public class GameScriptOnline : MonoBehaviour {
 					playerTurn = "RED";
 					//currentPlayer = RedPlayerII_Script.redPlayerII_ColName;
 					currentPlayerName = "RED PLAYER II";
-					iTween.MoveTo (redPlayerII, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerII, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		}
@@ -2188,11 +2191,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerII, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerII, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerII, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerII, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalRedInHouse += 1;
@@ -2288,11 +2291,11 @@ public class GameScriptOnline : MonoBehaviour {
 			
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerIII, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIII, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerIII, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIII, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			} 
 			else 
@@ -2303,7 +2306,7 @@ public class GameScriptOnline : MonoBehaviour {
 					redPlayerIII_Steps += 1;
 					playerTurn = "RED";
 					currentPlayerName = "RED PLAYER III";
-					iTween.MoveTo (redPlayerIII, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIII, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		}
@@ -2327,11 +2330,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerIII, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIII, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerIII, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIII, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalRedInHouse += 1;
@@ -2428,11 +2431,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerIV, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIV, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerIV, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIV, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			} 
 			else 
@@ -2444,7 +2447,7 @@ public class GameScriptOnline : MonoBehaviour {
 					redPlayerIV_Steps += 1;
 					playerTurn = "RED";
 					currentPlayerName = "RED PLAYER IV";
-					iTween.MoveTo (redPlayerIV, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIV, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		}
@@ -2468,11 +2471,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (redPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (redPlayerIV, iTween.Hash ("path", redPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIV, iTween.Hash ("path", redPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (redPlayerIV, iTween.Hash ("position", redPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (redPlayerIV, iTween.Hash ("position", redPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalRedInHouse += 1;
@@ -2569,11 +2572,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerI, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerI, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerI, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerI, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -2586,7 +2589,7 @@ public class GameScriptOnline : MonoBehaviour {
 					greenPlayerI_Steps += 1;
 					playerTurn = "GREEN";
 					currentPlayerName = "GREEN PLAYER I";
-					iTween.MoveTo (greenPlayerI, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerI, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		} 
@@ -2610,11 +2613,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerI, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerI, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerI, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerI, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalGreenInHouse += 1;
@@ -2710,11 +2713,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerII, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerII, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerII, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerII, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -2727,7 +2730,7 @@ public class GameScriptOnline : MonoBehaviour {
 					greenPlayerII_Steps += 1;
 					playerTurn = "GREEN";
 					currentPlayerName = "GREEN PLAYER II";
-					iTween.MoveTo (greenPlayerII, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerII, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		} 
@@ -2751,11 +2754,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerII, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerII, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerII, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerII, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalGreenInHouse += 1;
@@ -2851,11 +2854,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerIII, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIII, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerIII, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIII, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -2868,7 +2871,7 @@ public class GameScriptOnline : MonoBehaviour {
 					greenPlayerIII_Steps += 1;
 					playerTurn = "GREEN";
 					currentPlayerName = "GREEN PLAYER III";
-					iTween.MoveTo (greenPlayerIII, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIII, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		} 
@@ -2892,11 +2895,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerIII, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIII, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerIII, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIII, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalGreenInHouse += 1;
@@ -2992,11 +2995,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerIV, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIV, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerIV, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIV, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -3009,7 +3012,7 @@ public class GameScriptOnline : MonoBehaviour {
 					greenPlayerIV_Steps += 1;
 					playerTurn = "GREEN";
 					currentPlayerName = "GREEN PLAYER IV";
-					iTween.MoveTo (greenPlayerIV, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIV, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		} 
@@ -3033,11 +3036,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (greenPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (greenPlayerIV, iTween.Hash ("path", greenPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIV, iTween.Hash ("path", greenPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (greenPlayerIV, iTween.Hash ("position", greenPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (greenPlayerIV, iTween.Hash ("position", greenPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalGreenInHouse += 1;
@@ -3133,11 +3136,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerI, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerI, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerI, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerI, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -3150,7 +3153,7 @@ public class GameScriptOnline : MonoBehaviour {
 					bluePlayerI_Steps += 1;
 					playerTurn = "BLUE";
 					currentPlayerName = "BLUE PLAYER I";
-					iTween.MoveTo (bluePlayerI, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerI, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		} 
@@ -3174,11 +3177,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerI, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerI, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerI, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerI, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalBlueInHouse += 1;
@@ -3274,11 +3277,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerII, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerII, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerII, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerII, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -3291,7 +3294,7 @@ public class GameScriptOnline : MonoBehaviour {
 					bluePlayerII_Steps += 1;
 					playerTurn = "BLUE";
 					currentPlayerName = "BLUE PLAYER II";
-					iTween.MoveTo (bluePlayerII, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerII, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			}
@@ -3316,11 +3319,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerII, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerII, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerII, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerII, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalBlueInHouse += 1;
@@ -3416,11 +3419,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerIII, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIII, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerIII, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIII, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			} 
 			else 
@@ -3432,7 +3435,7 @@ public class GameScriptOnline : MonoBehaviour {
 					bluePlayerIII_Steps += 1;
 					playerTurn = "BLUE";
 					currentPlayerName = "BLUE PLAYER III";
-					iTween.MoveTo (bluePlayerIII, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIII, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			}
@@ -3457,11 +3460,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerIII, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIII, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerIII, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIII, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalBlueInHouse += 1;
@@ -3557,11 +3560,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerIV, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIV, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerIV, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIV, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -3574,7 +3577,7 @@ public class GameScriptOnline : MonoBehaviour {
 					bluePlayerIV_Steps += 1;
 					playerTurn = "BLUE";
 					currentPlayerName = "BLUE PLAYER IV";
-					iTween.MoveTo (bluePlayerIV, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIV, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 			}
 		} 
@@ -3598,11 +3601,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (bluePlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (bluePlayerIV, iTween.Hash ("path", bluePlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIV, iTween.Hash ("path", bluePlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (bluePlayerIV, iTween.Hash ("position", bluePlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (bluePlayerIV, iTween.Hash ("position", bluePlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalBlueInHouse += 1;
@@ -3699,11 +3702,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerI, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerI, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerI, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerI, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -3716,7 +3719,7 @@ public class GameScriptOnline : MonoBehaviour {
 					yellowPlayerI_Steps += 1;
 					playerTurn = "YELLOW";
 					currentPlayerName = "YELLOW PLAYER I";
-					iTween.MoveTo (yellowPlayerI, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerI, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			}
@@ -3741,11 +3744,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerI, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerI, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerI, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerI, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalYellowInHouse += 1;
@@ -3842,11 +3845,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerII, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerII, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -3860,7 +3863,7 @@ public class GameScriptOnline : MonoBehaviour {
 					playerTurn = "YELLOW";
 
 					currentPlayerName = "YELLOW PLAYER II";
-					iTween.MoveTo (yellowPlayerII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			}
@@ -3885,11 +3888,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerII, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerII, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalYellowInHouse += 1;
@@ -3985,11 +3988,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -4002,7 +4005,7 @@ public class GameScriptOnline : MonoBehaviour {
 					yellowPlayerIII_Steps += 1;
 					playerTurn = "YELLOW";
 					currentPlayerName = "YELLOW PLAYER III";
-					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			}
@@ -4027,11 +4030,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIII, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalYellowInHouse += 1;
@@ -4127,11 +4130,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			} 
@@ -4144,7 +4147,7 @@ public class GameScriptOnline : MonoBehaviour {
 					yellowPlayerIV_Steps += 1;
 					playerTurn = "YELLOW";
 					currentPlayerName = "YELLOW PLAYER IV";
-					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 
 				}
 			}
@@ -4169,11 +4172,11 @@ public class GameScriptOnline : MonoBehaviour {
 
 				if (yellowPlayer_Path.Length > 1) 
 				{
-					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("path", yellowPlayer_Path, "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("path", yellowPlayer_Path, "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				} 
 				else 
 				{
-					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("position", yellowPlayer_Path [0], "speed", 125,"time",2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+					iTween.MoveTo (yellowPlayerIV, iTween.Hash ("position", yellowPlayer_Path [0], "speed", movementSpeed, "time",movementTime, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
 				}
 
 				totalYellowInHouse += 1;
