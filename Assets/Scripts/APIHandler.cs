@@ -221,7 +221,7 @@ public class APIHandler : MonoBehaviour
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("Unable to hit api : "+url+" "+webRequest.GetRequestHeader(keyName_authKey));
+                Debug.Log("Unable to hit api : "+url+" "+jsonString);
                 try
                 {
                     dialogBox.Show(webRequest.error);
