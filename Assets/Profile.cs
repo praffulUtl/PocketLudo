@@ -59,8 +59,7 @@ public class Profile : MonoBehaviour
     {
         LoadPnl.SetActive(true);
         updateProfile_JStruct.playerName = nameInput.text;
-        nameTxt.text = nameInput.text;
-        nameTxt2.text = nameInput.text;
+        updateProfile_JStruct.playerImageUrl = "";
         APIHandler.instance.PutUserData(updateProfile_JStruct, UpdateProfileDataCallback);
     }
     void UpdateProfileDataCallback(bool success, StartGame_JStruct data)
