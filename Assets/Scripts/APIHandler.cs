@@ -100,7 +100,7 @@ public class APIHandler : MonoBehaviour
         Debug.Log("GetUserData");
         StartCoroutine(GetRequest(endPoint_GetUserData, callback));
     }
-    public void PutUserData(UpdateProfile_JStruct data, Action<bool, Meta> callback)
+    public void PutUserData(UpdateProfile_JStruct data, Action<bool, StartGame_JStruct> callback)
     {
         string jsonString = JsonConvert.SerializeObject(data);
         StartCoroutine(StartPutRequest(endPoint_postUserData, jsonString, callback));

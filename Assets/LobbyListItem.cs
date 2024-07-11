@@ -62,7 +62,7 @@ public class LobbyListItem : MonoBehaviour
         LobbyExpiration_JStruct lobbyExpiration_JStruct = new LobbyExpiration_JStruct();
         lobbyExpiration_JStruct.lobbyId = id;
         lobbyExpiration_JStruct.lobbyIdExpiration = true;
-        //APIHandler.instance.PostLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
+        APIHandler.instance.PutLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
         Destroy(gameObject);
     }
     void LobbyExpiryCallBack(bool success, StartGame_JStruct data)

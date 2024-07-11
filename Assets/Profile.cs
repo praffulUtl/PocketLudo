@@ -26,6 +26,7 @@ public class Profile : MonoBehaviour
         openEditProfile.onClick.AddListener(OpenEditPnl);
         if(!dummyMode)
         updateDataBt.onClick.AddListener(UpdateProfileData);
+        updateProfile_JStruct = new UpdateProfile_JStruct();
     }
 
     void LoadProfileData()
@@ -62,9 +63,9 @@ public class Profile : MonoBehaviour
         nameTxt2.text = nameInput.text;
         APIHandler.instance.PutUserData(updateProfile_JStruct, UpdateProfileDataCallback);
     }
-    void UpdateProfileDataCallback(bool success, Meta meta)
+    void UpdateProfileDataCallback(bool success, StartGame_JStruct data)
     {
-        if(success && meta.status)
+        if(success && data.meta.status)
         {
             CloseEditPnl();
         }
