@@ -64,15 +64,19 @@ public class Profile : MonoBehaviour
     }
     void UpdateProfileDataCallback(bool success, StartGame_JStruct data)
     {
-        if(success && data.meta.status)
+        if(success )
         {
+            if(data.meta.status)
+            {
+                APIHandler.instance.GetUserData(LoadProfileDataCallback);
+            }
             CloseEditPnl();
         }
             LoadPnl.SetActive(false);
     }
     void OpenEditPnl()
     {
-        APIHandler.instance.GetUserData(LoadProfileDataCallback);
+        //APIHandler.instance.GetUserData(LoadProfileDataCallback);
         editProfilePnl.SetActive(true);
     }
     void CloseEditPnl()

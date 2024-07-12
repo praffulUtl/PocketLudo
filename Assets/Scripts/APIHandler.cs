@@ -170,7 +170,7 @@ public class APIHandler : MonoBehaviour
 
     IEnumerator StartPutRequest<T>(string urlEndPoint, string jsonString, Action<bool, T> callBack)
     {
-        Debug.Log("StartPostRequest : " + jsonString);
+        Debug.Log("StartPutRequest : " + jsonString);
         byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonString);
         string url = baseUrlPrv + urlEndPoint;
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, data))

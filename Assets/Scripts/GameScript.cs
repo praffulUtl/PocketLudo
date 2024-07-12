@@ -1762,8 +1762,7 @@ public class GameScript : MonoBehaviour {
 			{
 				bluePlayerII_Border.SetActive (true);
 				BluePlayerII_Button.interactable = true;
-                    if (selectDiceNumAnimation != 6)
-                        BluePlayerII_isActive = true;
+                        BluePlayerII_isActive = false;
 			}				
 			if (selectDiceNumAnimation == 6 && bluePlayerIII_Steps == 0) 
 			{
@@ -1775,9 +1774,8 @@ public class GameScript : MonoBehaviour {
 			{
 				bluePlayerIV_Border.SetActive (true);
 				BluePlayerIV_Button.interactable = true;
-                    if (selectDiceNumAnimation != 6)
-                        BluePlayerIV_isActive = true;
-			}
+                    BluePlayerIV_isActive = false;
+                }
                 playerAutoMove(BluePlayerI_isActive, BluePlayerII_isActive, BluePlayerIII_isActive, BluePlayerIV_isActive,"blue");
 
                 //====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
