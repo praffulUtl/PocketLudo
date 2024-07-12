@@ -36,7 +36,7 @@ public class LobbyListItem : MonoBehaviour
 
         double sec = (end - currentTime).TotalSeconds;
         sec = Math.Round(sec);
-        //gameStartInTime.text = $"{sec}s";
+        gameStartInTime.text = $"{sec}s";
         if (sec > 0)
             StartCoroutine(processTimer(sec));
         else
@@ -64,8 +64,8 @@ public class LobbyListItem : MonoBehaviour
         LobbyExpiration_JStruct lobbyExpiration_JStruct = new LobbyExpiration_JStruct();
         lobbyExpiration_JStruct.lobbyId = id;
         lobbyExpiration_JStruct.lobbyIdExpiration = true;
-        //APIHandler.instance.PutLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
-        //Destroy(gameObject);
+        APIHandler.instance.PutLobbyExpiry(lobbyExpiration_JStruct, LobbyExpiryCallBack);
+        Destroy(gameObject);
     }
     void LobbyExpiryCallBack(bool success, StartGame_JStruct data)
     {

@@ -17553,7 +17553,7 @@ PrefabInstance:
       objectReference: {fileID: 1020927150}
     - target: {fileID: 8529565641636316856, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
       propertyPath: dummyMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8529565641636316856, guid: 8168f4f72d2fae843b2aaccadf79ec73, type: 3}
       propertyPath: mainMenuScript

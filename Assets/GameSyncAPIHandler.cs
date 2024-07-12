@@ -163,16 +163,23 @@ public class GameSyncAPIHandler : MonoBehaviour
         sendJson = JsonConvert.SerializeObject(startData);
         Debug.Log("ws StartGame sent : " + sendJson);
         Task task = SendRequest();
-        GetPlayersInLobby();
+        StartCoroutine(GetPlayersInLobby());
     }
-    void GetPlayersInLobby()
+    IEnumerator GetPlayersInLobby()
     {
-        Debug.Log("GetPlayersInLobby");
-        getPlayersLobbyData.type = "getPlayers";
-        getPlayersLobbyData.data.lobbyID = lobbyId;
-        sendJson = JsonConvert.SerializeObject(getPlayersLobbyData);
-        Debug.Log("ws GetPlayersInLobby : " + sendJson);
-        Task task = SendRequest();
+        var waitSec = new WaitForSeconds(5f);
+        int times = 5;
+        while (times > 0)
+        {
+            Debug.Log("GetPlayersInLobby");
+            getPlayersLobbyData.type = "getPlayers";
+            getPlayersLobbyData.data.lobbyID = lobbyId;
+            sendJson = JsonConvert.SerializeObject(getPlayersLobbyData);
+            Debug.Log("ws GetPlayersInLobby : " + sendJson);
+            Task task = SendRequest();
+            times--;
+            yield return waitSec;
+        }
     }
 
     void OnTimerEnd()
@@ -471,11 +478,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     public void SetupPlayerAutoTurn()
     {
-        if (StartOtherPlayerTimerCoroutine != null)
-        {
-            StopCoroutine(StartOurPlayerTimerCoroutine);
-            StartOtherPlayerTimerCoroutine = null;
-        }
+        if (StartOtherPlayerTimerCoroutine == null)
         StartOtherPlayerTimerCoroutine = StartCoroutine(StartOtherPlayerTimer());
     }
 
@@ -579,7 +582,7 @@ public class GameSyncAPIHandler : MonoBehaviour
             yellowTimerImg.fillAmount = 0;
 
             float fill = countSec / 30f;
-            Debug.Log( countSec+" : "+fill);
+            //Debug.Log( countSec+" : "+fill);
             switch (gameScript.PlayerTurn)
             {
                 case "RED":
@@ -596,10 +599,10 @@ public class GameSyncAPIHandler : MonoBehaviour
                     break;
             }
             countSec--;
-            Debug.Log("others turn :" + countSec);
+            //Debug.Log("others turn :" + countSec);
             yield return waitsec;
         }
-        Debug.Log("other Player turn over");
+        //Debug.Log("other Player turn over");
         StopOtherPlayerTimer();
     }
     void StopOtherPlayerTimer()
