@@ -78,6 +78,11 @@ public class GameScript : MonoBehaviour {
 	public GameObject confirmScreen;
 	public GameObject gameCompletedScreen;
 
+    private bool BluePlayerI_isActive, BluePlayerII_isActive, BluePlayerIII_isActive, BluePlayerIV_isActive;
+    private bool YellowPlayerI_isActive, YellowPlayerII_isActive, YellowPlayerIII_isActive, YellowPlayerIV_isActive;
+    private bool GreenPlayerI_isActive, GreenPlayerII_isActive, GreenPlayerIII_isActive, GreenPlayerIV_isActive;
+    private bool RedPlayerI_isActive, RedPlayerII_isActive, RedPlayerIII_isActive, RedPlayerIV_isActive;
+
 
     [SerializeField] private float movementTime = 1f;
     [SerializeField] private int movementSpeed = 200;
@@ -1292,6 +1297,10 @@ public class GameScript : MonoBehaviour {
 				redPlayerII_Border.SetActive (false);
 				redPlayerIII_Border.SetActive (false);
 				redPlayerIV_Border.SetActive (false);
+				RedPlayerI_isActive = false;
+				RedPlayerII_isActive = false;
+				RedPlayerIII_isActive = false;
+				RedPlayerIV_isActive = false;
 
 				greenPlayerI_Border.SetActive (false);
 				greenPlayerII_Border.SetActive (false);
@@ -1348,8 +1357,12 @@ public class GameScript : MonoBehaviour {
 				redPlayerII_Border.SetActive (false);
 				redPlayerIII_Border.SetActive (false);
 				redPlayerIV_Border.SetActive (false);
+                RedPlayerI_isActive = false;
+                RedPlayerII_isActive = false;
+                RedPlayerIII_isActive = false;
+                RedPlayerIV_isActive = false;
 
-				yellowPlayerI_Border.SetActive (false);
+                yellowPlayerI_Border.SetActive (false);
 				yellowPlayerII_Border.SetActive (false);
 				yellowPlayerIII_Border.SetActive (false);
 				yellowPlayerIV_Border.SetActive (false);
@@ -1423,6 +1436,10 @@ public class GameScript : MonoBehaviour {
 				redPlayerII_Border.SetActive (false);
 				redPlayerIII_Border.SetActive (false);
 				redPlayerIV_Border.SetActive (false);
+				RedPlayerI_isActive = false;
+				RedPlayerII_isActive = false;
+				RedPlayerIII_isActive = false;
+				RedPlayerIV_isActive = false;
 
 				yellowPlayerI_Border.SetActive (false);
 				yellowPlayerII_Border.SetActive (false);
@@ -1583,54 +1600,72 @@ public class GameScript : MonoBehaviour {
 			if ((redMovementBlocks.Count - redPlayerI_Steps) >= selectDiceNumAnimation && redPlayerI_Steps > 0 && (redMovementBlocks.Count > redPlayerI_Steps)) {
 				redPlayerI_Border.SetActive (true);
 				RedPlayerI_Button.interactable = true;
-			} else {
+                    if(selectDiceNumAnimation != 6)
+                    RedPlayerI_isActive = true;
+                } else {
 				redPlayerI_Border.SetActive (false);
 				RedPlayerI_Button.interactable = false;
-			}
+                    RedPlayerI_isActive = false;
+                }
 
-			if ((redMovementBlocks.Count - redPlayerII_Steps) >= selectDiceNumAnimation && redPlayerII_Steps > 0 && (redMovementBlocks.Count > redPlayerII_Steps)) {
+                if ((redMovementBlocks.Count - redPlayerII_Steps) >= selectDiceNumAnimation && redPlayerII_Steps > 0 && (redMovementBlocks.Count > redPlayerII_Steps)) {
 				redPlayerII_Border.SetActive (true);
 				RedPlayerII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        RedPlayerII_isActive = true;
 			} else {
 				redPlayerII_Border.SetActive (false);
 				RedPlayerII_Button.interactable = false;
+						RedPlayerII_isActive = false;
 			}
 
 			if ((redMovementBlocks.Count - redPlayerIII_Steps) >= selectDiceNumAnimation && redPlayerIII_Steps > 0 && (redMovementBlocks.Count > redPlayerIII_Steps)) {
 				redPlayerIII_Border.SetActive (true);
 				RedPlayerIII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        RedPlayerIII_isActive = true;
 			} else {
 				redPlayerIII_Border.SetActive (false);
 				RedPlayerIII_Button.interactable = false;
+					RedPlayerIII_isActive = false;
 			}
 
 			if ((redMovementBlocks.Count - redPlayerIV_Steps) >= selectDiceNumAnimation && redPlayerIV_Steps > 0 && (redMovementBlocks.Count > redPlayerIV_Steps)) {
 				redPlayerIV_Border.SetActive (true);
 				RedPlayerIV_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        RedPlayerIV_isActive = true;
 			} else {
 				redPlayerIV_Border.SetActive (false);
 				RedPlayerIV_Button.interactable = false;
+					RedPlayerIV_isActive = false;
 			}
-			//========================= PLAYERS BORDER GLOW WHEN OPENING ===========================================
+				//========================= PLAYERS BORDER GLOW WHEN OPENING ===========================================
 
-			if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0) {
+            if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0) {
 				redPlayerI_Border.SetActive (true);
 				RedPlayerI_Button.interactable = true;
+					RedPlayerI_isActive = false;
 			}
 			if (selectDiceNumAnimation == 6 && redPlayerII_Steps == 0) {
 				redPlayerII_Border.SetActive (true);
 				RedPlayerII_Button.interactable = true;
+					RedPlayerII_isActive = false;
 			}				
 			if (selectDiceNumAnimation == 6 && redPlayerIII_Steps == 0) {
 				redPlayerIII_Border.SetActive (true);
 				RedPlayerIII_Button.interactable = true;
+					RedPlayerIII_isActive = false;
 			}					
 			if (selectDiceNumAnimation == 6 && redPlayerIV_Steps == 0) {
 				redPlayerIV_Border.SetActive (true);
 				RedPlayerIV_Button.interactable = true;
-			}	
-			//====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
-			if (!redPlayerI_Border.activeInHierarchy && !redPlayerII_Border.activeInHierarchy &&
+					RedPlayerIV_isActive = false;
+			}
+                playerAutoMove(RedPlayerI_isActive, RedPlayerII_isActive, RedPlayerIII_isActive, RedPlayerIV_isActive,"red");
+
+                //====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
+                if (!redPlayerI_Border.activeInHierarchy && !redPlayerII_Border.activeInHierarchy &&
 			   !redPlayerIII_Border.activeInHierarchy && !redPlayerIV_Border.activeInHierarchy) 
 			{
 				RedPlayerI_Button.interactable = false;
@@ -1664,69 +1699,89 @@ public class GameScript : MonoBehaviour {
 			{
 				bluePlayerI_Border.SetActive (true);
 				BluePlayerI_Button.interactable = true;
-			} 
+                    if (selectDiceNumAnimation != 6)
+                        BluePlayerI_isActive = true;
+
+            } 
 			else 
 			{
 				bluePlayerI_Border.SetActive (false);
 				BluePlayerI_Button.interactable = false;
+					BluePlayerI_isActive = false;
 			}
 
 			if ((blueMovementBlocks.Count - bluePlayerII_Steps) >= selectDiceNumAnimation && bluePlayerII_Steps > 0 && (blueMovementBlocks.Count > bluePlayerII_Steps)) 
 			{
 				bluePlayerII_Border.SetActive (true);
 				BluePlayerII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        BluePlayerII_isActive = true;
 			} 
 			else 
 			{
 				bluePlayerII_Border.SetActive (false);
 				BluePlayerII_Button.interactable = false;
+					BluePlayerII_isActive = false;
 			}
 
 			if ((blueMovementBlocks.Count - bluePlayerIII_Steps) >= selectDiceNumAnimation && bluePlayerIII_Steps > 0 && (blueMovementBlocks.Count > bluePlayerIII_Steps)) 
 			{
 				bluePlayerIII_Border.SetActive (true);
 				BluePlayerIII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        BluePlayerIII_isActive = true;
 			} 
 			else 
 			{
 				bluePlayerIII_Border.SetActive (false);
 				BluePlayerIII_Button.interactable = false;
+					BluePlayerIII_isActive = false;
 			}
 
 			if ((blueMovementBlocks.Count - bluePlayerIV_Steps) >= selectDiceNumAnimation && bluePlayerIV_Steps > 0 && (blueMovementBlocks.Count > bluePlayerIV_Steps)) 
 			{
 				bluePlayerIV_Border.SetActive (true);
 				BluePlayerIV_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        BluePlayerIV_isActive = true;
 			} 
 			else 
 			{
 				bluePlayerIV_Border.SetActive (false);
 				BluePlayerIV_Button.interactable = false;
+					BluePlayerIV_isActive = false;
 			}
 			//=======================================================================================================
 			if (selectDiceNumAnimation == 6 && bluePlayerI_Steps == 0) 
 			{
 				bluePlayerI_Border.SetActive (true);
 				BluePlayerI_Button.interactable = true;
+					BluePlayerI_isActive = false;
 			}
 			if (selectDiceNumAnimation == 6 && bluePlayerII_Steps == 0) 
 			{
 				bluePlayerII_Border.SetActive (true);
 				BluePlayerII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        BluePlayerII_isActive = true;
 			}				
 			if (selectDiceNumAnimation == 6 && bluePlayerIII_Steps == 0) 
 			{
 				bluePlayerIII_Border.SetActive (true);
 				BluePlayerIII_Button.interactable = true;
+					BluePlayerIII_isActive = false;
 			}					
 			if (selectDiceNumAnimation == 6 && bluePlayerIV_Steps == 0) 
 			{
 				bluePlayerIV_Border.SetActive (true);
 				BluePlayerIV_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        BluePlayerIV_isActive = true;
 			}
+                playerAutoMove(BluePlayerI_isActive, BluePlayerII_isActive, BluePlayerIII_isActive, BluePlayerIV_isActive,"blue");
 
-			//====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
-			if (!bluePlayerI_Border.activeInHierarchy && !bluePlayerII_Border.activeInHierarchy &&
+                //====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
+                if (!bluePlayerI_Border.activeInHierarchy && !bluePlayerII_Border.activeInHierarchy &&
 				!bluePlayerIII_Border.activeInHierarchy && !bluePlayerIV_Border.activeInHierarchy) 
 			{
 				BluePlayerI_Button.interactable = false;
@@ -1759,44 +1814,56 @@ public class GameScript : MonoBehaviour {
 			{
 				greenPlayerI_Border.SetActive (true);
 				GreenPlayerI_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        GreenPlayerI_isActive = true;
 			} 
 			else 
 			{
 				greenPlayerI_Border.SetActive (false);
 				GreenPlayerI_Button.interactable = false;
+					GreenPlayerI_isActive = false;
 			}
 
 			if ((greenMovementBlocks.Count - greenPlayerII_Steps) >= selectDiceNumAnimation && greenPlayerII_Steps > 0 && (greenMovementBlocks.Count > greenPlayerII_Steps)) 
 			{
 				greenPlayerII_Border.SetActive (true);
 				GreenPlayerII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        GreenPlayerII_isActive = true;
 			} 
 			else 
 			{
 				greenPlayerII_Border.SetActive (false);
 				GreenPlayerII_Button.interactable = false;
+					GreenPlayerII_isActive = false;
 			}
 
 			if ((greenMovementBlocks.Count - greenPlayerIII_Steps) >= selectDiceNumAnimation && greenPlayerIII_Steps > 0 && (greenMovementBlocks.Count > greenPlayerIII_Steps)) 
 			{
 				greenPlayerIII_Border.SetActive (true);
 				GreenPlayerIII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        GreenPlayerIII_isActive = true;
 			} 
 			else 
 			{
 				greenPlayerIII_Border.SetActive (false);
 				GreenPlayerIII_Button.interactable = false;
+					GreenPlayerIII_isActive = false;
 			}
 
 			if ((greenMovementBlocks.Count - greenPlayerIV_Steps) >= selectDiceNumAnimation && greenPlayerIV_Steps > 0 && (greenMovementBlocks.Count > greenPlayerIV_Steps)) 
 			{
 				greenPlayerIV_Border.SetActive (true);
 				GreenPlayerIV_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        GreenPlayerIV_isActive = true;
 			} 
 			else 
 			{
 				greenPlayerIV_Border.SetActive (false);
 				GreenPlayerIV_Button.interactable = false;
+					GreenPlayerIV_isActive = false;
 			}
 			//=======================================================================================================
 
@@ -1804,25 +1871,30 @@ public class GameScript : MonoBehaviour {
 			{
 				greenPlayerI_Border.SetActive (true);
 				GreenPlayerI_Button.interactable = true;
+					GreenPlayerI_isActive = false;
 			}
 			if (selectDiceNumAnimation == 6 && greenPlayerII_Steps == 0) 
 			{
 				greenPlayerII_Border.SetActive (true);
 				GreenPlayerII_Button.interactable = true;
+					GreenPlayerII_isActive = false;
 			}				
 			if (selectDiceNumAnimation == 6 && greenPlayerIII_Steps == 0) 
 			{
 				greenPlayerIII_Border.SetActive (true);
 				GreenPlayerIII_Button.interactable = true;
+					GreenPlayerIII_isActive = false;
 			}					
 			if (selectDiceNumAnimation == 6 && greenPlayerIV_Steps == 0) 
 			{
 				greenPlayerIV_Border.SetActive (true);
 				GreenPlayerIV_Button.interactable = true;
+					GreenPlayerIV_isActive = false;
 			}
+                playerAutoMove(GreenPlayerI_isActive, GreenPlayerII_isActive, GreenPlayerIII_isActive, GreenPlayerIV_isActive,"green");
 
-			//====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
-			if (!greenPlayerI_Border.activeInHierarchy && !greenPlayerII_Border.activeInHierarchy &&
+                //====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
+                if (!greenPlayerI_Border.activeInHierarchy && !greenPlayerII_Border.activeInHierarchy &&
 				!greenPlayerIII_Border.activeInHierarchy && !greenPlayerIV_Border.activeInHierarchy) 
 			{
 				GreenPlayerI_Button.interactable = false;
@@ -1855,44 +1927,56 @@ public class GameScript : MonoBehaviour {
 			{
 				yellowPlayerI_Border.SetActive (true);
 				YellowPlayerI_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        YellowPlayerI_isActive = true;
 			} 
 			else 
 			{
 				yellowPlayerI_Border.SetActive (false);
 				YellowPlayerI_Button.interactable = false;
-			}
+                    YellowPlayerI_isActive = false;
+                }
 
-			if ((yellowMovementBlocks.Count - yellowPlayerII_Steps) >= selectDiceNumAnimation && yellowPlayerII_Steps > 0 && (yellowMovementBlocks.Count > yellowPlayerII_Steps)) 
+                if ((yellowMovementBlocks.Count - yellowPlayerII_Steps) >= selectDiceNumAnimation && yellowPlayerII_Steps > 0 && (yellowMovementBlocks.Count > yellowPlayerII_Steps)) 
 			{
 				yellowPlayerII_Border.SetActive (true);
 				YellowPlayerII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        YellowPlayerII_isActive = true;
 			} 
 			else 
 			{
 				yellowPlayerII_Border.SetActive (false);
 				YellowPlayerII_Button.interactable = false;
+					YellowPlayerII_isActive = false;
 			}
 
 			if ((yellowMovementBlocks.Count - yellowPlayerIII_Steps) >= selectDiceNumAnimation && yellowPlayerIII_Steps > 0 && (yellowMovementBlocks.Count > yellowPlayerIII_Steps)) 
 			{
 				yellowPlayerIII_Border.SetActive (true);
 				YellowPlayerIII_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        YellowPlayerIII_isActive = true;
 			} 
 			else 
 			{
 				yellowPlayerIII_Border.SetActive (false);
 				YellowPlayerIII_Button.interactable = false;
+					YellowPlayerIII_isActive = false;
 			}
 
 			if ((yellowMovementBlocks.Count - yellowPlayerIV_Steps) >= selectDiceNumAnimation && yellowPlayerIV_Steps > 0 && (yellowMovementBlocks.Count > yellowPlayerIV_Steps)) 
 			{
 				yellowPlayerIV_Border.SetActive (true);
 				YellowPlayerIV_Button.interactable = true;
+                    if (selectDiceNumAnimation != 6)
+                        YellowPlayerIV_isActive = true;
 			} 
 			else 
 			{
 				yellowPlayerIV_Border.SetActive (false);
 				YellowPlayerIV_Button.interactable = false;
+					YellowPlayerIV_isActive = false;
 			}
 			//=======================================================================================================
 
@@ -1900,24 +1984,29 @@ public class GameScript : MonoBehaviour {
 			{
 				yellowPlayerI_Border.SetActive (true);
 				YellowPlayerI_Button.interactable = true;
+					YellowPlayerI_isActive = false;
 			}
 			if (selectDiceNumAnimation == 6 && yellowPlayerII_Steps == 0) 
 			{
 				yellowPlayerII_Border.SetActive (true);
 				YellowPlayerII_Button.interactable = true;
+					YellowPlayerII_isActive = false;
 			}				
 			if (selectDiceNumAnimation == 6 && yellowPlayerIII_Steps == 0) 
 			{
 				yellowPlayerIII_Border.SetActive (true);
 				YellowPlayerIII_Button.interactable = true;
+					YellowPlayerIII_isActive = false;
 			}					
 			if (selectDiceNumAnimation == 6 && yellowPlayerIV_Steps == 0) 
 			{
 				yellowPlayerIV_Border.SetActive (true);
 				YellowPlayerIV_Button.interactable = true;
+					YellowPlayerIV_isActive = false;
 			}
+                playerAutoMove(YellowPlayerI_isActive, YellowPlayerII_isActive, YellowPlayerIII_isActive, YellowPlayerIV_isActive,"yellow");
 
-			//====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
+                //====================== PLAYERS DON'T HAVE ANY MOVES ,SWITCH TO NEXT TURN===============================
 			if (!yellowPlayerI_Border.activeInHierarchy && !yellowPlayerII_Border.activeInHierarchy &&
 				!yellowPlayerIII_Border.activeInHierarchy && !yellowPlayerIV_Border.activeInHierarchy) 
 			{
@@ -4253,6 +4342,93 @@ public class GameScript : MonoBehaviour {
             foreach (Button bt in playerPieceButtons_YELLOW)
             {
                 bt.enabled = true;
+            }
+        }
+    }
+    private void playerAutoMove(bool p1, bool p2, bool p3, bool p4,string color)
+    {
+        if (p1 && !p2 && !p3 && !p4)
+        {
+			switch (color)
+			{
+				case "red":
+                    redPlayerI_UI();
+                    break;
+                case "blue":
+                    bluePlayerI_UI();
+                    break;
+                case "green":
+                    greenPlayerI_UI();
+                    break;
+                case "yellow":
+                    yellowPlayerI_UI();
+                    break;
+				default:
+					Debug.LogError("Invalid Color");
+					break;
+            }
+        }
+        else if (!p1 && p2 && !p3 && !p4)
+        {
+            switch (color)
+            {
+                case "red":
+                    redPlayerII_UI();
+                    break;
+                case "blue":
+                    bluePlayerII_UI();
+                    break;
+                case "green":
+                    greenPlayerII_UI();
+                    break;
+                case "yellow":
+                    yellowPlayerII_UI();
+                    break;
+                default:
+                    Debug.LogError("Invalid Color");
+                    break;
+            }
+        }
+        else if (!p1 && !p2 && p3 && !p4)
+        {
+            switch (color)
+            {
+                case "red":
+                    redPlayerIII_UI();
+                    break;
+                case "blue":
+                    bluePlayerIII_UI();
+                    break;
+                case "green":
+                    greenPlayerIII_UI();
+                    break;
+                case "yellow":
+                    yellowPlayerIII_UI();
+                    break;
+                default:
+                    Debug.LogError("Invalid Color");
+                    break;
+            }
+        }
+        else if (!p1 && !p2 && !p3 && p4)
+        {
+            switch (color)
+            {
+                case "red":
+                    redPlayerIV_UI();
+                    break;
+                case "blue":
+                    bluePlayerIV_UI();
+                    break;
+                case "green":
+                    greenPlayerIV_UI();
+                    break;
+                case "yellow":
+                    yellowPlayerIV_UI();
+                    break;
+                default:
+                    Debug.LogError("Invalid Color");
+                    break;
             }
         }
     }
