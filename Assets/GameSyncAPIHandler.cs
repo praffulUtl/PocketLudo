@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.WebSockets;
+//using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +11,7 @@ using Unity.Mathematics;
 using UnityEngine.UI;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Converters;
+using WebSocketSharp;
 
 public class GameSyncAPIHandler : MonoBehaviour
 {
@@ -34,10 +35,11 @@ public class GameSyncAPIHandler : MonoBehaviour
     PlayerTeam ourplayerTeam;
     string sendJson = "";
 
-    private ClientWebSocket webSocket;
-    private Uri serverUri = new Uri("wss://3sqlfz6r-8080.inc1.devtunnels.ms/"); // Replace with your server address
+    //private ClientWebSocket webSocket;
+    private Uri serverUri = new Uri("ws://localhost:8080"); // Replace with your server address
 
     public bool socketConnected = false;
+                    WebSocketSharp.WebSocket wes;
 
     private void Awake()
     {
@@ -52,6 +54,12 @@ public class GameSyncAPIHandler : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Connection attempt");
+                    wes = new WebSocket("ws://localhost:8080");
+                    wes.OnOpen += OnConnection;
+                    wes.OnClose += OnwsClose;
+                    wes.OnMessage += OnMessage;
+                    wes.Connect();
         if(dummyMode)
         {
             LobbyPlayers lobbyPlayers = JsonConvert.DeserializeObject<LobbyPlayers>(dummyData);
@@ -96,6 +104,7 @@ public class GameSyncAPIHandler : MonoBehaviour
                 playerTurnDuration = lobbyPlayers.data.PlayerTurnSeconds;
                 gameScript.OnInitializeDiceActiion += SetupPlayerAutoTurn;
                 waitingScreen.ShowPlayerCount(lobbyPlayers.data.players.Count);
+                waitingScreen.ShowLobbyid(lobbyPlayers.data.lobbyId);
                 foreach (var player in lobbyPlayers.data.players)
                 {
                     if (player.PlayerId == APIHandler.instance.key_playerId)
@@ -136,16 +145,44 @@ public class GameSyncAPIHandler : MonoBehaviour
 
                 if (!dummyMode)
                 {
-                    webSocket = new ClientWebSocket();
-                    await Connect();
-                    await SendRequest();
-                    await ReceiveResponse();
+                    //webSocket = new ClientWebSocket();
+                    //await Connect();
+                    //await SendRequest();
+                    //await ReceiveResponse();
+
                 }
             }
         } 
 
     }
+    void OnConnection(System.Object obj, EventArgs e)
+    {
+        Debug.Log("Connection open");
+        StartCoroutine(startSendingmsg()) ;
+    }
+    void OnwsClose(System.Object send, CloseEventArgs e)
+    {
+        Debug.Log("Closed");
+    }
+    void OnMessage(System.Object send, MessageEventArgs e)
+    {
+        Debug.Log($"Response received: {e.Data}");
 
+    }
+    void SendData(string json)
+    {
+        wes.Send(json);
+    }
+
+    IEnumerator startSendingmsg()
+    {
+        var waitSec = new WaitForSeconds(5f);
+        while(true)
+        {
+            SendData("Hello from unity");
+            yield return waitSec;
+        }
+    }
 
     void StartGame()
     {
@@ -205,7 +242,7 @@ public class GameSyncAPIHandler : MonoBehaviour
     {
         try
         {
-            await webSocket.ConnectAsync(serverUri, CancellationToken.None);
+            //await webSocket.ConnectAsync(serverUri, CancellationToken.None);
             Debug.Log("WebSocket connected!");
             socketConnected = true;
             StartGame();
@@ -248,7 +285,7 @@ public class GameSyncAPIHandler : MonoBehaviour
 
         try
         {
-            await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+            //await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
             Debug.Log("Request sent!");
         }
         catch (Exception e)
@@ -261,17 +298,17 @@ public class GameSyncAPIHandler : MonoBehaviour
     {
         //DiceRollButton.enabled = dataToBeSent.data.PlayerTurn;
         var buffer = new byte[1024];
-        WebSocketReceiveResult result;
+        //WebSocketReceiveResult result;
 
         try
         {
-            result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            string responseJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
-            Debug.Log($"Response received: {responseJson}");
+            //result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            //string responseJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
+            //Debug.Log($"Response received: {responseJson}");
 
-            var responseObject = JsonConvert.DeserializeObject<DataRoot<System.Object>>(responseJson);
-            if (responseObject.type == "movePiece")
-                ProcessResponseData(responseJson);
+            //var responseObject = JsonConvert.DeserializeObject<DataRoot<System.Object>>(responseJson);
+            //if (responseObject.type == "movePiece")
+            //    ProcessResponseData(responseJson);
             //if (responseObject.type == "getPlayers")
             //    ProcessLobbyData(responseJson);
 
@@ -669,8 +706,8 @@ public class GameSyncAPIHandler : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        webSocket?.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
-        webSocket?.Dispose();
+        //webSocket?.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
+        //webSocket?.Dispose();
     }
 
     #region gameplay
@@ -767,9 +804,9 @@ public class GameSyncAPIHandler : MonoBehaviour
 [Serializable]
 public class PlayerPiece
 {
-    public bool isOpen;
-    public bool reachedWinPos;
-    public int movementBlockIndex;
+    public bool isOpen { get; set; }
+    public bool reachedWinPos { get; set; }
+    public int movementBlockIndex { get; set; }
 }
 
 [Serializable]

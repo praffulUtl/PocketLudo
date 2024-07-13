@@ -10,6 +10,7 @@ public class WaitingScreen : MonoBehaviour
     double time = 0;
     [SerializeField] TextMeshProUGUI remainTimeText;
     [SerializeField] WaitScreenPlayerItem[] waitScreenPlayerItems;
+    [SerializeField] TextMeshProUGUI lobbyTxt;
     [SerializeField] Color red, blue, green, yellow;
     [NonSerialized] public int InitializeCount = 0;
     [NonSerialized] public bool isOpen = true;
@@ -34,6 +35,10 @@ public class WaitingScreen : MonoBehaviour
     public void ShowPlayerCount(int count)
     {
         playerInGame.text = "Player : " + count;
+    }
+    public void ShowLobbyid(int lobbyid)
+    {
+        lobbyTxt.text = lobbyid.ToString(); 
     }
     Coroutine processTimerCoroutine;
     IEnumerator processTimer(double sec)

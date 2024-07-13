@@ -365,20 +365,21 @@ public class VerifyOTPRes_JStruct
 
 public class PlayerDetails_JStruct
 {
-    public int winningBalance { get; set; }
-    public string playerName { get; set; }
-    public string playerImageUrl { get; set; }
-    public int looseBalance { get; set; }
     public string _id { get; set; }
     public string playerId { get; set; }
     public string mobile { get; set; }
     public string email { get; set; }
     public string status { get; set; }
     public string roleType { get; set; }
+    public int topUpBalance { get; set; }
+    public double winningBalance { get; set; }
+    public int looseBalance { get; set; }
     public long createdAt { get; set; }
     public long updatedAt { get; set; }
     public int __v { get; set; }
-    public int topUpBalance { get; set; }
+    public string playerImageUrl { get; set; }
+    public string playerName { get; set; }
+    public int score { get; set; }
     //public string playerName { get; set; }
     //public string playerImageUrl { get; set; }
 }
